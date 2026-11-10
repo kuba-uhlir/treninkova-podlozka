@@ -26,7 +26,7 @@ Trenér hlasem říká, kam s míčem, hráč sbírá hvězdy, odměny a sběrat
 | 🦶 **36 cviků ve 4 úrovních** | Od jednoduchých přitažení míče po Twister s nohama a přeskoky. Tempo se samo přizpůsobí úrovni, slabší noha dostává víc práce. |
 | 🧩 **Podložky podle vzhledu** | 8 podložek s detailní simulací včetně barevných variant. Míč a plánovaný směr se zvýrazňují přímo na podložce. |
 | ⚔️ **Zápas** | Kola podle hlasu, cvik na čas s rekordy nebo obojí. Hraje se sám, nebo se dva hráči střídají. |
-| 🃏 **Sběratelské karty** | 170 slavných fotbalistů ve čtyřech vzácnostech, s fotkami z Wikimedia Commons. Karta se otáčí a na rubu je zajímavost. |
+| 🃏 **Sběratelské karty** | 169 slavných fotbalistů ve čtyřech vzácnostech, s fotkami z Wikimedia Commons. Karta se otáčí a na rubu je zajímavost, vedle ní je popis hráče. |
 | 🏆 **75 odměn** | Medaile, poháry, koruny a další za XP, tréninky, pravidelnost, dovednosti, zápasy i karty. |
 | 📅 **Týden a výzva dne** | Týdenní lišta s hvězdičkami, denní mini‑výzva a rozcvička jednou denně. |
 | 👨‍👩‍👦 **Rodiče** | Úroveň a tempo nastavuje rodič, vlastní tréninky, výběr podložky a barvy, hlas nebo jen pípnutí. Chráněno PINem. |
@@ -113,15 +113,19 @@ scripts/        generátory (hlasy, karty, podložky, ikony, snímky)
 
 Hotové ukázky jsou v [`scripts/make-mats.mjs`](scripts/make-mats.mjs) a [`scripts/make-mat-diamond.mjs`](scripts/make-mat-diamond.mjs).
 
-### Užitečné skripty
+### Skripty pro vývojáře (nepovinné)
+
+K **instalaci ani spuštění aplikace nepotřebujete nic stahovat**: fotky karet, hlasy, popisy hráčů i podložky jsou už součástí repozitáře. Skripty slouží jen k tomu, aby šly tyto soubory znovu vytvořit nebo rozšířit.
 
 | Příkaz | Co dělá |
 |---|---|
-| `node scripts/gen-voices.mjs && node scripts/trim-voices.mjs` | vygeneruje a ořízne hlasové hlášky Trenéra |
-| `node scripts/fetch-cards.mjs` | stáhne fotky karet z Wikimedia Commons včetně autorů |
-| `node scripts/fetch-bios.mjs` | stáhne popisy hráčů z české Wikipedie |
+| `node scripts/gen-voices.mjs && node scripts/trim-voices.mjs` | znovu vygeneruje a ořízne hlasové hlášky Trenéra |
+| `node scripts/fetch-cards.mjs` | znovu stáhne fotky karet z Wikimedia Commons včetně autorů |
+| `node scripts/make-mats.mjs` | znovu vygeneruje JSON podložek |
 | `node scripts/build-icons.mjs` | složí ikony z balíčku Lucide |
 | `node scripts/screenshots.mjs` | pořídí snímky obrazovek do `docs/screenshots` |
+
+Popisy hráčů jsou v [`src/content/players.json`](src/content/players.json), zajímavosti na rubu karet v [`src/content/facts.json`](src/content/facts.json). Obojí lze přímo upravovat.
 
 ## Licence a zdroje
 

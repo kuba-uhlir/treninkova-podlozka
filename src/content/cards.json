@@ -901,17 +901,6 @@
   "source": "https://commons.wikimedia.org/wiki/File:Sadio_Mane_France_v_Senegal_16_June_2026-450.jpg"
  },
  {
-  "id": "daniAlves",
-  "name": "Dani Alves",
-  "country": "BRA",
-  "pos": "OBR",
-  "rating": 89,
-  "photo": "daniAlves.jpg",
-  "author": "Palácio do Planalto from Brasilia, Brasil",
-  "license": "CC BY 2.0",
-  "source": "https://commons.wikimedia.org/wiki/File:07_07_2019_Final_da_Copa_Am%C3%A9rica_2019_(48226649586)_(cropped).jpg"
- },
- {
   "id": "thmuller",
   "name": "Thomas Müller",
   "country": "GER",

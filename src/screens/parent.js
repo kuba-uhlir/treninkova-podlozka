@@ -8,9 +8,8 @@ import { createMatView } from '../ui/MatView.js';
 import { LEVEL_NAMES } from '../domain/trainer.js';
 import { applyTheme } from '../ui/theme.js';
 
-// ---- PIN rodičů: výchozí 0246, jde změnit; při zapomenutí se obnoví po vyřešení kontrolního příkladu ----
-export const DEFAULT_PIN = '0246';
-export const pinOf = (s) => (s.pinCustom && s.pin ? s.pin : DEFAULT_PIN);
+// ---- PIN rodičů: žádný výchozí; při prvním vstupu do Rodičů si ho rodič vytvoří; při zapomenutí se obnoví po vyřešení kontrolního příkladu ----
+export const pinOf = (s) => (s.pinCustom && s.pin ? s.pin : null);
 
 /** Číselná klávesnice 3×4 ovladatelná šipkami + OK. extra = poslední tlačítko vpravo dole (potvrzení, zpět…). */
 function keypad(onKey, extra, compact = false) {
@@ -27,6 +26,7 @@ function keypad(onKey, extra, compact = false) {
 // Zadání PINu
 export function pinScreen({ next }, { go, back }) {
   const el = h('section', 'screen');
+  settings.load().then((s0) => { if (!pinOf(s0)) go('setPin', { next, from: 'first' }, { replace: true }); }); // první vstup: nejdřív vytvořit PIN
   el.style.gap = u(1.6);
   el.append(h('div', 'eyebrow', 'Rodiče'), h('div', 'title', 'Zadej <span class="accent">PIN</span>'));
   let val = '';
@@ -41,7 +41,7 @@ export function pinScreen({ next }, { go, back }) {
     draw();
     if (val.length === 4) {
       const s = await settings.load();
-      if (val === pinOf(s)) go(next, {}, { replace: true });
+      if (pinOf(s) && val === pinOf(s)) go(next, {}, { replace: true });
       else { val = ''; draw('Špatně'); setTimeout(draw, 800); }
     }
   };
@@ -82,15 +82,15 @@ export function pinResetScreen({ next }, { go, back }) {
 export function setPinScreen({ next = 'parent', from = 'settings' }, { go }) {
   const el = h('section', 'screen');
   el.style.gap = u(1.6);
-  el.append(h('div', 'eyebrow', from === 'reset' ? 'Obnovení PINu' : 'Změna PINu'), h('div', 'title', 'Nový <span class="accent">PIN</span>'));
+  el.append(h('div', 'eyebrow', from === 'first' ? 'První vstup pro rodiče' : from === 'reset' ? 'Obnovení PINu' : 'Změna PINu'), h('div', 'title', from === 'first' ? 'Vytvoř si <span class="accent">PIN</span>' : 'Nový <span class="accent">PIN</span>'));
   const sub = h('div', 'muted'); sub.style.fontSize = u(1.8);
   let first = ''; let val = '';
   const dots = h('div', 'font-extrabold'); dots.style.cssText = `font-size:${u(3.6)};letter-spacing:.3em`;
   const draw = (m) => { dots.textContent = m || ('●'.repeat(val.length) + '○'.repeat(4 - val.length)); };
-  const setStep = () => { sub.textContent = first ? 'Zadej PIN ještě jednou pro kontrolu.' : 'Vyber si čtyřmístný PIN (neprozraď ho dětem).'; };
+  const setStep = () => { sub.textContent = first ? 'Zadej PIN ještě jednou pro kontrolu.' : (from === 'first' ? 'Čtyřmístný PIN bude chránit nastavení pro rodiče. Neprozraď ho dětem.' : 'Vyber si čtyřmístný PIN (neprozraď ho dětem).'); };
   draw(); setStep();
   const press = async (d) => {
-    if (d === '✕') { go(from === 'reset' ? 'profiles' : 'parent', {}, { replace: true }); return; }
+    if (d === '✕') { go(from === 'reset' || from === 'first' ? 'profiles' : 'parent', {}, { replace: true }); return; }
     if (d === '⌫') val = val.slice(0, -1); else if (val.length < 4) val += d;
     draw();
     if (val.length < 4) return;
@@ -280,9 +280,8 @@ export default function parent(_p, { go }) {
     const pData = panel('Data a zabezpečení');
     const changePin = btn('Změnit PIN', 'btn', () => go('setPin', { next: 'parent', from: 'settings' }));
     changePin.style.cssText += `;min-height:${u(5)};font-size:${u(1.8)};border-radius:var(--r-sm);align-self:flex-start`;
-    const pinHint = h('div', 'muted', s.pinCustom ? 'PIN je nastavený podle vás.' : `Používáš výchozí PIN ${DEFAULT_PIN}. Doporučujeme ho změnit.`);
+    const pinHint = h('div', 'muted', 'PIN chrání nastavení pro rodiče. Když ho zapomenete, obnovíte ho na obrazovce PINu přes „Zapomněl jsem PIN“.');
     pinHint.style.fontSize = u(1.5);
-    if (!s.pinCustom) pinHint.style.color = 'var(--c-sun)';
     pData.append(changePin, pinHint);
     const wipe = btn(`${icon('warn')}Smazat všechna data`, 'btn', async () => {
       if (wipe.dataset.sure) { await storage.clear(); go('profiles', {}, { replace: true }); return; }

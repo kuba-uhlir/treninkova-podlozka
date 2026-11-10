@@ -43,7 +43,7 @@ const NEW = [
   ['raul', 'Raúl', 'Raúl_(footballer)', 'ESP', 'ÚT', 89], ['suarez', 'Luis Suárez', 'Luis_Suárez', 'URU', 'ÚT', 90], ['aguero', 'Sergio Agüero', 'Sergio_Agüero', 'ARG', 'ÚT', 89],
   ['hazard', 'Eden Hazard', 'Eden_Hazard', 'BEL', 'ÚT', 89], ['cantona', 'Eric Cantona', 'Eric_Cantona', 'FRA', 'ÚT', 88], ['romario', 'Romário', 'Romário', 'BRA', 'ÚT', 92],
   ['cafu', 'Cafu', 'Cafu', 'BRA', 'OBR', 90], ['bale', 'Gareth Bale', 'Gareth_Bale', 'WAL', 'ÚT', 89], ['gerdmuller', 'Gerd Müller', 'Gerd_Müller', 'GER', 'ÚT', 93],
-  ['matthaus', 'Lothar Matthäus', 'Lothar_Matthäus', 'GER', 'ZÁL', 92], ['mane', 'Sadio Mané', 'Sadio_Mané', 'SEN', 'ÚT', 88], ['daniAlves', 'Dani Alves', 'Dani_Alves', 'BRA', 'OBR', 89],
+  ['matthaus', 'Lothar Matthäus', 'Lothar_Matthäus', 'GER', 'ZÁL', 92], ['mane', 'Sadio Mané', 'Sadio_Mané', 'SEN', 'ÚT', 88],
   ['thmuller', 'Thomas Müller', 'Thomas_Müller', 'GER', 'ÚT', 88], ['ancelotti0', 'Kaká', 'Kaká', 'BRA', 'ZÁL', 90],
 ];
 P.push(...NEW.filter((n) => n[0] !== 'ancelotti0'));

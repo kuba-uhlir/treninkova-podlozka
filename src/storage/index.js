@@ -36,7 +36,7 @@ export const storage = {
 export const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 
 export const settings = {
-  defaults: { pin: '0246', pinCustom: false, matId: 'uniteam-90x60', difficulty: 'auto', tempoMode: 'auto', voiceStyle: 'trener', voiceIdx: 0, tempoMul: 1, workoutMin: 6, volVoice: 1, volSfx: 0.8, volMusic: 0.4, customWorkouts: [], matVariants: {}, voiceMode: 'voice' },
+  defaults: { pin: '', pinCustom: false, matId: 'uniteam-90x60', difficulty: 'auto', tempoMode: 'auto', voiceStyle: 'trener', voiceIdx: 0, tempoMul: 1, workoutMin: 6, volVoice: 1, volSfx: 0.8, volMusic: 0.4, customWorkouts: [], matVariants: {}, voiceMode: 'voice' },
   async load() { return { ...this.defaults, ...((await storage.get('settings', 'main')) || {}) }; },
   async save(patch) { const cur = await this.load(); await storage.put('settings', { ...cur, ...patch, id: 'main' }); },
 };

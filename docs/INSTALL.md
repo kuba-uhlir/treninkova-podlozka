@@ -53,7 +53,7 @@ Pokud má TV prohlížeč, otevřete adresu z části A.
 ## První spuštění
 
 1. Po úvodní animaci vyberte **Nový hráč**. Průvodce se zeptá na jméno, číslo dresu, silnější nohu a oblíbený klub.
-2. V **Rodiče** (zámek dole) nastavte podložku, tempo, délku tréninku a hlas Trenéra. Výchozí PIN je **0246**, doporučujeme ho hned změnit (Rodiče → Data a zabezpečení → Změnit PIN).
+2. V **Rodiče** (zámek dole) nastavte podložku, tempo, délku tréninku a hlas Trenéra. Při prvním vstupu do Rodičů si vytvoříte vlastní čtyřmístný PIN (později ho změníte v Rodiče → Data a zabezpečení). Když ho zapomenete, obnovíte ho přes „Zapomněl jsem PIN“.
 3. Postavte podložku před televizi a začněte **Trénink**. Trenér hlasem říká, kam s míčem.
 
 ## Řešení problémů

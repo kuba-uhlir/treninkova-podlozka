@@ -91,9 +91,9 @@ export const launch = (go, profile, params) => (warmupNeeded(profile) ? go('warm
 
 // ---- rub karty: zajímavost (ručně psaná, jinak krátký popis z české Wikipedie) ----
 import factsData from '../content/facts.json';
-import biosData from '../content/bios.json';
-export const bioOf = (c) => biosData[c.id] || factsData[c.id] || '';
-export const bioSource = (c) => (biosData[c.id] ? 'Text: Wikipedie (cs), CC BY-SA 4.0' : '');
+import playersData from '../content/players.json';
+export const bioOf = (c) => playersData[c.id] || factsData[c.id] || '';
+export const bioSource = () => '';
 /** Krátká zajímavost na rubu karty: ručně psaná, jinak první věta popisu. */
-export const factOf = (c) => factsData[c.id] || (biosData[c.id] ? (biosData[c.id].match(/[^.!?]+[.!?]+/) || [''])[0].trim() : '');
+export const factOf = (c) => factsData[c.id] || (playersData[c.id] ? (playersData[c.id].match(/[^.!?]+[.!?]+/) || [''])[0].trim() : '');
 export const factSource = () => '';

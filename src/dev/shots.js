@@ -33,7 +33,7 @@ export async function run(name) {
     cardopen: async () => {
       go('cards', { profileId: p.id });
       await new Promise((r) => setTimeout(r, 1500));
-      const b = [...document.querySelectorAll('button')].find((x) => /Lionel Messi|Maradona|Pelé/.test(x.textContent));
+      const b = [...document.querySelectorAll('button')].find((x) => /Lionel Messi/.test(x.textContent));
       if (b) b.click();
     },
   };

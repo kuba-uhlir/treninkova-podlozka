@@ -5,7 +5,7 @@ import cardsData from '../content/cards.json';
 // O aplikaci a licence: odkud co pochází (fotky, texty, loga, hlas, písmo, software). Rodiče → Data a zabezpečení.
 const SOURCES = [
   ['Fotky hráčů na kartách', 'Wikimedia Commons, volné licence (CC BY, CC BY-SA, public domain). Autor a licence každé fotky jsou uvedeny na rubu karty a v seznamu níže. Fotky se jen ořezávají.'],
-  ['Texty na rubu karet', 'Ručně psané zajímavosti; u ostatních hráčů krátký popis z české Wikipedie (CC BY-SA 4.0, wikipedia.org). Zdroj je uveden na kartě.'],
+  ['Texty u karet', 'Vlastní, ručně psané popisy hráčů a zajímavosti.'],
   ['Loga a názvy klubů a reprezentací', 'Jsou ochrannými známkami svých vlastníků a slouží jen k označení týmu. Aplikace není s kluby, hráči ani svazy nijak spojená ani jimi podporovaná. Zdroje: oficiální weby klubů a databáze TheSportsDB.'],
   ['Hlas Trenér', 'Syntetizovaný neuronový hlas (Microsoft Edge TTS). Věty jsou předgenerované a uložené v aplikaci.'],
   ['Zvuky a hudba', 'Vlastní syntetizované zvuky (úvod, úspěch, odměna, konfety, klik).'],
