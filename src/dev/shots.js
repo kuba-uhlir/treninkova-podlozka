@@ -9,8 +9,8 @@ import { getMat, setMatVariants } from '../config/mats.js';
 
 export async function run(name) {
   await storage.clear();
-  const team = null; // bez týmu: výchozí zelený akcent
-  const p = await createProfile({ name: 'Honza', jersey: '10', color: '#2D6FE0', color2: '#FFFFFF', team });
+  const team = 'cze'; // česká reprezentace
+  const p = await createProfile({ name: 'Honza', jersey: '24', team: 'cze' });
   const day = 86400000;
   for (let i = 4; i >= 0; i -= 2) await addHistory(p.id, { durationSec: 360, xp: 60, drills: ['sole-taps', 'side-push-left', 'drag-back'], stars: 3 - (i % 2) });
   const hist = await storage.list('history'); hist.forEach((h, i) => { h.date = Date.now() - (hist.length - 1 - i) * 2 * day; storage.put('history', h); });
