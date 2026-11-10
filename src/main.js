@@ -51,6 +51,7 @@ async function boot() {
     setVolume('voice', s.volVoice); setVolume('sfx', s.volSfx); setVolume('music', s.volMusic);
     setVoiceStyle(s.voiceStyle); setVoiceIndex(s.voiceIdx); setMatVariants(s.matVariants); setVoiceMode(s.voiceMode);
   } catch (e) { /* bez databáze appka pořád běží */ }
+  if (new URLSearchParams(location.search).has('demo')) { try { await (await import('./dev/demo.js')).ensureDemoPlayer(); } catch (e) { /* bez dema */ } } // ?demo = ukázkový hráč
   const shot = new URLSearchParams(location.search).get('shot'); // pomůcka pro snímky do README (src/dev/shots.js)
   if (shot) { const m = await import('./dev/shots.js'); await m.run(shot); return; }
   go('intro');

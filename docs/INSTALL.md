@@ -13,8 +13,9 @@ Tréninková podložka funguje třemi způsoby. Vyberte ten nejjednodušší pro
 ## A) Ve webovém prohlížeči (nic se neinstaluje)
 
 1. Otevřete stránku aplikace: **https://kuba-uhlir.github.io/treninkova-podlozka/**
-2. Na telefonu nebo tabletu ji můžete přidat na plochu: v Chrome menu ⋮ → **Přidat na plochu**.
-3. Pro celou obrazovku stiskněte **F11** (počítač).
+2. Chcete si to jen vyzkoušet? Otevřete **https://kuba-uhlir.github.io/treninkova-podlozka/?demo**. Vytvoří se hotový ukázkový hráč Honza s trochou postupu a kartami (pokud už v prohlížeči nějací hráči jsou, nic se nezmění).
+3. Na telefonu nebo tabletu ji můžete přidat na plochu: v Chrome menu ⋮ → **Přidat na plochu**.
+4. Pro celou obrazovku stiskněte **F11** (počítač).
 
 > Zvuk se v prohlížeči spustí až po prvním klepnutí nebo stisku klávesy. To je omezení prohlížečů, ne chyba aplikace.
 

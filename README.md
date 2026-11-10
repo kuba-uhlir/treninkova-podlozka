@@ -37,7 +37,7 @@ Trenér hlasem říká, kam s míčem, hráč sbírá hvězdy, odměny a sběrat
 
 | Chci… | Návod |
 |---|---|
-| **vyzkoušet hned** v prohlížeči | otevřít [webovou verzi](https://kuba-uhlir.github.io/treninkova-podlozka/) |
+| **vyzkoušet hned** v prohlížeči | otevřít [webovou verzi](https://kuba-uhlir.github.io/treninkova-podlozka/) nebo [s hotovým ukázkovým hráčem](https://kuba-uhlir.github.io/treninkova-podlozka/?demo) |
 | **Android telefon nebo tablet** | stáhnout `treninkova-podlozka.apk` z [Releases](https://github.com/kuba-uhlir/treninkova-podlozka/releases) |
 | **Android TV** | APK přes aplikaci Downloader nebo USB, viz návod |
 
