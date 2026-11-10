@@ -12,11 +12,25 @@ Trenér hlasem říká, kam s míčem, hráč sbírá hvězdy, odměny a sběrat
 ![Capacitor](https://img.shields.io/badge/Capacitor-6-119EFF?style=for-the-badge&logo=capacitor&logoColor=white)
 ![Zdarma](https://img.shields.io/badge/cena-zdarma-16C45A?style=for-the-badge)
 
-<img src="docs/screenshots/home.png" alt="Úvodní obrazovka" width="860">
+<a href="https://kuba-uhlir.github.io/treninkova-podlozka/?demo"><img src="https://img.shields.io/badge/%E2%96%B6%20Vyzkou%C5%A1et%20demo%20online-bez%20instalace-16C45A?style=for-the-badge&labelColor=0A0A0C" alt="Vyzkoušet demo online" height="44"></a>
+
+<br><br>
+
+<a href="https://kuba-uhlir.github.io/treninkova-podlozka/?demo"><img src="docs/screenshots/home.png" alt="Úvodní obrazovka, klikněte pro vyzkoušení" width="860"></a>
 
 </div>
 
 ---
+
+## ▶ Vyzkoušejte hned
+
+> **[Otevřít demo](https://kuba-uhlir.github.io/treninkova-podlozka/?demo)**: v prohlížeči, bez instalace a bez registrace.
+
+Odkaz vytvoří hotového ukázkového hráče **Jakuba** (číslo 24, česká reprezentace) s trochou postupu, takže si můžete rovnou projít týdenní lištu, odměny, sběratelské karty i zápas. Spusťte **Trénink**, nechte si říct, kam s míčem, a postavte podložku před obrazovku.
+
+- Všechna data zůstávají jen ve vašem prohlížeči a nikam se neodesílají.
+- Pokud už v prohlížeči nějaké hráče máte, demo je nepřepíše.
+- Zvuk se spustí po prvním klepnutí na stránku.
 
 ## Co aplikace umí
 
@@ -37,7 +51,7 @@ Trenér hlasem říká, kam s míčem, hráč sbírá hvězdy, odměny a sběrat
 
 | Chci… | Návod |
 |---|---|
-| **vyzkoušet hned** v prohlížeči | otevřít [webovou verzi](https://kuba-uhlir.github.io/treninkova-podlozka/) nebo [s hotovým ukázkovým hráčem](https://kuba-uhlir.github.io/treninkova-podlozka/?demo) |
+| **vyzkoušet hned** v prohlížeči | otevřít [webovou verzi](https://kuba-uhlir.github.io/treninkova-podlozka/) nebo [demo s hotovým hráčem](https://kuba-uhlir.github.io/treninkova-podlozka/?demo) |
 | **Android telefon nebo tablet** | stáhnout `treninkova-podlozka.apk` z [Releases](https://github.com/kuba-uhlir/treninkova-podlozka/releases) |
 | **Android TV** | APK přes aplikaci Downloader nebo USB, viz návod |
 
