@@ -1,0 +1,345 @@
+{
+  "widthCm": 90,
+  "heightCm": 60,
+  "viewBox": [
+    150,
+    100
+  ],
+  "targets": [],
+  "arrowStyle": {
+    "shaft": 5.2,
+    "tip": 2.8
+  },
+  "id": "maximize-black",
+  "name": "Maximize (černá)",
+  "note": "Černá podložka s oboustrannými šipkami a čísly v kosočtvercích. Barevné varianty: tyrkysová, červená, žlutá, fialová.",
+  "zones": [
+    {
+      "id": 1,
+      "label": "1",
+      "color": "#FFFFFF",
+      "x": 41,
+      "y": 76,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 2,
+      "label": "2",
+      "color": "#FF9A3D",
+      "x": 1,
+      "y": 76,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 3,
+      "label": "3",
+      "color": "#FF5C6C",
+      "x": 1,
+      "y": 16,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 4,
+      "label": "4",
+      "color": "#34D88A",
+      "x": 41,
+      "y": 16,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 5,
+      "label": "5",
+      "color": "#38BDF8",
+      "x": 81,
+      "y": 16,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 6,
+      "label": "6",
+      "color": "#A78BFA",
+      "x": 81,
+      "y": 76,
+      "w": 18,
+      "h": 22
+    }
+  ],
+  "badges": [
+    {
+      "zone": 1,
+      "x": 69.8,
+      "y": 81.7,
+      "w": 10.4,
+      "h": 10.4
+    },
+    {
+      "zone": 2,
+      "x": 9.4,
+      "y": 81.7,
+      "w": 10.4,
+      "h": 10.4
+    },
+    {
+      "zone": 3,
+      "x": 9.4,
+      "y": 22.1,
+      "w": 10.4,
+      "h": 10.4
+    },
+    {
+      "zone": 4,
+      "x": 69.8,
+      "y": 22.1,
+      "w": 10.4,
+      "h": 10.4
+    },
+    {
+      "zone": 5,
+      "x": 130.2,
+      "y": 22.1,
+      "w": 10.4,
+      "h": 10.4
+    },
+    {
+      "zone": 6,
+      "x": 130.2,
+      "y": 81.7,
+      "w": 10.4,
+      "h": 10.4
+    }
+  ],
+  "ball": {
+    "x": 75,
+    "y": 86.9,
+    "r": 10
+  },
+  "logo": {
+    "none": true
+  },
+  "skin": {
+    "radius": 4.6,
+    "band": "none",
+    "base": [
+      "#0b0b0d",
+      "#000"
+    ],
+    "arrowKind": "chev",
+    "arrow": "#2EE6D6",
+    "arrowCut": "#000",
+    "hint": "#FFD400",
+    "printBall": false,
+    "badge": {
+      "shape": "diamond",
+      "fill": "#fff",
+      "text": "#0b0b0d"
+    },
+    "texts": [
+      {
+        "text": "MAXIMIZE YOUR GAME",
+        "x": 72.5,
+        "y": 16.2,
+        "size": 5.4,
+        "color": "#fff",
+        "condense": 0.82
+      }
+    ]
+  },
+  "variants": [
+    {
+      "id": "teal",
+      "name": "Tyrkysová",
+      "swatch": "#2EE6D6",
+      "skin": {
+        "arrow": "#2EE6D6",
+        "hint": "#FFD400",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#FFFFFF",
+          "text": "#0b0b0d"
+        },
+        "texts": [
+          {
+            "text": "MAXIMIZE YOUR GAME",
+            "x": 72.5,
+            "y": 16.2,
+            "size": 5.4,
+            "color": "#fff",
+            "condense": 0.82
+          }
+        ]
+      }
+    },
+    {
+      "id": "red",
+      "name": "Červená",
+      "swatch": "#E3262B",
+      "skin": {
+        "arrow": "#E3262B",
+        "hint": "#FFFFFF",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#7A1A1E",
+          "text": "#FFFFFF"
+        },
+        "texts": [
+          {
+            "text": "MAXIMIZE YOUR GAME",
+            "x": 72.5,
+            "y": 16.2,
+            "size": 5.4,
+            "color": "#fff",
+            "condense": 0.82,
+            "deco": "#E3262B"
+          }
+        ]
+      }
+    },
+    {
+      "id": "yellow",
+      "name": "Žlutá",
+      "swatch": "#F6D117",
+      "skin": {
+        "arrow": "#F6D117",
+        "hint": "#19D3FF",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#F6D117",
+          "text": "#111111"
+        },
+        "texts": [
+          {
+            "text": "MAXIMIZE YOUR GAME",
+            "x": 72.5,
+            "y": 16.2,
+            "size": 5.4,
+            "color": "#fff",
+            "condense": 0.82,
+            "deco": "#F6D117"
+          }
+        ]
+      }
+    },
+    {
+      "id": "purple",
+      "name": "Fialová",
+      "swatch": "#8B45E0",
+      "skin": {
+        "arrow": "#8B45E0",
+        "hint": "#FFD400",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#4A237F",
+          "text": "#FFFFFF"
+        },
+        "texts": [
+          {
+            "text": "MAXIMIZE YOUR GAME",
+            "x": 72.5,
+            "y": 16.2,
+            "size": 5.4,
+            "color": "#fff",
+            "condense": 0.82,
+            "deco": "#8B45E0"
+          }
+        ]
+      }
+    }
+  ],
+  "arrows": [
+    {
+      "x1": 22.4,
+      "y1": 27.3,
+      "x2": 69.1,
+      "y2": 27.3,
+      "between": [
+        3,
+        4
+      ]
+    },
+    {
+      "x1": 82.8,
+      "y1": 27.3,
+      "x2": 129.5,
+      "y2": 27.3,
+      "between": [
+        4,
+        5
+      ]
+    },
+    {
+      "x1": 22.4,
+      "y1": 86.9,
+      "x2": 69.1,
+      "y2": 86.9,
+      "between": [
+        2,
+        1
+      ]
+    },
+    {
+      "x1": 82.8,
+      "y1": 86.9,
+      "x2": 129.5,
+      "y2": 86.9,
+      "between": [
+        1,
+        6
+      ]
+    },
+    {
+      "x1": 14.6,
+      "y1": 35.6,
+      "x2": 14.6,
+      "y2": 78.8,
+      "between": [
+        3,
+        2
+      ]
+    },
+    {
+      "x1": 135.4,
+      "y1": 35.6,
+      "x2": 135.4,
+      "y2": 78.8,
+      "between": [
+        5,
+        6
+      ]
+    },
+    {
+      "x1": 75,
+      "y1": 35.6,
+      "x2": 75,
+      "y2": 78.8,
+      "between": [
+        4,
+        1
+      ]
+    },
+    {
+      "x1": 22.4,
+      "y1": 33.7,
+      "x2": 67.2,
+      "y2": 79.8,
+      "between": [
+        3,
+        1
+      ]
+    },
+    {
+      "x1": 127.6,
+      "y1": 33.7,
+      "x2": 82.8,
+      "y2": 79.8,
+      "between": [
+        5,
+        1
+      ]
+    }
+  ]
+}

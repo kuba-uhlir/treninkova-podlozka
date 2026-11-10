@@ -1,0 +1,409 @@
+{
+  "id": "diamond-x",
+  "name": "Diamant",
+  "widthCm": 90,
+  "heightCm": 60,
+  "viewBox": [
+    150,
+    100
+  ],
+  "targets": [],
+  "note": "Čísla 1 2 3 nahoře a 6 5 4 dole; klíny po stranách a kosočtverec uprostřed. Varianty: černá/tyrkysová, červená/žlutá, tyrkysová, šedá/žlutá, šedá/modrá.",
+  "zones": [
+    {
+      "id": 1,
+      "label": "1",
+      "color": "#FF5C6C",
+      "x": 3,
+      "y": 3,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 2,
+      "label": "2",
+      "color": "#34D88A",
+      "x": 41,
+      "y": 3,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 3,
+      "label": "3",
+      "color": "#38BDF8",
+      "x": 78,
+      "y": 3,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 4,
+      "label": "4",
+      "color": "#A78BFA",
+      "x": 78,
+      "y": 73,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 5,
+      "label": "5",
+      "color": "#FF9A3D",
+      "x": 41,
+      "y": 73,
+      "w": 18,
+      "h": 22
+    },
+    {
+      "id": 6,
+      "label": "6",
+      "color": "#FFFFFF",
+      "x": 3,
+      "y": 73,
+      "w": 18,
+      "h": 22
+    }
+  ],
+  "badges": [
+    {
+      "zone": 1,
+      "x": 12.5,
+      "y": 8.7,
+      "w": 9.8,
+      "h": 9.8
+    },
+    {
+      "zone": 2,
+      "x": 69.5,
+      "y": 8.7,
+      "w": 9.8,
+      "h": 9.8
+    },
+    {
+      "zone": 3,
+      "x": 124.9,
+      "y": 8.7,
+      "w": 9.8,
+      "h": 9.8
+    },
+    {
+      "zone": 4,
+      "x": 124.9,
+      "y": 79.1,
+      "w": 9.8,
+      "h": 9.8
+    },
+    {
+      "zone": 5,
+      "x": 69.5,
+      "y": 79.1,
+      "w": 9.8,
+      "h": 9.8
+    },
+    {
+      "zone": 6,
+      "x": 12.5,
+      "y": 79.1,
+      "w": 9.8,
+      "h": 9.8
+    }
+  ],
+  "ball": {
+    "x": 17.4,
+    "y": 13.6,
+    "r": 8.4
+  },
+  "logo": {
+    "none": true
+  },
+  "arrowStyle": {
+    "shaft": 3.4,
+    "tip": 2.8
+  },
+  "skin": {
+    "radius": 4.6,
+    "band": "none",
+    "base": [
+      "#0b0b0d",
+      "#000"
+    ],
+    "arrow": "#3FD0B0",
+    "arrow2": "#FFFFFF",
+    "diamond": "#3FD0B0",
+    "arrowCut": "#000",
+    "hint": "#FFD400",
+    "printBall": false,
+    "badge": {
+      "shape": "diamond",
+      "fill": "#FFFFFF",
+      "text": "#0b0b0d"
+    }
+  },
+  "variants": [
+    {
+      "id": "black-teal",
+      "name": "Černá",
+      "swatch": "#3FD0B0",
+      "skin": {
+        "base": [
+          "#0b0b0d",
+          "#000"
+        ],
+        "arrow": "#3FD0B0",
+        "arrow2": "#FFFFFF",
+        "diamond": "#3FD0B0",
+        "hint": "#FFD400",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#FFFFFF",
+          "text": "#0b0b0d"
+        }
+      }
+    },
+    {
+      "id": "red-yellow",
+      "name": "Červená",
+      "swatch": "#D62828",
+      "skin": {
+        "base": [
+          "#C8242A",
+          "#A81C21"
+        ],
+        "arrow": "#F6D117",
+        "arrow2": "#FFFFFF",
+        "diamond": "#F6D117",
+        "hint": "#FFFFFF",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#FFFFFF",
+          "text": "#111111"
+        }
+      }
+    },
+    {
+      "id": "teal",
+      "name": "Tyrkysová",
+      "swatch": "#3DB89C",
+      "skin": {
+        "base": [
+          "#40BC9F",
+          "#34A98D"
+        ],
+        "arrow": "#FFFFFF",
+        "arrow2": "#FFFFFF",
+        "diamond": "#101010",
+        "hint": "#FFD400",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#FFFFFF",
+          "text": "#101010"
+        }
+      }
+    },
+    {
+      "id": "grey-yellow",
+      "name": "Šedá žlutá",
+      "swatch": "#F6D117",
+      "skin": {
+        "base": [
+          "#2F2F31",
+          "#242426"
+        ],
+        "arrow": "#F6D117",
+        "arrow2": "#FFFFFF",
+        "diamond": "#F6D117",
+        "hint": "#19D3FF",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#FFFFFF",
+          "text": "#111111"
+        }
+      }
+    },
+    {
+      "id": "grey-blue",
+      "name": "Šedá modrá",
+      "swatch": "#2D6FE0",
+      "skin": {
+        "base": [
+          "#2F2F31",
+          "#242426"
+        ],
+        "arrow": "#2D6FE0",
+        "arrow2": "#FFFFFF",
+        "diamond": "#2D6FE0",
+        "hint": "#FFD400",
+        "badge": {
+          "shape": "diamond",
+          "fill": "#FFFFFF",
+          "text": "#111111"
+        }
+      }
+    }
+  ],
+  "arrows": [
+    {
+      "x1": 26.9,
+      "y1": 15.2,
+      "x2": 61.7,
+      "y2": 15.2,
+      "between": [
+        1,
+        2
+      ],
+      "kind": "stack",
+      "shaft": 4.2
+    },
+    {
+      "x1": 85.5,
+      "y1": 15.2,
+      "x2": 121.8,
+      "y2": 15.2,
+      "between": [
+        2,
+        3
+      ],
+      "kind": "stack",
+      "shaft": 4.2
+    },
+    {
+      "x1": 30,
+      "y1": 84.5,
+      "x2": 63.3,
+      "y2": 84.5,
+      "between": [
+        6,
+        5
+      ],
+      "kind": "line",
+      "shaft": 3.8
+    },
+    {
+      "x1": 85.5,
+      "y1": 84.5,
+      "x2": 120.3,
+      "y2": 84.5,
+      "between": [
+        5,
+        4
+      ],
+      "kind": "line",
+      "shaft": 3.8
+    },
+    {
+      "kind": "poly",
+      "points": [
+        [
+          17.4,
+          21.5
+        ],
+        [
+          46.5,
+          48.5
+        ],
+        [
+          17.4,
+          77
+        ],
+        [
+          31.5,
+          48.5
+        ]
+      ],
+      "color": "$2",
+      "between": [
+        1,
+        6
+      ],
+      "x1": 0,
+      "y1": 0,
+      "x2": 0,
+      "y2": 0
+    },
+    {
+      "kind": "poly",
+      "points": [
+        [
+          132.6,
+          21.5
+        ],
+        [
+          103.5,
+          48.5
+        ],
+        [
+          132.6,
+          77
+        ],
+        [
+          118.5,
+          48.5
+        ]
+      ],
+      "color": "$2",
+      "between": [
+        3,
+        4
+      ],
+      "x1": 0,
+      "y1": 0,
+      "x2": 0,
+      "y2": 0
+    },
+    {
+      "kind": "polyline",
+      "points": [
+        [
+          74.4,
+          21
+        ],
+        [
+          46.8,
+          48.5
+        ],
+        [
+          74.4,
+          75.5
+        ]
+      ],
+      "color": "$d",
+      "shaft": 4.6,
+      "between": [
+        2,
+        5
+      ],
+      "x1": 0,
+      "y1": 0,
+      "x2": 0,
+      "y2": 0
+    },
+    {
+      "kind": "polyline",
+      "points": [
+        [
+          74.4,
+          21
+        ],
+        [
+          102,
+          48.5
+        ],
+        [
+          74.4,
+          75.5
+        ]
+      ],
+      "color": "$d",
+      "shaft": 4.6,
+      "between": [
+        2,
+        5
+      ],
+      "x1": 0,
+      "y1": 0,
+      "x2": 0,
+      "y2": 0
+    }
+  ]
+}

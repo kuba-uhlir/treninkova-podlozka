@@ -1,0 +1,46 @@
+name: Android APK
+
+# Po vytvoření značky (tagu) verze, např. v1.0.0, postaví APK a připojí ho k vydání (Releases).
+# Použití: git tag v1.0.0 && git push origin v1.0.0
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - run: npm ci
+      - run: npm run cap:sync
+      - name: Sestavení APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug
+      - name: Přejmenování
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk treninkova-podlozka.apk
+      - name: Vydání s APK
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: treninkova-podlozka.apk
+          generate_release_notes: true
+      - name: APK jako příloha běhu (bez tagu)
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: treninkova-podlozka-apk
+          path: treninkova-podlozka.apk

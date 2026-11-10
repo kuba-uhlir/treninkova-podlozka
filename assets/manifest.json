@@ -1,0 +1,16 @@
+{
+  "logo":        { "file": "img/logo.png",        "w": 1024, "h": 512,  "label": "Fotbal logo" },
+  "bg_stadium":  { "file": "img/bg_stadium.webp", "w": 1920, "h": 1080, "label": "Pozadí stadion" },
+  "mascot":      { "file": "img/mascot.png",      "w": 800,  "h": 800,  "label": "Maskot" },
+  "avatar_1":    { "file": "img/avatar_1.png",    "w": 512,  "h": 512,  "label": "Avatar 1" },
+  "avatar_2":    { "file": "img/avatar_2.png",    "w": 512,  "h": 512,  "label": "Avatar 2" },
+  "avatar_3":    { "file": "img/avatar_3.png",    "w": 512,  "h": 512,  "label": "Avatar 3" },
+  "avatar_4":    { "file": "img/avatar_4.png",    "w": 512,  "h": 512,  "label": "Avatar 4" },
+  "avatar_5":    { "file": "img/avatar_5.png",    "w": 512,  "h": 512,  "label": "Avatar 5" },
+  "avatar_6":    { "file": "img/avatar_6.png",    "w": 512,  "h": 512,  "label": "Avatar 6" },
+  "icon_star":   { "file": "img/icon_star.png",   "w": 256,  "h": 256,  "label": "Hvězda" },
+  "icon_ball":   { "file": "img/icon_ball.png",   "w": 256,  "h": 256,  "label": "Míč" },
+  "icon_foot_l": { "file": "img/icon_foot_l.png", "w": 256,  "h": 256,  "label": "Levá noha" },
+  "icon_foot_r": { "file": "img/icon_foot_r.png", "w": 256,  "h": 256,  "label": "Pravá noha" },
+  "tv_banner":   { "file": "img/tv_banner.png",   "w": 320,  "h": 180,  "label": "Android TV banner" }
+}

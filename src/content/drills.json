@@ -1,0 +1,687 @@
+[
+  {
+    "id": "warmup-steps",
+    "name": "Rozcvička: kroky po číslech",
+    "type": "step",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [
+      3,
+      5,
+      4,
+      6
+    ],
+    "footSeq": ["left", "right", "left", "right"],
+    "foot": "both",
+    "info": "Bez míče jako Twister: levá noha střídá 3 a 4, pravá 5 a 6. Vždy jen o jedno číslo, nohy se nekříží.",
+    "media": {
+      "animation": true
+    },
+    "feet": "alternate"
+  },
+  {
+    "id": "sole-taps",
+    "name": "Podrážkou na míč",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 55,
+    "pattern": [
+      1
+    ],
+    "foot": "both",
+    "info": "Střídavě klepej podrážkou na míč.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "sole-taps-left",
+    "name": "Podrážka levou",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 55,
+    "pattern": [
+      1
+    ],
+    "foot": "left",
+    "info": "Klepej jen levou nohou.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "sole-taps-right",
+    "name": "Podrážka pravou",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 55,
+    "pattern": [
+      1
+    ],
+    "foot": "right",
+    "info": "Klepej jen pravou nohou.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "side-push-left",
+    "name": "Boční tlak levou",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [
+      1,
+      2
+    ],
+    "foot": "left",
+    "info": "Tlač míč bokem vlevo a vrať ho zpátky.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "side-push-right",
+    "name": "Boční tlak pravou",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [
+      1,
+      6
+    ],
+    "foot": "right",
+    "info": "Tlač míč bokem vpravo a vrať ho zpátky.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "drag-back",
+    "name": "Přitáhni míč zpět",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [
+      4,
+      1
+    ],
+    "foot": "both",
+    "info": "Míč zepředu přitáhni podrážkou k sobě.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "jump-over",
+    "name": "Přeskoky míče",
+    "type": "jump",
+    "sides": [
+      "left",
+      "right"
+    ],
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [],
+    "foot": "both",
+    "info": "Míč stojí, ty ho přeskakuješ z jedné strany na druhou.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "drag-back-left",
+    "name": "Přitáhni zpět levou",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      4,
+      1
+    ],
+    "foot": "left",
+    "info": "Přitahuj míč levou nohou.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "drag-back-right",
+    "name": "Přitáhni zpět pravou",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      4,
+      1
+    ],
+    "foot": "right",
+    "info": "Přitahuj míč pravou nohou.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "triangle-left",
+    "name": "Přihraj a přitáhni levou",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      1,
+      2,
+      3
+    ],
+    "foot": "left",
+    "info": "Míč pošli doleva, přihraj dopředu a přitáhni zpět.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "triangle-right",
+    "name": "Přihraj a přitáhni pravou",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      1,
+      6,
+      5
+    ],
+    "foot": "right",
+    "info": "Míč pošli doprava, přihraj dopředu a přitáhni zpět.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "pass-drag-both",
+    "name": "Přihraj a přitáhni oběma",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      1,
+      2,
+      1,
+      6
+    ],
+    "foot": "both",
+    "info": "Střídej strany, pokaždé míč vrať doprostřed.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "pass-around-left",
+    "name": "Kolem levé nohy",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "foot": "left",
+    "info": "Obkroužení míče kolem opěrné nohy zleva.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "pass-around-right",
+    "name": "Kolem pravé nohy",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      1,
+      6,
+      5,
+      4
+    ],
+    "foot": "right",
+    "info": "Obkroužení míče kolem opěrné nohy zprava.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "drag-combo-left",
+    "name": "Přitáhni a tlač levou",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 65,
+    "pattern": [
+      4,
+      1,
+      2,
+      1
+    ],
+    "foot": "left",
+    "info": "Kombinace přitažení a bočního tlaku levou.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "drag-combo-right",
+    "name": "Přitáhni a tlač pravou",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 65,
+    "pattern": [
+      4,
+      1,
+      6,
+      1
+    ],
+    "foot": "right",
+    "info": "Kombinace přitažení a bočního tlaku pravou.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "side-to-side",
+    "name": "Z boku na bok",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      2,
+      1,
+      6,
+      1
+    ],
+    "foot": "both",
+    "info": "Míč jezdí přes střed na obě strany.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "front-corners",
+    "name": "Přední rohy",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 65,
+    "pattern": [
+      3,
+      4,
+      5,
+      4
+    ],
+    "foot": "both",
+    "info": "Míč objíždí přední rohy.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "dummy-jump",
+    "name": "Klam: dvojité přeskoky",
+    "type": "jump",
+    "sides": [
+      "left",
+      "left",
+      "right",
+      "right"
+    ],
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [],
+    "foot": "both",
+    "info": "Dvakrát na jednu stranu, pak dvakrát na druhou.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "step-corners",
+    "name": "Skoky do rohů",
+    "type": "step",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 65,
+    "pattern": [
+      2,
+      3,
+      5,
+      6
+    ],
+    "foot": "both",
+    "info": "Bez míče: skákej oběma nohama vedle sebe do čtyř rohů.",
+    "media": {
+      "animation": true
+    },
+    "feet": "pair"
+  },
+  {
+    "id": "circle",
+    "name": "Dokola kolem podložky",
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 60,
+    "pattern": [
+      2,
+      3,
+      4,
+      5,
+      6,
+      1
+    ],
+    "foot": "both",
+    "info": "Míč objede všechna čísla dokola.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "w-drill",
+    "name": "Cvik W",
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 60,
+    "pattern": [
+      3,
+      2,
+      4,
+      6,
+      5
+    ],
+    "foot": "both",
+    "info": "Míč kreslí na podložce písmeno W.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "zigzag",
+    "name": "Cik-cak",
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 70,
+    "pattern": [
+      2,
+      3,
+      1,
+      5,
+      6,
+      1
+    ],
+    "foot": "both",
+    "info": "Cik-cak mezi čísly, vždy přes střed.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "cross",
+    "name": "Křížem",
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 70,
+    "pattern": [
+      2,
+      5,
+      3,
+      6
+    ],
+    "foot": "both",
+    "info": "Míč jede křížem přes podložku.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "combo",
+    "name": "Kombinace",
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 75,
+    "pattern": [
+      1,
+      2,
+      1,
+      4,
+      1,
+      6,
+      1,
+      3,
+      1,
+      5
+    ],
+    "foot": "both",
+    "info": "Pokaždé zpět na střed a na další číslo.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "stepover-pass-drag",
+    "name": "Překroč, přihraj, přitáhni",
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 65,
+    "pattern": [
+      1,
+      2,
+      1,
+      6,
+      1,
+      3,
+      1,
+      5
+    ],
+    "foot": "both",
+    "info": "Přes míč překroč nohou, přihraj a přitáhni.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "stepover-dummy",
+    "name": "Kličky a klam",
+    "type": "jump",
+    "sides": [
+      "left",
+      "right",
+      "right",
+      "left"
+    ],
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 70,
+    "pattern": [],
+    "foot": "both",
+    "info": "Rychlejší přeskoky s měnící se stranou.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "step-zigzag",
+    "name": "Cik-cak kroky",
+    "type": "step",
+    "level": 3,
+    "durationSec": 45,
+    "tempoBpm": 75,
+    "pattern": [
+      1,
+      2,
+      1,
+      3,
+      1,
+      4,
+      1,
+      5,
+      1,
+      6
+    ],
+    "foot": "both",
+    "info": "Twister: levá noha na levá čísla, pravá na pravá, vždy zpátky doprostřed.",
+    "media": {
+      "animation": true
+    },
+    "feet": "alternate"
+  },
+  {
+    "id": "jump-fast",
+    "name": "Rychlé přeskoky",
+    "type": "jump",
+    "sides": [
+      "left",
+      "right"
+    ],
+    "level": 3,
+    "durationSec": 40,
+    "tempoBpm": 85,
+    "pattern": [],
+    "foot": "both",
+    "info": "Rychlejší přeskoky míče.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "fast-feet",
+    "name": "Rychlé nožičky",
+    "level": 4,
+    "durationSec": 30,
+    "tempoBpm": 140,
+    "pattern": [
+      1
+    ],
+    "foot": "both",
+    "info": "Co nejrychleji klepej podrážkou.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "speed-corners",
+    "name": "Rychlé rohy",
+    "level": 4,
+    "durationSec": 45,
+    "tempoBpm": 95,
+    "pattern": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "foot": "both",
+    "info": "Míč objede čísla ve velkém tempu.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "w-fast",
+    "name": "Cvik W rychle",
+    "level": 4,
+    "durationSec": 45,
+    "tempoBpm": 85,
+    "pattern": [
+      3,
+      2,
+      4,
+      6,
+      5
+    ],
+    "foot": "both",
+    "info": "Písmeno W ve vysokém tempu.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "combo-pro",
+    "name": "Kombinace pro profíky",
+    "level": 4,
+    "durationSec": 50,
+    "tempoBpm": 90,
+    "pattern": [
+      1,
+      2,
+      3,
+      1,
+      4,
+      1,
+      5,
+      6,
+      1
+    ],
+    "foot": "both",
+    "info": "Dlouhá kombinace přes střed a rohy.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "jump-master",
+    "name": "Přeskoky naplno",
+    "type": "jump",
+    "sides": [
+      "left",
+      "right"
+    ],
+    "level": 4,
+    "durationSec": 40,
+    "tempoBpm": 115,
+    "pattern": [],
+    "foot": "both",
+    "info": "Přeskoky v nejvyšším tempu.",
+    "media": {
+      "animation": true
+    }
+  },
+  {
+    "id": "step-master",
+    "name": "Kroky naplno",
+    "type": "step",
+    "level": 4,
+    "durationSec": 45,
+    "tempoBpm": 100,
+    "pattern": [
+      1,
+      2,
+      1,
+      3,
+      1,
+      4,
+      1,
+      5,
+      1,
+      6
+    ],
+    "foot": "both",
+    "info": "Twister ve vysokém tempu: levá noha vlevo, pravá vpravo.",
+    "media": {
+      "animation": true
+    },
+    "feet": "alternate"
+  }
+]

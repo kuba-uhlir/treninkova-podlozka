@@ -1,0 +1,605 @@
+[
+  {
+    "id": "vicemilice",
+    "name": "TJ Vícemilice",
+    "country": "Místní kluby",
+    "primary": "#1F7A3E",
+    "secondary": "#FFFFFF",
+    "kit": "plain",
+    "logo": "img/teams/vicemilice.png"
+  },
+  {
+    "id": "obrany",
+    "name": "SK Obřany",
+    "country": "Místní kluby",
+    "primary": "#2B7FD0",
+    "secondary": "#E8A23B",
+    "kit": "plain",
+    "logo": "img/teams/obrany.png"
+  },
+  {
+    "id": "sparta",
+    "name": "Sparta Praha",
+    "country": "Česko",
+    "primary": "#A6192E",
+    "secondary": "#1C2B5A",
+    "logo": "img/teams/sparta.png",
+    "kit": "plain"
+  },
+  {
+    "id": "slavia",
+    "name": "Slavia Praha",
+    "country": "Česko",
+    "primary": "#D4002A",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/slavia.png",
+    "kit": "halves"
+  },
+  {
+    "id": "plzen",
+    "name": "Viktoria Plzeň",
+    "country": "Česko",
+    "primary": "#C20016",
+    "secondary": "#1F3C9E",
+    "logo": "img/teams/plzen.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "banik",
+    "name": "Baník Ostrava",
+    "country": "Česko",
+    "primary": "#0057B8",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/banik.png",
+    "kit": "plain"
+  },
+  {
+    "id": "bohemians",
+    "name": "Bohemians 1905",
+    "country": "Česko",
+    "primary": "#008A52",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/bohemians.png",
+    "kit": "plain"
+  },
+  {
+    "id": "hradec",
+    "name": "Hradec Králové",
+    "country": "Česko",
+    "primary": "#FFFFFF",
+    "secondary": "#C8102E",
+    "logo": "img/teams/hradec.png",
+    "kit": "plain"
+  },
+  {
+    "id": "jablonec",
+    "name": "FK Jablonec",
+    "country": "Česko",
+    "primary": "#1E9B3A",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/jablonec.png",
+    "kit": "plain"
+  },
+  {
+    "id": "boleslav",
+    "name": "Mladá Boleslav",
+    "country": "Česko",
+    "primary": "#FFD400",
+    "secondary": "#1F4FA0",
+    "logo": "img/teams/boleslav.png",
+    "kit": "plain"
+  },
+  {
+    "id": "olomouc",
+    "name": "Sigma Olomouc",
+    "country": "Česko",
+    "primary": "#005BA0",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/olomouc.png",
+    "kit": "plain"
+  },
+  {
+    "id": "slovacko",
+    "name": "Slovácko",
+    "country": "Česko",
+    "primary": "#1D3F96",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/slovacko.png",
+    "kit": "plain"
+  },
+  {
+    "id": "teplice",
+    "name": "Teplice",
+    "country": "Česko",
+    "primary": "#FFC106",
+    "secondary": "#002EB9",
+    "logo": "img/teams/teplice.png",
+    "kit": "plain"
+  },
+  {
+    "id": "liberec",
+    "name": "Slovan Liberec",
+    "country": "Česko",
+    "primary": "#FFFFFF",
+    "secondary": "#0057A8",
+    "logo": "img/teams/liberec.png",
+    "kit": "plain"
+  },
+  {
+    "id": "artis",
+    "name": "Artis Brno",
+    "country": "Česko",
+    "primary": "#2A4DD0",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/artis.png",
+    "kit": "plain"
+  },
+  {
+    "id": "zbrojovkabrno",
+    "name": "Zbrojovka Brno",
+    "country": "Česko",
+    "primary": "#D71920",
+    "secondary": "#1F3C9E",
+    "logo": "img/teams/zbrojovkabrno.png",
+    "kit": "plain"
+  },
+  {
+    "id": "pardubice",
+    "name": "Pardubice",
+    "country": "Česko",
+    "primary": "#D71920",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/pardubice.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "karvina",
+    "name": "Karviná",
+    "country": "Česko",
+    "primary": "#00923F",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/karvina.png",
+    "kit": "plain"
+  },
+  {
+    "id": "zlin",
+    "name": "Zlín",
+    "country": "Česko",
+    "primary": "#FFD400",
+    "secondary": "#1C2B5A",
+    "logo": "img/teams/zlin.png",
+    "kit": "plain"
+  },
+  {
+    "id": "duklapraha",
+    "name": "Dukla Praha",
+    "country": "Česko",
+    "primary": "#B5121B",
+    "secondary": "#FFD400",
+    "logo": "img/teams/duklapraha.png",
+    "kit": "plain"
+  },
+  {
+    "id": "pribram",
+    "name": "Příbram",
+    "country": "Česko 2. liga",
+    "primary": "#0E8744",
+    "secondary": "#31985F",
+    "logo": "img/teams/pribram.png",
+    "kit": "plain"
+  },
+  {
+    "id": "opava",
+    "name": "Opava",
+    "country": "Česko 2. liga",
+    "primary": "#FFEE00",
+    "secondary": "#004F9F",
+    "logo": "img/teams/opava.png",
+    "kit": "plain"
+  },
+  {
+    "id": "kladno",
+    "name": "Kladno",
+    "country": "Česko 2. liga",
+    "primary": "#275991",
+    "secondary": "#6289B1",
+    "logo": "img/teams/kladno.png",
+    "kit": "plain"
+  },
+  {
+    "id": "prostejov",
+    "name": "Prostějov",
+    "country": "Česko 2. liga",
+    "primary": "#0071B3",
+    "secondary": "#308CC2",
+    "logo": "img/teams/prostejov.png",
+    "kit": "plain"
+  },
+  {
+    "id": "viktoriazizkov",
+    "name": "Viktoria Žižkov",
+    "country": "Česko 2. liga",
+    "primary": "#4D8E42",
+    "secondary": "#EF3224",
+    "logo": "img/teams/viktoriazizkov.png",
+    "kit": "plain"
+  },
+  {
+    "id": "vlasim",
+    "name": "Vlašim",
+    "country": "Česko 2. liga",
+    "primary": "#2D88C9",
+    "secondary": "#0873C0",
+    "logo": "img/teams/vlasim.png",
+    "kit": "plain"
+  },
+  {
+    "id": "taborsko",
+    "name": "Táborsko",
+    "country": "Česko 2. liga",
+    "primary": "#0E86D2",
+    "secondary": "#0A91DA",
+    "logo": "img/teams/taborsko.png",
+    "kit": "plain"
+  },
+  {
+    "id": "chrudim",
+    "name": "Chrudim",
+    "country": "Česko 2. liga",
+    "primary": "#E31E24",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/chrudim.png",
+    "kit": "plain"
+  },
+  {
+    "id": "trinec",
+    "name": "Třinec",
+    "country": "Česko 2. liga",
+    "primary": "#BD0A23",
+    "secondary": "#C4253C",
+    "logo": "img/teams/trinec.png",
+    "kit": "plain"
+  },
+  {
+    "id": "vyskov",
+    "name": "Vyškov",
+    "country": "Česko 2. liga",
+    "primary": "#3D53A0",
+    "secondary": "#E31D36",
+    "logo": "img/teams/vyskov.png",
+    "kit": "plain"
+  },
+  {
+    "id": "varnsdorf",
+    "name": "Varnsdorf",
+    "country": "Česko 2. liga",
+    "primary": "#0062AC",
+    "secondary": "#FDE400",
+    "logo": "img/teams/varnsdorf.png",
+    "kit": "plain"
+  },
+  {
+    "id": "arsenalceskalipa",
+    "name": "Arsenal Česká Lípa",
+    "country": "Česko 2. liga",
+    "primary": "#005E9B",
+    "secondary": "#5F96C0",
+    "logo": "img/teams/arsenalceskalipa.png",
+    "kit": "plain"
+  },
+  {
+    "id": "hanackaslaviakromeriz",
+    "name": "Hanácká Slavia Kroměříž",
+    "country": "Česko 2. liga",
+    "primary": "#E31E24",
+    "secondary": "#DF0409",
+    "logo": "img/teams/hanackaslaviakromeriz.png",
+    "kit": "plain"
+  },
+  {
+    "id": "mancity",
+    "name": "Manchester City",
+    "country": "Anglie",
+    "primary": "#6CABDD",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/mancity.png",
+    "kit": "plain"
+  },
+  {
+    "id": "manutd",
+    "name": "Manchester United",
+    "country": "Anglie",
+    "primary": "#DA291C",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/manutd.png",
+    "kit": "plain"
+  },
+  {
+    "id": "liverpool",
+    "name": "Liverpool",
+    "country": "Anglie",
+    "primary": "#C8102E",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/liverpool.png",
+    "kit": "plain"
+  },
+  {
+    "id": "arsenal",
+    "name": "Arsenal",
+    "country": "Anglie",
+    "primary": "#EF0107",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/arsenal.png",
+    "kit": "raglan"
+  },
+  {
+    "id": "chelsea",
+    "name": "Chelsea",
+    "country": "Anglie",
+    "primary": "#034694",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/chelsea.png",
+    "kit": "plain"
+  },
+  {
+    "id": "tottenham",
+    "name": "Tottenham",
+    "country": "Anglie",
+    "primary": "#FFFFFF",
+    "secondary": "#132257",
+    "logo": "img/teams/tottenham.png",
+    "kit": "plain"
+  },
+  {
+    "id": "realmadrid",
+    "name": "Real Madrid",
+    "country": "Španělsko",
+    "primary": "#FFFFFF",
+    "secondary": "#FEBE10",
+    "logo": "img/teams/realmadrid.png",
+    "kit": "plain"
+  },
+  {
+    "id": "barcelona",
+    "name": "FC Barcelona",
+    "country": "Španělsko",
+    "primary": "#A50044",
+    "secondary": "#004D98",
+    "logo": "img/teams/barcelona.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "atletico",
+    "name": "Atlético Madrid",
+    "country": "Španělsko",
+    "primary": "#CB3524",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/atletico.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "bayern",
+    "name": "Bayern Mnichov",
+    "country": "Německo",
+    "primary": "#DC052D",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/bayern.png",
+    "kit": "plain"
+  },
+  {
+    "id": "dortmund",
+    "name": "Borussia Dortmund",
+    "country": "Německo",
+    "primary": "#FDE100",
+    "secondary": "#111111",
+    "logo": "img/teams/dortmund.png",
+    "kit": "plain"
+  },
+  {
+    "id": "leverkusen",
+    "name": "Bayer Leverkusen",
+    "country": "Německo",
+    "primary": "#E32219",
+    "secondary": "#111111",
+    "logo": "img/teams/leverkusen.png",
+    "kit": "plain"
+  },
+  {
+    "id": "juventus",
+    "name": "Juventus",
+    "country": "Itálie",
+    "primary": "#FFFFFF",
+    "secondary": "#111111",
+    "logo": "img/teams/juventus.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "inter",
+    "name": "Inter Milán",
+    "country": "Itálie",
+    "primary": "#0068A8",
+    "secondary": "#111111",
+    "logo": "img/teams/inter.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "milan",
+    "name": "AC Milán",
+    "country": "Itálie",
+    "primary": "#FB090B",
+    "secondary": "#111111",
+    "logo": "img/teams/milan.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "napoli",
+    "name": "Neapol",
+    "country": "Itálie",
+    "primary": "#12A0D7",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/napoli.png",
+    "kit": "plain"
+  },
+  {
+    "id": "psg",
+    "name": "Paris Saint-Germain",
+    "country": "Francie",
+    "primary": "#004170",
+    "secondary": "#DA291C",
+    "logo": "img/teams/psg.png",
+    "kit": "band"
+  },
+  {
+    "id": "marseille",
+    "name": "Marseille",
+    "country": "Francie",
+    "primary": "#FFFFFF",
+    "secondary": "#2FAEE0",
+    "logo": "img/teams/marseille.png",
+    "kit": "plain"
+  },
+  {
+    "id": "ajax",
+    "name": "Ajax",
+    "country": "Další kluby",
+    "primary": "#FFFFFF",
+    "secondary": "#D2122E",
+    "logo": "img/teams/ajax.png",
+    "kit": "band"
+  },
+  {
+    "id": "benfica",
+    "name": "Benfica",
+    "country": "Další kluby",
+    "primary": "#E30613",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/benfica.png",
+    "kit": "plain"
+  },
+  {
+    "id": "porto",
+    "name": "FC Porto",
+    "country": "Další kluby",
+    "primary": "#00428C",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/porto.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "cze",
+    "name": "Česko",
+    "country": "Národní týmy",
+    "primary": "#D7141A",
+    "secondary": "#11457E",
+    "logo": "img/teams/cze.png",
+    "kit": "plain"
+  },
+  {
+    "id": "svk",
+    "name": "Slovensko",
+    "country": "Národní týmy",
+    "primary": "#0B4EA2",
+    "secondary": "#EE1C25",
+    "logo": "img/teams/svk.png",
+    "kit": "plain"
+  },
+  {
+    "id": "ger",
+    "name": "Německo",
+    "country": "Národní týmy",
+    "primary": "#FFFFFF",
+    "secondary": "#111111",
+    "logo": "img/teams/ger.png",
+    "kit": "plain"
+  },
+  {
+    "id": "eng",
+    "name": "Anglie",
+    "country": "Národní týmy",
+    "primary": "#FFFFFF",
+    "secondary": "#1C2C5B",
+    "logo": "img/teams/eng.png",
+    "kit": "plain"
+  },
+  {
+    "id": "esp",
+    "name": "Španělsko",
+    "country": "Národní týmy",
+    "primary": "#C60B1E",
+    "secondary": "#FFC400",
+    "logo": "img/teams/esp.png",
+    "kit": "plain"
+  },
+  {
+    "id": "fra",
+    "name": "Francie",
+    "country": "Národní týmy",
+    "primary": "#0055A4",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/fra.png",
+    "kit": "plain"
+  },
+  {
+    "id": "ita",
+    "name": "Itálie",
+    "country": "Národní týmy",
+    "primary": "#0066CC",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/ita.png",
+    "kit": "plain"
+  },
+  {
+    "id": "bra",
+    "name": "Brazílie",
+    "country": "Národní týmy",
+    "primary": "#FFDF00",
+    "secondary": "#009C3B",
+    "logo": "img/teams/bra.png",
+    "kit": "plain"
+  },
+  {
+    "id": "arg",
+    "name": "Argentina",
+    "country": "Národní týmy",
+    "primary": "#75AADB",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/arg.png",
+    "kit": "stripes"
+  },
+  {
+    "id": "por",
+    "name": "Portugalsko",
+    "country": "Národní týmy",
+    "primary": "#C8102E",
+    "secondary": "#006600",
+    "logo": "img/teams/por.png",
+    "kit": "plain"
+  },
+  {
+    "id": "ned",
+    "name": "Nizozemsko",
+    "country": "Národní týmy",
+    "primary": "#FF6A13",
+    "secondary": "#1C1C4B",
+    "logo": "img/teams/ned.png",
+    "kit": "plain"
+  },
+  {
+    "id": "pol",
+    "name": "Polsko",
+    "country": "Národní týmy",
+    "primary": "#FFFFFF",
+    "secondary": "#DC143C",
+    "logo": "img/teams/pol.png",
+    "kit": "plain"
+  },
+  {
+    "id": "cro",
+    "name": "Chorvatsko",
+    "country": "Národní týmy",
+    "primary": "#FF0000",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/cro.png",
+    "kit": "checkers"
+  }
+]

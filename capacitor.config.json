@@ -1,0 +1,6 @@
+{
+  "appId": "cz.kufi.fotbal",
+  "appName": "Tréninková podložka",
+  "webDir": "dist",
+  "android": { "allowMixedContent": false }
+}

@@ -1,0 +1,107 @@
+@import '@fontsource/inter/latin-ext-500.css';
+@import '@fontsource/inter/latin-ext-600.css';
+@import '@fontsource/inter/latin-ext-800.css';
+@import '@fontsource/inter/latin-500.css';
+@import '@fontsource/inter/latin-600.css';
+@import '@fontsource/inter/latin-800.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 10-foot UI: --u = 1/100 menší strany obrazovky (na 1920x1080 TV = 10,8 px) */
+:root { --r-card: calc(var(--u) * 1); --r-btn: calc(var(--u) * 0.75); --r-sm: calc(var(--u) * 0.5); --acc-rgb: 22,196,90; --sec-rgb: 56,189,248; --acc-soft: #4EE08A; --acc-deep: #0E9A44; --on-acc: #0A0A0C; --u: min(1vw, 1.7778vh); --glass: rgba(255, 255, 255, .05); --line: rgba(255, 255, 255, .10); }
+html, body {
+  height: 100%; margin: 0; overflow: hidden; background: #000; color: var(--c-chalk);
+  font-family: 'Inter', system-ui, sans-serif; font-weight: 500; letter-spacing: -0.01em;
+  font-size: calc(var(--u) * 1.7); -webkit-tap-highlight-color: transparent; user-select: none;
+}
+/* Pozadí: čistá černá + pomalu plující jemné záře */
+#app { height: 100%; width: 100%; position: relative; background: transparent; overflow: hidden; z-index: 1; }
+/* vodoznak s logem týmu (za obsahem) */
+#bgwm { position: fixed; inset: 0; z-index: 0; display: flex; align-items: center; justify-content: flex-end; padding-right: 4vmin; pointer-events: none; }
+#bgwm img { height: 80vmin; width: 80vmin; object-fit: contain; opacity: .07; filter: saturate(.8); animation: wmin 1s ease-out backwards; }
+#app::before, #app::after {
+  content: ''; position: absolute; width: 70vmax; height: 70vmax; border-radius: 50%; pointer-events: none; filter: blur(60px);
+}
+#app::before {
+  top: -35vmax; left: -15vmax; background: radial-gradient(closest-side, rgba(var(--acc-rgb), .16), transparent);
+  animation: drift 22s ease-in-out infinite alternate;
+}
+#app::after {
+  bottom: -40vmax; right: -20vmax; background: radial-gradient(closest-side, rgba(var(--sec-rgb), .10), transparent);
+  animation: drift 28s ease-in-out infinite alternate-reverse;
+}
+
+@layer components {
+  .screen {
+    @apply absolute inset-0 flex flex-col items-center justify-center;
+    padding: calc(var(--u) * 3); animation: screen-in .5s cubic-bezier(.2, .8, .2, 1) backwards; z-index: 1;
+  }
+  /* postupné odkrývání prvků obrazovky */
+  .screen > * { animation: rise .6s cubic-bezier(.2, .8, .2, 1) backwards; }
+  .screen > *:nth-child(2) { animation-delay: .06s; } .screen > *:nth-child(3) { animation-delay: .12s; }
+  .screen > *:nth-child(4) { animation-delay: .18s; } .screen > *:nth-child(5) { animation-delay: .24s; }
+  .screen > *:nth-child(6) { animation-delay: .30s; } .screen > *:nth-child(7) { animation-delay: .36s; }
+
+  .title { font-weight: 800; font-size: calc(var(--u) * 4.4); line-height: 1.05; letter-spacing: -0.035em; color: #fff; }
+  .title .accent { color: var(--c-sun); }
+  .eyebrow { font-weight: 600; font-size: calc(var(--u) * 1.5); letter-spacing: .22em; text-transform: uppercase; color: var(--c-mute); }
+  .muted { color: var(--c-mute); }
+
+  .card {
+    background: linear-gradient(160deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025));
+    border: 1px solid var(--line); text-align: center; cursor: pointer; outline: none;
+    border-radius: var(--r-card); padding: calc(var(--u) * 2);
+    transition: transform .22s cubic-bezier(.2, .8, .2, 1), box-shadow .22s ease, border-color .22s ease, background .22s ease;
+  }
+  .btn {
+    @apply card flex items-center justify-center gap-3;
+    font-weight: 600; font-size: calc(var(--u) * 2.2); min-height: calc(var(--u) * 7); min-width: calc(var(--u) * 14);
+    border-radius: var(--r-btn); padding: 0 calc(var(--u) * 3);
+  }
+  .btn-primary {
+    @apply btn; color: var(--on-acc); font-weight: 800; border: none;
+    background: linear-gradient(180deg, var(--acc-soft), var(--c-sun) 55%, var(--acc-deep));
+    box-shadow: 0 calc(var(--u) * .6) calc(var(--u) * 3) rgba(var(--acc-rgb), .28), inset 0 1px 0 rgba(255, 255, 255, .5);
+  }
+  .icon { width: 1.15em; height: 1.15em; flex: none; }
+}
+
+/* Focus: zvětšení + bílý prstenec + žlutá záře. Platí pro vše s [data-focusable]. */
+[data-focusable]:focus, [data-focusable].is-focused {
+  transform: scale(1.07); z-index: 2; border-color: rgba(255, 255, 255, .9);
+  box-shadow: 0 0 0 calc(var(--u) * .3) #fff, 0 0 calc(var(--u) * 5) calc(var(--u) * .6) rgba(var(--acc-rgb), .45);
+}
+.btn-primary:focus { box-shadow: 0 0 0 calc(var(--u) * .3) #fff, 0 0 calc(var(--u) * 6) calc(var(--u) * 1) rgba(var(--acc-rgb), .6); }
+[data-focusable]:active { transform: scale(.98); }
+input[data-focusable] { color: #fff; }
+input::placeholder { color: var(--c-mute); }
+
+@keyframes screen-in { from { opacity: 0; filter: blur(8px); transform: scale(1.015); } to { opacity: 1; filter: none; transform: none; } }
+/* pásy karet bez posuvníku (posouvá se šipkami / dotykem) */
+.rail { scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+/* lesklý přejezd přes hlavní tlačítko, pulzující záře při výběru, poskočení ikony */
+.btn-primary { position: relative; overflow: hidden; }
+.btn-primary::after { content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 38%; pointer-events: none; transform: skewX(-18deg); background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent); animation: shine 3.6s ease-in-out infinite; }
+@keyframes shine { 0%, 58% { left: -60%; } 100% { left: 135%; } }
+.btn-primary:focus { animation: glowpulse 1.7s ease-in-out infinite; }
+@keyframes glowpulse {
+  0%, 100% { box-shadow: 0 0 0 calc(var(--u) * .3) #fff, 0 0 calc(var(--u) * 5) calc(var(--u) * .8) rgba(var(--acc-rgb), .55); }
+  50% { box-shadow: 0 0 0 calc(var(--u) * .3) #fff, 0 0 calc(var(--u) * 7.5) calc(var(--u) * 1.6) rgba(var(--acc-rgb), .8); }
+}
+[data-focusable]:focus .icon { animation: iconpop .55s cubic-bezier(.3,1.6,.4,1); }
+@keyframes iconpop { 0% { transform: scale(.7) rotate(-8deg); } 60% { transform: scale(1.22) rotate(4deg); } 100% { transform: none; } }
+@keyframes arrowpulse { from { opacity: .55; } to { opacity: 1; } }
+@keyframes wmin { from { opacity: 0; } }
+@keyframes rise { from { opacity: 0; transform: translateY(calc(var(--u) * 2)); } to { opacity: 1; transform: none; } }
+@keyframes drift { to { transform: translate(8vmax, 6vmax) scale(1.15); } }
+@keyframes pulse-zone { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+@keyframes pop { from { transform: scale(0) rotate(-30deg); opacity: 0; } 70% { transform: scale(1.2) rotate(6deg); } to { transform: none; opacity: 1; } }
+@keyframes fall { to { transform: translateY(115vh) rotate(540deg); } }
+@media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* Po dokončení vstupní animace se z prvků obrazovky sundá, ať se při změně fokusu (glowpulse se zapne/vypne) animace "rise" nespustí znovu a tlačítko nezmizí */
+.screen.settled > * { animation: none; }
+.screen.settled > .btn-primary:focus { animation: glowpulse 1.7s ease-in-out infinite; }
+@keyframes cardflip { from { transform: rotateY(90deg) scale(.6); opacity: 0; } 60% { transform: rotateY(-8deg) scale(1.06); opacity: 1; } to { transform: none; } }
