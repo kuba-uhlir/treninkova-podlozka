@@ -49,6 +49,76 @@
     "call": "direction"
   },
   {
+    "id": "diag-left",
+    "name": "Šikmo vlevo",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [
+      1,
+      3
+    ],
+    "foot": "left",
+    "info": "Tlač míč šikmo doleva dopředu a vrať ho zpátky.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "diag-right",
+    "name": "Šikmo vpravo",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [
+      1,
+      5
+    ],
+    "foot": "right",
+    "info": "Tlač míč šikmo doprava dopředu a vrať ho zpátky.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "forward-back",
+    "name": "Dopředu a zpět",
+    "level": 1,
+    "durationSec": 30,
+    "tempoBpm": 50,
+    "pattern": [
+      1,
+      4
+    ],
+    "foot": "both",
+    "info": "Tlač míč rovně dopředu a vrať ho zpátky k sobě.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
+    "id": "diag-both",
+    "name": "Šikmo střídavě",
+    "level": 2,
+    "durationSec": 40,
+    "tempoBpm": 60,
+    "pattern": [
+      1,
+      3,
+      1,
+      5
+    ],
+    "foot": "both",
+    "info": "Střídavě šikmo doleva a šikmo doprava, vždy míč vrať.",
+    "media": {
+      "animation": true
+    },
+    "call": "direction"
+  },
+  {
     "id": "drag-back",
     "name": "Přitáhni míč zpět",
     "level": 1,

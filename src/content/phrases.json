@@ -99,7 +99,15 @@
     "task_combo-pro": "Dlouhá kombinace přes střed a rohy.",
     "task_jump-master": "Přeskoky v nejvyšším tempu.",
     "task_step-master": "Twister ve vysokém tempu. levá noha vlevo, pravá vpravo.",
-    "warmup_ask": "Chceš se nejdřív rozcvičit, nebo půjdeme rovnou na trénink?"
+    "warmup_ask": "Chceš se nejdřív rozcvičit, nebo půjdeme rovnou na trénink?",
+    "drill_diag-left": "Šikmo vlevo.",
+    "drill_diag-right": "Šikmo vpravo.",
+    "drill_forward-back": "Dopředu a zpět.",
+    "drill_diag-both": "Šikmo střídavě.",
+    "task_diag-left": "Tlač míč šikmo doleva dopředu a vrať ho zpátky.",
+    "task_diag-right": "Tlač míč šikmo doprava dopředu a vrať ho zpátky.",
+    "task_forward-back": "Tlač míč rovně dopředu a vrať ho zpátky k sobě.",
+    "task_diag-both": "Střídavě šikmo doleva a šikmo doprava, vždy míč vrať."
   },
   "groups": {
     "welcome": [
