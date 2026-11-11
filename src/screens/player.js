@@ -56,7 +56,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
   // ---- podložka přes celou střední část + velký odpočet nad ní ----
   const mid = h('div', 'w-full flex-1 flex items-center justify-center');
   mid.style.cssText += ';min-height:0;position:relative';
-  const mat = createMatView({ mat: matCfg });
+  const mat = createMatView({ mat: matCfg, room: true });
   mat.el.style.cssText = 'width:100%;height:100%';
   mid.appendChild(mat.el);
   const cd = h('div', '');
@@ -100,7 +100,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
     const next = pt.length > 1 ? pt[(b + 1) % pt.length] : null; // kam to půjde příště
     if (isTap(d)) { // míč stojí a hráč na něj jen klepe podrážkou: místo míče se ukazují chodidla
       const both = !d.foot || d.foot === 'both';
-      mat.tap(both ? (b % 2 === 0 ? 'left' : 'right') : d.foot, both);
+      mat.tap(both ? (b % 2 === 0 ? 'left' : 'right') : d.foot);
       return null; // během klepání se nehlásí "jedna, jedna…"
     }
     if (d.type === "jump") {
@@ -119,10 +119,22 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
       return `zone_${z}`;
     }
     if (d.type === "step") mat.jump(z, glideMs); else mat.highlight(z, d.foot === "both" ? undefined : d.foot, glideMs);
+    if (drillType(d) === 'ball') { // pracovní noha u míče: zadaná; u cviků na obě nohy jedna celou dobu, a až když míč přejde na druhou stranu podložky, přehodí se
+      mat.ballFeet(z, workFoot(d, z), glideMs);
+    }
     mat.hint(z, next);
     // u jednoduchých cviků se místo čísla hlásí směr (doleva, dopředu, šikmo…)
     if (d.call === 'direction' && pt.length > 1) { const k = directionKey(matCfg, pt[(b - 1 + pt.length) % pt.length], z); if (k) return k; }
     return `zone_${z}`;
+  };
+  // Pracovní noha u cviků "na obě nohy": převalování míče jednou nohou, druhá stojí; noha se mění jen při přechodu vlevo/vpravo
+  let wf = null;
+  const sideOf = (z) => { const dx = zonePoint(matCfg, z).x - matCfg.ball.x; return dx < -12 ? 'left' : dx > 12 ? 'right' : null; };
+  const workFoot = (d, z) => {
+    if (d.foot === 'left' || d.foot === 'right') return d.foot;
+    const sd = sideOf(z);
+    if (sd) wf = sd; else if (!wf) { const sides = new Set(pat(d).map(sideOf).filter(Boolean)); wf = sides.size === 1 ? [...sides][0] : (profile.hand === 'left' ? 'left' : 'right'); }
+    return wf;
   };
   const glide = (ms) => Math.max(120, Math.min(450, ms * 0.6));
   const setArc = (frac) => arc.setAttribute('stroke-dashoffset', String(276.46 * (1 - Math.max(0, Math.min(1, frac)))));
@@ -146,7 +158,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
 
   function enter(p, again = false) {
     phase = p; slow = p === 'preview' && again;
-    hint.textContent = p === 'preview' ? 'OK = pauza · ↑ = ukázat pomalu · Zpět = konec' : 'OK = pauza · Zpět = konec'; t = 0; beat = -1; cdLast = 4; curPass = 0; mat.reset();
+    hint.textContent = p === 'preview' ? 'OK = pauza · ↑ = ukázat pomalu · Zpět = konec' : 'OK = pauza · Zpět = konec'; t = 0; beat = -1; cdLast = 4; curPass = 0; wf = null; mat.reset();
     const d = drill();
     if (p === 'preview') {
       said = { almost: false, praise: 0, next: false };
@@ -182,7 +194,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
       const passes = slow ? 1 : 2;
       const pvMs = passMs * passes;
       const pass = Math.min(passes - 1, Math.floor(t / passMs));
-      if (pass !== curPass) { curPass = pass; beat = -1; mat.reset(); if (!slow) setPill(`Ukázka ${pass + 1} ze 2`, false); }
+      if (pass !== curPass) { curPass = pass; beat = -1; wf = null; mat.reset(); if (!slow) setPill(`Ukázka ${pass + 1} ze 2`, false); }
       const b = Math.floor((t - pass * passMs) / bm);
       if (b !== beat) { beat = b; hi(d, pat(d)[b % pat(d).length], b, glide(bm)); }
       setArc(1 - t / pvMs);

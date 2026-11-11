@@ -93,7 +93,7 @@ function arrow(parent, { x1, y1, x2, y2, kind, color: own, points }, { shaft = 2
   return { g, parts };
 }
 
-export function createMatView({ labels = true, mat = getMat() } = {}) {
+export function createMatView({ labels = true, mat = getMat(), room = false } = {}) {
   const [W, H] = mat.viewBox;
   const SUN = accent(); // akcentní barva aktuálního týmu
   // vzhled podložky (skin): barvy podkladu, šipek, čísel, pruhů; výchozí = černá UNITEAM s hazard pruhy
@@ -103,7 +103,8 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
   const hintRgb = (() => { const n = parseInt(HINT.slice(1), 16); return `${(n >> 16) & 255},${(n >> 8) & 255},${n & 255}`; })();
   const bs = sk.badge || {}; const BADGE = bs.fill || RED;
   const id = `m${uidN++}`;
-  const svg = s('svg', { viewBox: `0 0 ${W} ${H}`, class: 'w-full h-full', preserveAspectRatio: 'xMidYMid meet', style: 'overflow:visible' });
+  const vb = room ? `-9 -5 ${W + 18} ${H + 5 + 26}` : `0 0 ${W} ${H}`; // room: okolo podložky je místo pro nohy (hlavně dole pod míčem)
+  const svg = s('svg', { viewBox: vb, class: 'w-full h-full', preserveAspectRatio: 'xMidYMid meet', style: 'overflow:visible' });
   const defs = s('defs', {}, svg);
   const clip = s('clipPath', { id: `${id}clip` }, defs);
   s('rect', { x: 0, y: 0, width: W, height: H, rx: RAD }, clip);
@@ -250,16 +251,18 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
 
 
   // skokan: pár realistických otisků chodidel (cvik "přeskoky": míč stojí, hráč ho přeskakuje zleva doprava)
-  const footPrint = (parent, mirror, fill = "#f1f1f3", stroke = null) => {
-    const st = stroke ? { stroke, "stroke-width": 0.9, "stroke-linejoin": "round" } : {};
+  // kopačka shora (levá noha, špička nahoru, palec vpravo): tmavé tělo, akcentní obrys a šněrování, kolem nártu prstenec
+  const BOOT = "M0,11 C-3.2,11 -4.2,8 -4.3,5 C-4.4,1.5 -4.9,-1.5 -4.6,-5 C-4.3,-9 -2.4,-11.5 0.2,-11.5 C3,-11.5 4.9,-9 4.9,-5.5 C4.9,-2 3.6,0.5 3.4,3.5 C3.3,6.5 3.6,8.5 3,10 C2.5,11 1.4,11 0,11 Z";
+  const footPrint = (parent, mirror) => {
     const f = s("g", { transform: mirror ? "scale(-1 1)" : "" }, parent);
-    // levé chodidlo shora: palec vpravo (vnitřní strana), klenba vpravo
-    s("path", { d: "M0,9 C-3.6,9 -4.2,6.2 -4,4 C-3.9,1 -4.6,-2 -4.3,-4.5 C-4.1,-6.3 -2.4,-7 0,-7 C2.6,-7 4.3,-6 4.4,-4 C4.5,-2 2.4,0 2.2,2.5 C2,4.5 3.2,6.2 2.8,7.5 C2.4,8.8 1.4,9 0,9 Z", fill, ...st }, f);
-    [[3.1, -8.5, 1.75, 1.95], [0.9, -9.3, 1.2, 1.35], [-0.9, -9.0, 1.05, 1.2], [-2.4, -8.3, 0.95, 1.1], [-3.5, -7.2, 0.85, 0.95]].forEach(([x, y, rx, ry]) => s("ellipse", { cx: x, cy: y, rx, ry, fill, ...st }, f));
+    s("path", { d: BOOT, fill: "#1d1d22", stroke: SUN, "stroke-width": 1, "stroke-linejoin": "round" }, f);
+    s("path", { d: "M-4.4,-6.5 C-2.8,-10 2.8,-10 4.7,-6.2", fill: "none", stroke: SUN, "stroke-width": 0.6 }, f);
+    [-4, -2, 0, 2].forEach((y) => s("line", { x1: -2.3, y1: y, x2: 2.6, y2: y, stroke: SUN, "stroke-width": 0.7, "stroke-linecap": "round" }, f));
+    s("ellipse", { cx: 0, cy: 6, rx: 2.3, ry: 2.8, fill: "none", stroke: SUN, "stroke-width": 0.8 }, f);
     return f;
   };
   const jumper = s("g", { opacity: 0 }, svg);
-  const jIn = s("g", { transform: "scale(0.8)" }, jumper);
+  const jIn = s("g", { transform: "scale(0.85)" }, jumper);
   const pairL = s("g", { transform: "translate(-6.4 0)" }, jIn); footPrint(pairL, false);
   const pairR = s("g", { transform: "translate(6.4 0)" }, jIn); footPrint(pairR, true);
   const spots = mat.jump || { left: { x: mat.ball.x - mat.ball.r * 2.3, y: mat.ball.y }, right: { x: mat.ball.x + mat.ball.r * 2.3, y: mat.ball.y } };
@@ -268,12 +271,18 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
   const place = (p) => { jumper.style.transform = `translate(${p.x}px, ${p.y}px)`; };
 
   // Twister: každá noha zvlášť (levá a pravá střídavě na různých číslech)
-  const mkFoot = (mirror, fill, stroke) => { const g = s("g", { opacity: 0 }, svg); const inn = s("g", { transform: "scale(0.5)" }, g); footPrint(inn, mirror, fill, stroke); return g; };
+  const mkFoot = (mirror) => { const g = s("g", { opacity: 0 }, svg); const inn = s("g", { transform: "scale(0.55)" }, g); footPrint(inn, mirror); return g; };
   const tf = { left: mkFoot(false), right: mkFoot(true) };
   // Klepání podrážkou na míč (míč stojí, hráč na něj klepe): chodidla leží na míči, aktivní se při každém úderu "přitlačí"
-  const tapFeet = { left: mkFoot(false, SUN, '#0A0A0C'), right: mkFoot(true, SUN, '#0A0A0C') };
-  const TAPK = Math.max(0.5, mat.ball.r / 10.5) * 0.85;
-  const TAPX = mat.ball.r * 0.55;
+  const tapFeet = { left: mkFoot(false), right: mkFoot(true) };
+  const TAPK = Math.max(0.5, mat.ball.r / 10.5) * 1.5; // celkové měřítko kopačky (vnitřní 0.55 už je v mkFoot)
+  const TAPX = mat.ball.r * 0.22;
+  const TAPY = 11.5 * 0.55 * TAPK; // špička kopačky (y = -11.5) míří na střed míče, zbytek boty vede dolů k hráči
+  // Míč putuje po podložce: pracovní noha je u míče, opěrná stojí vedle a s krátkým zpožděním ji "přisune" za míčem
+  const ballFeetG = { left: mkFoot(false), right: mkFoot(true) };
+  const KB = TAPK * 0.85; const TOE = 11.5 * 0.55 * KB;
+  let bfShown = false;
+  const bfPos = { left: null, right: null }; const bfDelay = { left: 0, right: 0 }; const bfWork = { left: false, right: false };
   const feetPos = { left: null, right: null };
   const feetZone = { left: null, right: null };
   const TS = 15; // čtverec kolem aktivní nohy
@@ -399,16 +408,18 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
       hl.style.filter = `drop-shadow(0 0 3px ${SUN})`;
     },
     /**
-     * Klepání na míč: chodidlo "foot" ('left' | 'right') se přitlačí na míč; druhé chodidlo zůstane vedle (ztlumené),
-     * nebo se vůbec nezobrazí (both = false, cvik jen jednou nohou).
+     * Klepání na míč: kopačka "foot" ('left' | 'right') klepe špičkou na střed míče, druhá noha stojí dole pod míčem.
      */
-    tap(foot, both = true) {
+    tap(foot) {
+      // klepající noha: špička na středu míče; opěrná noha stojí níž, pod míčem a zčásti mimo podložku (tlumeněji)
       const place = (f, active) => {
-        const g = tapFeet[f];
-        const x = mat.ball.x + (f === 'left' ? -TAPX : TAPX); const y = mat.ball.y;
-        g.style.transform = `translate(${x}px, ${y}px) scale(${TAPK * 2})`;
-        g.setAttribute('opacity', active ? 1 : both ? 0.3 : 0);
-        if (active && g.animate) g.animate([{ transform: `translate(${x}px, ${y}px) scale(${TAPK * 2.7})` }, { transform: `translate(${x}px, ${y}px) scale(${TAPK * 2})` }], { duration: 220, easing: 'ease-out' });
+        const g = tapFeet[f]; const sg = f === 'left' ? -1 : 1;
+        const x = mat.ball.x + sg * (active ? TAPX : mat.ball.r * 0.95);
+        const y = mat.ball.y + TAPY + (active ? 0 : mat.ball.r * 0.75); // opěrná noha stojí níž, pod míčem, částečně mimo podložku
+        g.style.transition = 'transform .16s ease-out';
+        g.style.transform = `translate(${x}px, ${y}px) scale(${TAPK})`;
+        g.setAttribute('opacity', active ? 1 : 0.55);
+        if (active && g.animate) g.animate([{ transform: `translate(${x}px, ${y - 4}px) scale(${TAPK})` }, { transform: `translate(${x}px, ${y}px) scale(${TAPK})` }], { duration: 220, easing: 'ease-out' }); // špička "klepne" na míč
       };
       place('left', foot === 'left'); place('right', foot === 'right');
       if (ring.animate) {
@@ -417,7 +428,55 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
         ring.animate([{ opacity: 0.8, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(2)' }], { duration: 320, easing: 'ease-out' });
       }
     },
+    /** Cvik s míčem: pracovní noha ("left" | "right") u míče v zóně, opěrná noha vedle ní dojde s mírným zpožděním. */
+    ballFeet(zoneId, foot, glideMs = 250) {
+      const z = zoneEls[zoneId]; if (!z) return;
+      const p = ballPos(z.zone); const sg = foot === 'left' ? -1 : 1; const other = foot === 'left' ? 'right' : 'left';
+      const ms = bfShown ? glideMs : 0;
+      const put = (f, pos, op, delay) => {
+        const g = ballFeetG[f];
+        g.style.transition = ms ? `transform ${ms}ms cubic-bezier(.3,.7,.2,1) ${delay}ms` : 'none';
+        g.style.transform = `translate(${pos.x}px, ${pos.y}px) scale(${KB})`;
+        g.setAttribute('opacity', op);
+        bfPos[f] = pos; bfDelay[f] = ms ? delay : 0;
+      };
+      const workT = { x: p.x + sg * liveR * 0.5, y: p.y + liveR * 0.1 + TOE };
+      // Opěrná noha se drží dole uprostřed (u základní pozice) a posune se jen tak málo, aby dosáhla na míč.
+      // Dosah dítěte podle skutečné šířky podložky: do strany ~60 cm, dopředu ~60 cm.
+      const cmU = (mat.widthCm || 90) / W;
+      const ell = (q) => Math.hypot(((q.x - p.x) * cmU) / 60, ((q.y - TOE - p.y) * cmU) / 60);
+      const beside = { x: p.x - sg * liveR * 2.1, y: p.y + liveR * 0.1 + TOE + liveR * 1.1 };
+      const homeSide = { x: home.x + (other === 'left' ? -1 : 1) * liveR * 1.3, y: home.y + liveR * 0.1 + TOE + liveR * 1.1 };
+      const at = (t) => ({ x: homeSide.x + (beside.x - homeSide.x) * t, y: homeSide.y + (beside.y - homeSide.y) * t });
+      let supT = homeSide;
+      if (ell(homeSide) > 1) { let lo = 0; let hi = 1; for (let i = 0; i < 14; i++) { const m = (lo + hi) / 2; if (ell(at(m)) <= 0.85) hi = m; else lo = m; } supT = at(hi); }
+      // nohy se nesmí křížit: opěrná noha musí zůstat na druhé straně než pracovní
+      if (sg < 0 ? supT.x < workT.x + liveR * 0.8 : supT.x > workT.x - liveR * 0.8) supT = beside;
+      // ani během pohybu: zpoždění opěrné nohy ("přísun") se použije, jen když se nohy při pohybu nepotkají; jinak jdou obě současně
+      // (při stejném průběhu a uspořádaných koncových polohách se lineárně nikdy nepřekříží)
+      const wStart = bfPos[foot]; const sStart = bfPos[other];
+      const dl = Math.round(ms * 0.45);
+      const xAt = (a0, a1, d, t) => a0 + (a1 - a0) * Math.min(1, Math.max(0, (t - d) / Math.max(1, ms)));
+      const clean = (dw, ds) => {
+        if (!wStart || !sStart) return true;
+        for (let t = 0; t <= ms + dl; t += Math.max(5, ms / 30)) {
+          const w = xAt(wStart.x, workT.x, dw, t); const sp2 = xAt(sStart.x, supT.x, ds, t);
+          if (sg < 0 ? w > sp2 - liveR * 0.3 : w < sp2 + liveR * 0.3) return false;
+        }
+        return true;
+      };
+      let dW = 0; let dS = 0;
+      if (clean(0, dl)) dS = dl; else if (clean(dl, 0)) dW = dl;
+      const same = (a2, b2) => a2 && Math.hypot(a2.x - b2.x, a2.y - b2.y) < 0.05;
+      put(foot, workT, 1, dW); bfWork[foot] = true;
+      if (!same(sStart, supT) || bfWork[other]) put(other, supT, 0.55, dS); else ballFeetG[other].setAttribute('opacity', 0.55);
+      bfWork[other] = false;
+      bfShown = true;
+    },
+    /** Aktuální pozice nohou u míče (pro kontrolu, že se nekříží). */
+    feetAt() { return { left: bfPos.left && { ...bfPos.left }, right: bfPos.right && { ...bfPos.right }, delay: { ...bfDelay } }; },
     reset() {
+      ballFeetG.left.setAttribute('opacity', 0); ballFeetG.right.setAttribute('opacity', 0); bfShown = false; bfPos.left = bfPos.right = null; bfWork.left = bfWork.right = false;
       tapFeet.left.setAttribute('opacity', 0); tapFeet.right.setAttribute('opacity', 0);
       hintClear();
       jumpAt = null; jumper.setAttribute("opacity", 0);
