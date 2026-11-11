@@ -10,7 +10,7 @@ export const weakFootOf = (hand) => (hand === 'left' ? 'right' : 'left');
 /**
  * Sestaví trénink: vybere cviky (obtížnost) a dokud nevyplní zadané minuty, bere je v pořadí váženého losu.
  * difficulty: 'auto' (podle levelu hráče) nebo 1/2/3 = nejvýše tato úroveň cviků.
- * hand: 'right' | 'left' – cviky na slabší nohu mají větší váhu (víc se procvičí), na silnější menší.
+ * hand: 'right' | 'left' – hlavní noha dostává zhruba 80 % cviků na jednu nohu; slabší noha jen občas (max. ~20 % tréninku), ať na ni hráč úplně nezapomene.
  */
 export function buildWorkout(minutes, playerLevel = 1, mat, difficulty = 'auto', hand = 'right') {
   const maxLevel = difficulty === 'auto' ? Math.min(MAX_DRILL_LEVEL, Math.ceil(playerLevel / 2) + 1) : Number(difficulty);
@@ -19,15 +19,22 @@ export function buildWorkout(minutes, playerLevel = 1, mat, difficulty = 'auto',
   const weak = weakFootOf(hand);
   // slabší noha víc; v automatickém režimu navíc začátečník dostává víc lehčích cviků
   const lowBias = (d) => (difficulty === 'auto' ? 1 + Math.max(0, maxLevel - d.level) * 0.35 : 1);
-  const weight = (d) => (d.foot === weak ? 2.4 : d.foot && d.foot !== 'both' ? 0.7 : 1) * lowBias(d);
+  const weight = (d) => (d.foot === weak ? 0.25 : 1) * lowBias(d);
   // vážený los bez vracení: klíč = náhoda^(1/váha), řadí se sestupně
   const order = pool.map((d) => ({ d, k: Math.pow(Math.random(), 1 / weight(d)) })).sort((x, y) => y.k - x.k).map((x) => x.d);
   const target = minutes * 60;
   const list = [];
   let total = 0;
   let i = 0;
+  let weakN = 0;
   while (total < target && list.length < 14) {
-    const d = order[i % order.length];
+    // slabší noha jen když tvoří nejvýš ~20 % tréninku; jinak se vezme další cvik v pořadí
+    let k = 0;
+    while (k < order.length && order[(i + k) % order.length].foot === weak && (weakN + 1) / (list.length + 1) > 0.2) k++;
+    if (k >= order.length) k = 0;
+    const d = order[(i + k) % order.length];
+    i += k;
+    if (d.foot === weak) weakN++;
     list.push(d);
     total += d.durationSec + REST_SEC + 8; // + ukázka a odpočet
     i++;

@@ -25,7 +25,9 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
   title.style.cssText = `font-weight:800;font-size:${u(2.9)};letter-spacing:-0.03em;line-height:1.05`;
   const chips = h('div', 'flex');
   chips.style.cssText = `gap:${u(0.8)};margin-top:${u(0.5)}`;
-  ttlBox.append(counter, title, chips);
+  const task = h('div', ''); // co má hráč dělat (text k hlasu Trenéra)
+  task.style.cssText = `font-size:${u(1.9)};font-weight:600;color:var(--c-chalk);opacity:.85;margin-top:${u(0.4)};max-width:${u(48)};line-height:1.25`;
+  ttlBox.append(counter, title, chips, task);
   left.append(ttlBox);
 
   // segmenty postupu tréninku (jeden na cvik)
@@ -82,18 +84,25 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
   let paused = false;
   let beat = -1;
   let cdLast = 4;
+  let curPass = 0;
   let done = 0;
   let last = performance.now();
   let overlay = null;
-  let said = { half: false, almost: false, praise: 0, next: false };
+  let said = { almost: false, praise: 0, next: false };
   let slow = false; // ukázka znovu pomalu (šipka nahoru / klepnutí na nápovědu)
 
   const drill = () => workout[idx];
+  const isTap = (d) => drillType(d) === 'ball' && patternFor(d, matCfg).every((z) => z === 1);
   const pat = (d) => patternFor(d, matCfg);
   // Jeden "úder" cviku; vrací klíč hlášky. Typ "jump" = míč stojí, hráč ho přeskakuje (vlevo/vpravo).
   const hi = (d, z, b, glideMs) => {
     const pt = pat(d);
     const next = pt.length > 1 ? pt[(b + 1) % pt.length] : null; // kam to půjde příště
+    if (isTap(d)) { // míč stojí a hráč na něj jen klepe podrážkou: místo míče se ukazují chodidla
+      const both = !d.foot || d.foot === 'both';
+      mat.tap(both ? (b % 2 === 0 ? 'left' : 'right') : d.foot, both);
+      return null; // během klepání se nehlásí "jedna, jedna…"
+    }
     if (d.type === "jump") {
       const sides = d.sides || ["left", "right"];
       const side = sides[b % sides.length];
@@ -137,10 +146,10 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
 
   function enter(p, again = false) {
     phase = p; slow = p === 'preview' && again;
-    hint.textContent = p === 'preview' ? 'OK = pauza · ↑ = ukázat pomalu · Zpět = konec' : 'OK = pauza · Zpět = konec'; t = 0; beat = -1; cdLast = 4; mat.reset();
+    hint.textContent = p === 'preview' ? 'OK = pauza · ↑ = ukázat pomalu · Zpět = konec' : 'OK = pauza · Zpět = konec'; t = 0; beat = -1; cdLast = 4; curPass = 0; mat.reset();
     const d = drill();
     if (p === 'preview') {
-      said = { half: false, almost: false, praise: 0, next: false };
+      said = { almost: false, praise: 0, next: false };
       counter.textContent = `Cvik ${idx + 1} z ${workout.length}`;
       title.textContent = d.name;
       chips.replaceChildren(chipEl(TYPE_NAMES[drillType(d)]));
@@ -149,9 +158,11 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
         if (d.foot === weakFootOf(profile.hand)) { const w = chipEl('Slabší noha'); w.style.color = 'var(--c-sun)'; w.style.borderColor = 'var(--c-sun)'; chips.append(w); }
       }
       chips.append(chipEl(tempoLabel(tempoMul)));
-      if (!again) { say(`drill_${d.id}`, { kind: 'phrase' }); sayGroup('watch'); if (d.foot === weakFootOf(profile.hand)) sayGroup('weak'); }
-      setPill('Ukázka', false); big.textContent = ''; setArc(1); setSeg(0);
-    } else if (p === 'countdown') { setPill('Připrav se', false); }
+      task.textContent = d.info || '';
+      // Trenér řekne název cviku a co má hráč dělat; slabší noha se připomene jen nakrátko
+      if (!again) { say(`drill_${d.id}`, { kind: 'phrase' }); say(`task_${d.id}`, { kind: 'phrase' }); if (d.foot === weakFootOf(profile.hand)) sayGroup('weak'); }
+      setPill(slow ? 'Ukázka pomalu' : 'Ukázka 1 ze 2', false); big.textContent = ''; setArc(1); setSeg(0);
+    } else if (p === 'countdown') { setPill('Připrav se', false); task.textContent = ''; }
     else if (p === 'play') { setPill('Hraj!', true); }
     else if (p === 'rest') {
       done++; sfx('success'); if (workout[idx + 1]) sayGroup('rest'); setSeg(1);
@@ -164,11 +175,19 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
     t += dt;
     const d = drill();
     if (phase === 'preview') {
-      const bm = beatMs(d, tempoMul) * (slow ? 2.4 : 1.2); const pvSec = slow ? 12 : PREVIEW_SEC; const b = Math.floor(t / bm);
+      // ukázka proběhne dvakrát (po sobě, od začátku); jeden průchod = celé číslo vzorů, nejméně PREVIEW_SEC; "pomalu" je jediný průchod
+      const bm = beatMs(d, tempoMul) * (slow ? 2.4 : 1.2);
+      const cyc = (drillType(d) === 'jump' ? (d.sides || ['left', 'right']).length : Math.max(2, pat(d).length)) * bm;
+      const passMs = slow ? 12000 : Math.max(PREVIEW_SEC * 1000, Math.ceil((PREVIEW_SEC * 1000) / cyc) * cyc);
+      const passes = slow ? 1 : 2;
+      const pvMs = passMs * passes;
+      const pass = Math.min(passes - 1, Math.floor(t / passMs));
+      if (pass !== curPass) { curPass = pass; beat = -1; mat.reset(); if (!slow) setPill(`Ukázka ${pass + 1} ze 2`, false); }
+      const b = Math.floor((t - pass * passMs) / bm);
       if (b !== beat) { beat = b; hi(d, pat(d)[b % pat(d).length], b, glide(bm)); }
-      setArc(1 - t / (pvSec * 1000));
+      setArc(1 - t / pvMs);
       // odpočet začne, až dozní věty (nic se neusekne); nejvýš 7 s navíc
-      if (t >= pvSec * 1000 && (!voiceBusy() || t >= (pvSec + 7) * 1000)) enter('countdown');
+      if (t >= pvMs && (!voiceBusy() || t >= pvMs + 7000)) enter('countdown');
     } else if (phase === 'countdown') {
       const n = 3 - Math.floor(t / 1000);
       if (n !== cdLast && n >= 1) { cdLast = n; flash(String(n)); say(`countdown_${n}`, { kind: 'urgent' }); }
@@ -181,20 +200,19 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
         beat = b; const z = pat(d)[b % pat(d).length];
         const key = hi(d, z, b, glide(bms));
         dot.animate && dot.animate([{ transform: 'scale(1.9)', opacity: 1 }, { transform: 'scale(1)', opacity: 0.8 }], { duration: Math.min(300, bms * 0.7), easing: 'ease-out' });
-        // pochvala místo hlášky zóny: v půlce, těsně před koncem a ještě dvakrát náhodně
+        // hlášek je málo: jedna pochvala někde uprostřed a "už jen chvilku" před koncem, jinak jen povely
         const frac = t / total;
         const canPraise = bms >= 600; // u rychlých cviků pochvaly nepřerušují hlášení zón
-        if (!said.half && frac >= 0.5) { said.half = true; sayGroup("half", { kind: "phrase" }); }
-        else if (!said.almost && total - t <= 6000) { said.almost = true; sayGroup("almost", { kind: "phrase" }); }
-        else if (canPraise && said.praise < 3 && frac >= 0.18 + said.praise * 0.24 && Math.random() < 0.55) { said.praise++; sayGroup(Math.random() < 0.55 ? "praise" : "keep", { kind: "phrase" }); }
-        else say(key);
+        if (!said.almost && total - t <= 6000 && total >= 35000) { said.almost = true; sayGroup("almost", { kind: "phrase" }); }
+        else if (canPraise && said.praise < 1 && frac >= 0.4 && Math.random() < 0.4) { said.praise++; sayGroup("praise", { kind: "phrase" }); }
+        else if (key) say(key);
       }
       big.textContent = Math.max(0, Math.ceil((total - t) / 1000)); setArc(1 - t / total); setSeg(t / total);
       if (t >= total) enter('rest');
     } else if (phase === 'rest') {
       const total = REST_SEC * 1000;
       big.textContent = Math.max(0, Math.ceil((total - t) / 1000)); setArc(1 - t / total);
-      if (!said.next && workout[idx + 1] && total - t <= 4800) { said.next = true; sayGroup(idx + 2 >= workout.length ? 'last' : 'next'); }
+      if (!said.next && workout[idx + 1] && idx + 2 >= workout.length && total - t <= 4800) { said.next = true; sayGroup('last'); } // oznámí se jen poslední cvik
       if (t >= total || !workout[idx + 1]) {
         if (!workout[idx + 1]) return finish();
         idx++; enter('preview');

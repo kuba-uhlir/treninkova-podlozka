@@ -44,7 +44,8 @@ export async function completeChallenge(p) {
 
 // ---- rozcvička jen při prvním tréninku dne ----
 export const warmupNeeded = (p) => p.warmupDay !== dayKey(Date.now());
-export async function markWarmup(p) { if (p.warmupDay !== dayKey(Date.now())) p.warmupCount = (p.warmupCount || 0) + 1; p.warmupDay = dayKey(Date.now()); await saveProfile(p); }
+/** Označí rozcvičku dne jako vyřízenou; do počtu rozcviček (odměny) se započítá jen když ji hráč opravdu udělal (done). */
+export async function markWarmup(p, done = true) { if (done && p.warmupDay !== dayKey(Date.now())) p.warmupCount = (p.warmupCount || 0) + 1; p.warmupDay = dayKey(Date.now()); await saveProfile(p); }
 export const WARMUP = [
   { name: 'Kroužení kotníků', text: 'Pomalu krouží chodidlem na každé noze', sec: 20 },
   { name: 'Dřepy', text: 'Záda rovně, kolena nad špičkami', sec: 20 },
@@ -86,7 +87,7 @@ export async function saveRecord(p, drillId, count) {
   return false;
 }
 
-/** Spustí trénink; při prvním tréninku dne před ním proběhne rozcvička. */
+/** Spustí trénink; při prvním tréninku dne se před ním hráč zeptá, jestli chce rozcvičku. */
 export const launch = (go, profile, params) => (warmupNeeded(profile) ? go('warmup', { profile, next: params }) : go('player', params));
 
 // ---- rub karty: zajímavost (ručně psaná, jinak krátký popis z české Wikipedie) ----

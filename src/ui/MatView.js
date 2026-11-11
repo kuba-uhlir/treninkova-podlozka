@@ -250,11 +250,12 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
 
 
   // skokan: pár realistických otisků chodidel (cvik "přeskoky": míč stojí, hráč ho přeskakuje zleva doprava)
-  const footPrint = (parent, mirror) => {
+  const footPrint = (parent, mirror, fill = "#f1f1f3", stroke = null) => {
+    const st = stroke ? { stroke, "stroke-width": 0.9, "stroke-linejoin": "round" } : {};
     const f = s("g", { transform: mirror ? "scale(-1 1)" : "" }, parent);
     // levé chodidlo shora: palec vpravo (vnitřní strana), klenba vpravo
-    s("path", { d: "M0,9 C-3.6,9 -4.2,6.2 -4,4 C-3.9,1 -4.6,-2 -4.3,-4.5 C-4.1,-6.3 -2.4,-7 0,-7 C2.6,-7 4.3,-6 4.4,-4 C4.5,-2 2.4,0 2.2,2.5 C2,4.5 3.2,6.2 2.8,7.5 C2.4,8.8 1.4,9 0,9 Z", fill: "#f1f1f3" }, f);
-    [[3.1, -8.5, 1.75, 1.95], [0.9, -9.3, 1.2, 1.35], [-0.9, -9.0, 1.05, 1.2], [-2.4, -8.3, 0.95, 1.1], [-3.5, -7.2, 0.85, 0.95]].forEach(([x, y, rx, ry]) => s("ellipse", { cx: x, cy: y, rx, ry, fill: "#f1f1f3" }, f));
+    s("path", { d: "M0,9 C-3.6,9 -4.2,6.2 -4,4 C-3.9,1 -4.6,-2 -4.3,-4.5 C-4.1,-6.3 -2.4,-7 0,-7 C2.6,-7 4.3,-6 4.4,-4 C4.5,-2 2.4,0 2.2,2.5 C2,4.5 3.2,6.2 2.8,7.5 C2.4,8.8 1.4,9 0,9 Z", fill, ...st }, f);
+    [[3.1, -8.5, 1.75, 1.95], [0.9, -9.3, 1.2, 1.35], [-0.9, -9.0, 1.05, 1.2], [-2.4, -8.3, 0.95, 1.1], [-3.5, -7.2, 0.85, 0.95]].forEach(([x, y, rx, ry]) => s("ellipse", { cx: x, cy: y, rx, ry, fill, ...st }, f));
     return f;
   };
   const jumper = s("g", { opacity: 0 }, svg);
@@ -267,8 +268,12 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
   const place = (p) => { jumper.style.transform = `translate(${p.x}px, ${p.y}px)`; };
 
   // Twister: každá noha zvlášť (levá a pravá střídavě na různých číslech)
-  const mkFoot = (mirror) => { const g = s("g", { opacity: 0 }, svg); const inn = s("g", { transform: "scale(0.5)" }, g); footPrint(inn, mirror); return g; };
+  const mkFoot = (mirror, fill, stroke) => { const g = s("g", { opacity: 0 }, svg); const inn = s("g", { transform: "scale(0.5)" }, g); footPrint(inn, mirror, fill, stroke); return g; };
   const tf = { left: mkFoot(false), right: mkFoot(true) };
+  // Klepání podrážkou na míč (míč stojí, hráč na něj klepe): chodidla leží na míči, aktivní se při každém úderu "přitlačí"
+  const tapFeet = { left: mkFoot(false, SUN, '#0A0A0C'), right: mkFoot(true, SUN, '#0A0A0C') };
+  const TAPK = Math.max(0.5, mat.ball.r / 10.5) * 0.85;
+  const TAPX = mat.ball.r * 0.55;
   const feetPos = { left: null, right: null };
   const feetZone = { left: null, right: null };
   const TS = 15; // čtverec kolem aktivní nohy
@@ -393,7 +398,27 @@ export function createMatView({ labels = true, mat = getMat() } = {}) {
       hl.setAttribute("fill-opacity", 0.18); hl.setAttribute("stroke-opacity", 1);
       hl.style.filter = `drop-shadow(0 0 3px ${SUN})`;
     },
+    /**
+     * Klepání na míč: chodidlo "foot" ('left' | 'right') se přitlačí na míč; druhé chodidlo zůstane vedle (ztlumené),
+     * nebo se vůbec nezobrazí (both = false, cvik jen jednou nohou).
+     */
+    tap(foot, both = true) {
+      const place = (f, active) => {
+        const g = tapFeet[f];
+        const x = mat.ball.x + (f === 'left' ? -TAPX : TAPX); const y = mat.ball.y;
+        g.style.transform = `translate(${x}px, ${y}px) scale(${TAPK * 2})`;
+        g.setAttribute('opacity', active ? 1 : both ? 0.3 : 0);
+        if (active && g.animate) g.animate([{ transform: `translate(${x}px, ${y}px) scale(${TAPK * 2.7})` }, { transform: `translate(${x}px, ${y}px) scale(${TAPK * 2})` }], { duration: 220, easing: 'ease-out' });
+      };
+      place('left', foot === 'left'); place('right', foot === 'right');
+      if (ring.animate) {
+        ring.setAttribute('cx', mat.ball.x); ring.setAttribute('cy', mat.ball.y); ring.setAttribute('stroke', SUN);
+        ring.style.transformOrigin = `${mat.ball.x}px ${mat.ball.y}px`;
+        ring.animate([{ opacity: 0.8, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(2)' }], { duration: 320, easing: 'ease-out' });
+      }
+    },
     reset() {
+      tapFeet.left.setAttribute('opacity', 0); tapFeet.right.setAttribute('opacity', 0);
       hintClear();
       jumpAt = null; jumper.setAttribute("opacity", 0);
       feetPos.left = feetPos.right = null; feetZone.left = feetZone.right = null; tf.left.setAttribute("opacity", 0); tf.right.setAttribute("opacity", 0);

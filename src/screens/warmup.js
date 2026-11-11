@@ -2,8 +2,8 @@ import { h, btn, u, icon, jerseyEl } from '../ui/dom.js';
 import { say, sfx, stopVoice } from '../core/audio.js';
 import { WARMUP, markWarmup } from '../domain/extras.js';
 
-// Rozcvička: 5 krátkých kroků po 20 s, jen při prvním tréninku dne (pak se předá dál do přehrávače). Jde přeskočit.
-export default function warmup({ profile, next }, { go, onBack }) {
+// Rozcvička: nejdřív volba (rozcvičit se / rovnou trénovat), pak 5 krátkých kroků po 20 s; nabízí se jen při prvním tréninku dne.
+export default function warmup({ profile, next }, { go, back, onBack }) {
   const el = h('section', 'screen');
   el.style.gap = u(1.6);
   let i = 0; let t = 0; let timer = null; let finished = false;
@@ -16,9 +16,21 @@ export default function warmup({ profile, next }, { go, onBack }) {
   const arc = ring.querySelector('#wa'); const num = ring.querySelector('#wn');
   const segs = h('div', 'flex'); segs.style.gap = u(0.8);
   const fills = WARMUP.map(() => { const s = h('div', ''); s.style.cssText = `width:${u(7)};height:${u(0.9)};border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden`; const f = h('div', ''); f.style.cssText = 'width:0;height:100%;background:var(--c-sun)'; s.append(f); segs.append(s); return f; });
-  const skip = btn('Přeskočit rozcvičku', 'btn', () => end(), { auto: true });
+  const skip = btn('Přeskočit rozcvičku', 'btn', () => end());
   skip.style.cssText += `;min-height:${u(5.4)};font-size:${u(1.9)}`;
-  el.append(jerseyEl(profile, 6), eyebrow, ttl, txt, ring, segs, skip);
+  const run = h('div', 'flex flex-col items-center'); run.style.gap = u(1.6);
+  run.append(eyebrow, ttl, txt, ring, segs, skip);
+
+  // volba před začátkem tréninku
+  const ask = h('div', 'flex flex-col items-center'); ask.style.gap = u(2);
+  const askT = h('div', 'title', 'Rozcvička před tréninkem?'); askT.style.fontSize = u(5);
+  const askX = h('div', 'muted', 'Pár minut zahřátí, ať se nohy rozhýbou. Můžeš ji i přeskočit.'); askX.style.fontSize = u(2.2);
+  const askRow = h('div', 'flex'); askRow.style.gap = u(3);
+  const yes = btn(`${icon('play')}Rozcvičit se (2 min)`, 'btn-primary', () => start(), { auto: true });
+  const no = btn('Rovnou trénovat', 'btn', () => end(false));
+  askRow.append(yes, no); ask.append(askT, askX, askRow);
+  run.style.display = 'none';
+  el.append(jerseyEl(profile, 6), ask, run);
 
   const show = () => {
     const w = WARMUP[i]; t = 0;
@@ -26,19 +38,23 @@ export default function warmup({ profile, next }, { go, onBack }) {
     fills.forEach((f, k) => { f.style.width = k < i ? '100%' : '0'; });
     say(`wu_${i + 1}`, { kind: 'phrase' });
   };
-  async function end() {
+  async function end(done = true) {
     if (finished) return; finished = true; clearInterval(timer); stopVoice();
-    await markWarmup(profile);
+    await markWarmup(profile, done && i > 0);
     go('player', next, { replace: true });
   }
-  timer = setInterval(() => {
+  function start() {
+    stopVoice(); ask.style.display = 'none'; run.style.display = ''; skip.focus();
+    timer = setInterval(tick, 100); show();
+  }
+  const tick = () => {
     t += 100;
     const w = WARMUP[i]; const k = Math.min(1, t / (w.sec * 1000));
     arc.setAttribute('stroke-dashoffset', String(276.46 * k)); num.textContent = Math.max(0, Math.ceil(w.sec - t / 1000));
     fills[i].style.width = `${k * 100}%`;
     if (k >= 1) { sfx('success'); i++; if (i >= WARMUP.length) end(); else show(); }
-  }, 100);
-  onBack(() => { clearInterval(timer); end(); });
-  show();
+  };
+  onBack(() => { if (timer) { clearInterval(timer); end(false); } else { stopVoice(); back(); } }); // v nabídce Zpět = zpět na úvod, při rozcvičce = přeskočit
+  say('warmup_ask', { kind: 'phrase' });
   return el;
 }
