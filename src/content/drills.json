@@ -1,26 +1,5 @@
 [
   {
-    "id": "warmup-steps",
-    "name": "Rozcvička: kroky po číslech",
-    "type": "step",
-    "level": 1,
-    "durationSec": 30,
-    "tempoBpm": 50,
-    "pattern": [
-      3,
-      5,
-      4,
-      6
-    ],
-    "footSeq": ["left", "right", "left", "right"],
-    "foot": "both",
-    "info": "Bez míče jako Twister: levá noha střídá 3 a 4, pravá 5 a 6. Vždy jen o jedno číslo, nohy se nekříží.",
-    "media": {
-      "animation": true
-    },
-    "feet": "alternate"
-  },
-  {
     "id": "sole-taps",
     "name": "Podrážkou na míč",
     "level": 1,
@@ -31,36 +10,6 @@
     ],
     "foot": "both",
     "info": "Střídavě klepej podrážkou na míč.",
-    "media": {
-      "animation": true
-    }
-  },
-  {
-    "id": "sole-taps-left",
-    "name": "Podrážka levou",
-    "level": 1,
-    "durationSec": 30,
-    "tempoBpm": 55,
-    "pattern": [
-      1
-    ],
-    "foot": "left",
-    "info": "Klepej jen levou nohou.",
-    "media": {
-      "animation": true
-    }
-  },
-  {
-    "id": "sole-taps-right",
-    "name": "Podrážka pravou",
-    "level": 1,
-    "durationSec": 30,
-    "tempoBpm": 55,
-    "pattern": [
-      1
-    ],
-    "foot": "right",
-    "info": "Klepej jen pravou nohou.",
     "media": {
       "animation": true
     }

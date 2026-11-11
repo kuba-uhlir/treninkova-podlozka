@@ -1,6 +1,6 @@
 # Cviky – odkud jsou a jak se převádějí na podložku
 
-36 cviků ve 4 úrovních (Začátečník, Pokročilý, Těžké, Expert) v `drills.json`.
+33 cviků ve 4 úrovních (Začátečník, Pokročilý, Těžké, Expert) v `drills.json`.
 
 ## Zdroje
 - **Quickplay „Ball Mastery Skills Mat“** (ballmastery.ecoach.training) – oficiální seznam cviků podle úrovní:

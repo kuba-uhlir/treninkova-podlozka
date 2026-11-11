@@ -37,7 +37,7 @@ Odkaz vytvoří hotového ukázkového hráče **Jakuba** (číslo 24, česká r
 | | |
 |---|---|
 | 🎯 **Trénink s Trenérem** | Ukázka cviku, odpočet 3‑2‑1 a hlasové povely podle zón podložky. Trenér řekne, co se bude dělat, takže nemusí umět číst ani pětileté dítě. |
-| 🦶 **36 cviků ve 4 úrovních** | Od jednoduchých přitažení míče po Twister s nohama a přeskoky. Tempo se samo přizpůsobí úrovni, hlavní noha dostává většinu cviků a slabší jen občas. |
+| 🦶 **33 cviků ve 4 úrovních** | Od jednoduchých přitažení míče po Twister s nohama a přeskoky. Tempo se samo přizpůsobí úrovni, hlavní noha dostává většinu cviků a slabší jen občas. |
 | 🧩 **Podložky podle vzhledu** | 8 podložek s detailní simulací včetně barevných variant. Míč a plánovaný směr se zvýrazňují přímo na podložce. |
 | ⚔️ **Zápas** | Kola podle hlasu, cvik na čas s rekordy nebo obojí. Hraje se sám, nebo se dva hráči střídají. |
 | 🃏 **Sběratelské karty** | 169 slavných fotbalistů ve čtyřech vzácnostech, s fotkami z Wikimedia Commons. Karta se otáčí a na rubu je zajímavost, vedle ní je popis hráče. |
