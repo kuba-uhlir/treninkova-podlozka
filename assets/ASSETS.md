@@ -1,20 +1,19 @@
-# Seznam obrázků (pro generování v Gemini)
+# Grafika aplikace
 
-Formát: PNG/WebP s průhledností (pozadí `bg_stadium` bez). Názvy a rozměry jsou pevné – viz `manifest.json`.
-Styl: dětský, ale moderní a čistý; sytě žlutá (#FFD400), tmavě zelená (#0B1F17), trávníková zelená (#2FB35A).
-Dokud soubor chybí, appka zobrazí barevný placeholder s popiskem.
+Hotové prvky jsou v `assets/img/art/*.webp` (průhledné WebP). Vyrábí je `node scripts/build-art.mjs` ze zdrojových obrázků
+z Gemini ve složce `obrazky/` (přiřazení souborů k významu je na začátku skriptu; `node scripts/build-art.mjs levels` přegeneruje jen jednu část).
+Styl: tmavé pozadí `#0A0A0C`, jediná výrazná zelená `#16C45A`, lesklé 3D prvky se zelenou září.
 
-| Klíč | Soubor | Rozměr | Účel |
-|---|---|---|---|
-| `logo` | img/logo.png | 1024×512 | Logo na úvodní obrazovce |
-| `bg_stadium` | img/bg_stadium.webp | 1920×1080 | Tmavé stadionové pozadí (rozostřené) |
-| `mascot` | img/mascot.png | 800×800 | Maskot (veselý fotbalový míč / zvířátko) |
-| `avatar_1` … `avatar_6` | img/avatar_N.png | 512×512 | Vestavěné avatary hráčů (výběr na TV) |
-| `icon_star` | img/icon_star.png | 256×256 | XP / hodnocení |
-| `icon_ball` | img/icon_ball.png | 256×256 | Značka míče na podložce |
-| `icon_foot_l` / `icon_foot_r` | img/icon_foot_*.png | 256×256 | Značka levé / pravé nohy |
-| `tv_banner` | android/…/drawable/tv_banner.png | 320×180 | Banner na ploše Android TV |
+| Soubor | Použití |
+|---|---|
+| `hero_ball.webp` | úvodní obrazovka |
+| `bg_menu.webp` / `bg_win.webp` / `bg_field.webp` | pozadí aplikace / výsledku tréninku / záloha |
+| `ic_*.webp` | ikony rozhraní (`icon('name')` v `src/ui/dom.js`) |
+| `rw_<bronze\|silver\|gold\|diamond>_<druh>.webp` | odměny (`src/ui/RewardIcon.js`); diamant se odvozuje ze stříbra |
+| `lv_1..4.webp` | štíty úrovní cviků (výběr cviků) |
+| `av_01..24.webp` | postavičky hráčů (`src/ui/faces.js`, pole `face` v profilu) |
+| `fx_*.webp` | efekty (jiskry, konfety, záblesk) |
+| `card_frame_<common|rare|epic|legend>.webp` + `src/ui/cardFrame.json` | rámeček karty přebarvený podle vzácnosti a rozměry okna, štítku a destičky (`src/ui/CardView.js`) |
+| `app_icon.webp`, `logo.webp`, `banner.webp` | ikona, logo, banner (Android ikony a `tv_banner.png` skript zapisuje do `android/`) |
 
-## Loga týmů
-Uložená v `assets/img/teams/<id>.png` (512×512, PNG s průhledností), seznam týmů a barev je v `src/config/teams.json`.
-Staženo z veřejné databáze TheSportsDB (testovací klíč). Loga jsou ochranné známky klubů, používají se jen pro soukromou aplikaci. Další tým = přidat PNG a řádek do `teams.json`.
+Loga týmů: `assets/img/teams/<id>.png`, seznam v `src/config/teams.json`. Podložka, nohy, míč na podložce a šipky se kreslí kódem (`src/ui/MatView.js`).

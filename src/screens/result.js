@@ -14,6 +14,7 @@ export default function result({ profile, workout, done, aborted }, { go }) {
   const el = h('section', 'screen');
   el.style.gap = u(1.1);
   el.style.overflow = 'hidden'; // konfety nesmí vytvářet posun
+  el.style.background = "url('img/art/bg_win.webp') center / cover no-repeat";
   const complete = !aborted && done >= workout.length;
   const xp = done * XP_PER_DRILL + (complete ? XP_WORKOUT_BONUS : 0);
   const st = done ? stars(done, workout.length) : 0;
@@ -128,6 +129,11 @@ export default function result({ profile, workout, done, aborted }, { go }) {
   })();
 
   if (st > 0) {
+    // záblesk jisker za hvězdami (obrázek fx_burst.webp, krátce zazáří a zhasne)
+    const burst = new Image(); burst.src = 'img/art/fx_burst.webp'; burst.draggable = false;
+    burst.style.cssText = `position:absolute;left:50%;top:36%;width:${u(52)};height:${u(52)};margin:${u(-26)} 0 0 ${u(-26)};pointer-events:none;mix-blend-mode:screen;opacity:0`;
+    el.appendChild(burst);
+    if (burst.animate) burst.animate([{ opacity: 0, transform: 'scale(.4)' }, { opacity: 1, transform: 'scale(1)', offset: 0.35 }, { opacity: 0, transform: 'scale(1.25)' }], { duration: 1600, delay: 250, easing: 'ease-out' });
     sfx('confetti'); sayGroup(complete ? 'end' : 'aborted');
     for (let i = 0; i < 40; i++) {
       const c = h('div');

@@ -1,4 +1,5 @@
 import { h, btn, u, jerseyEl, icon, KIT_STYLES } from '../ui/dom.js';
+import { faceChooser } from '../ui/faces.js';
 import { listProfiles, createProfile, saveProfile, getProfile, COLORS, profileLevel } from '../domain/profiles.js';
 import { sfx } from '../core/audio.js';
 import { applyTheme, getTeam, listTeams, teamLogo } from '../ui/theme.js';
@@ -52,9 +53,9 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
   el.style.cssText += ';justify-content:flex-start;overflow-y:auto;gap:' + u(2.4);
   el.append(h('div', 'eyebrow', guest ? 'Host' : 'Profil'), h('div', 'title', editing ? 'Upravit <span class="accent">hráče</span>' : guest ? 'Host' : 'Nový hráč'));
 
-  const state = { avatar: 0, color: COLORS[2], name: '', jersey: '', team: null, hand: 'right', color2: '#FFFFFF' };
+  const state = { avatar: 0, face: 0, color: COLORS[2], name: '', jersey: '', team: null, hand: 'right', color2: '#FFFFFF' };
   if (initial) Object.assign(state, {
-    avatar: typeof initial.avatar === 'number' ? initial.avatar : 0, color: initial.color || COLORS[2],
+    avatar: typeof initial.avatar === 'number' ? initial.avatar : 0, face: initial.face || 0, color: initial.color || COLORS[2],
     name: initial.isGuest ? '' : (initial.name || ''), jersey: initial.jersey || '', team: initial.team || null, hand: initial.hand || 'right', color2: initial.color2 || '#FFFFFF',
   });
 
@@ -108,7 +109,7 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
     kitBtns.push(b); kitRow.append(b);
   });
   const drawKits = () => kitBtns.forEach((b, i) => {
-    b.replaceChildren(jerseyEl({ ...state, avatar: i }, 5.4, { number: false }));
+    b.replaceChildren(jerseyEl({ ...state, face: 0, avatar: i }, 5.4, { number: false }));
     b.style.borderColor = i === state.avatar ? 'var(--c-sun)' : '';
   });
 
@@ -136,7 +137,7 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
   });
   const colBox = h("div", "flex flex-col items-center gap-2");
   colBox.append(h("div", "eyebrow", "Barva dresu"), colRow, h("div", "eyebrow", "Druhá barva (vzor, lemy)"), col2Row);
-  const syncColBox = () => { colBox.style.display = state.team ? 'none' : 'flex'; kitBox.style.display = state.team ? 'none' : 'flex'; };
+  const syncColBox = () => { const hide = state.team || state.face; colBox.style.display = hide ? 'none' : 'flex'; kitBox.style.display = hide ? 'none' : 'flex'; };
 
   // oblíbený tým (přebarví menu a dres, logo do pozadí) seskupený podle země
   const all = listTeams();
@@ -170,14 +171,16 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
   });
   markCountry(); renderTeams();
 
-  right.append(h('div', 'eyebrow', 'Oblíbený tým'), countryRow, teamRow, kitBox, colBox);
+  const faceBox = h('div', 'flex flex-col items-center gap-2');
+  faceBox.append(h('div', 'eyebrow', 'Postavička'), faceChooser(state, () => { syncColBox(); drawPrev(); }, { cell: 5.4 }));
+  right.append(h('div', 'eyebrow', 'Oblíbený tým'), countryRow, teamRow, faceBox, kitBox, colBox);
   cols.append(left, right);
 
   const actions = h('div', 'flex gap-5');
   const ok = btn(`${icon('check')}Hotovo`, 'btn-primary', async () => {
     if (editing) {
       const p = await getProfile(editId || convertId);
-      Object.assign(p, { name: state.name.trim() || p.name, avatar: state.avatar, color: state.color, color2: state.color2, jersey: state.jersey, team: state.team, hand: state.hand });
+      Object.assign(p, { name: state.name.trim() || p.name, avatar: state.avatar, face: state.face, color: state.color, color2: state.color2, jersey: state.jersey, team: state.team, hand: state.hand });
       if (convertId) p.isGuest = false;
       await saveProfile(p);
       if (returnTo === 'parent') go('parent', {}, { replace: true }); else go('home', { profileId: p.id }, { replace: true });

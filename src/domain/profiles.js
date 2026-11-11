@@ -11,8 +11,8 @@ export const COLORS = [
 export const listProfiles = () => storage.list('profiles');
 export const getProfile = (id) => storage.get('profiles', id);
 
-export async function createProfile({ name = '', avatar = AVATARS[0], color = COLORS[0], color2 = '#FFFFFF', jersey = '', photo = null, team = null, hand = 'right', isGuest = false }) {
-  const p = { id: uid(), name: name || (isGuest ? 'Host' : 'Hráč'), avatar, color, color2, jersey, photo, team, hand, isGuest, xp: 0, level: 1, createdAt: Date.now() };
+export async function createProfile({ name = '', avatar = AVATARS[0], color = COLORS[0], color2 = '#FFFFFF', jersey = '', photo = null, team = null, hand = 'right', isGuest = false, face = 0 }) {
+  const p = { id: uid(), name: name || (isGuest ? 'Host' : 'Hráč'), avatar, color, color2, jersey, photo, team, hand, isGuest, face, xp: 0, level: 1, createdAt: Date.now() };
   await storage.put('profiles', p);
   return p;
 }

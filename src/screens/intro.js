@@ -1,8 +1,7 @@
 import { h, u } from '../ui/dom.js';
 import { sfx } from '../core/audio.js';
-import { ballSvg } from '../ui/BallSvg.js';
 
-// Úvodní animace při spuštění: míč se přikutálí a odrazí, nápis FOTBAL se poskládá po písmenech, pod ním se vykreslí žlutá čára.
+// Úvodní animace při spuštění: zářící míč (hero_ball.webp) se zvětší do prostoru, nápis FOTBAL se poskládá po písmenech, pod ním se vykreslí žlutá čára.
 // Jde přeskočit (OK / klik). Po skončení přejde na výběr hráče.
 export default function intro(_p, { go }) {
   const el = h('section', 'screen');
@@ -10,9 +9,8 @@ export default function intro(_p, { go }) {
   el.style.cursor = 'pointer';
 
   const ballBox = h('div', '');
-  ballBox.style.cssText = `width:${u(13)};height:${u(13)};opacity:0`;
-  ballBox.innerHTML = ballSvg();
-  ballBox.style.filter = 'drop-shadow(0 1.2vmin 1.6vmin rgba(0,0,0,.55))';
+  ballBox.style.cssText = `width:${u(30)};height:${u(23)};opacity:0;-webkit-mask-image:radial-gradient(closest-side,#000 78%,transparent 100%);mask-image:radial-gradient(closest-side,#000 78%,transparent 100%)`;
+  ballBox.innerHTML = '<img src="img/art/hero_ball.webp" alt="" draggable="false" style="width:100%;height:100%;object-fit:contain">';
 
   const word = h('div', 'flex');
   word.style.cssText = `font-weight:800;font-size:${u(10)};letter-spacing:-0.06em;line-height:1`;
@@ -31,15 +29,12 @@ export default function intro(_p, { go }) {
   // animace (Web Animations); bez podpory se rovnou přejde dál
   const A = (node, keyframes, opts) => (node.animate ? node.animate(keyframes, { fill: 'forwards', ...opts }) : null);
   const t0 = 150;
-  // míč: vykutálí se zleva s otáčením a odrazem
+  // míč se zvětší z lehce menšího a jemně se usadí
   A(ballBox, [
-    { opacity: 0, transform: 'translateX(-70vw) rotate(-540deg)', offset: 0 },
-    { opacity: 1, transform: 'translateX(-4vw) rotate(-40deg)', offset: 0.55 },
-    { opacity: 1, transform: 'translateX(0) translateY(-6vh) rotate(0deg)', offset: 0.7 },
-    { opacity: 1, transform: 'translateX(0) translateY(0) rotate(0deg)', offset: 0.82 },
-    { opacity: 1, transform: 'translateX(0) translateY(-2vh)', offset: 0.91 },
-    { opacity: 1, transform: 'translateX(0) translateY(0)', offset: 1 },
-  ], { duration: 1300, delay: t0, easing: 'cubic-bezier(.3,.7,.3,1)' });
+    { opacity: 0, transform: 'scale(.72) translateY(4vh)', offset: 0 },
+    { opacity: 1, transform: 'scale(1.05)', offset: 0.65 },
+    { opacity: 1, transform: 'scale(1)', offset: 1 },
+  ], { duration: 1200, delay: t0, easing: 'cubic-bezier(.2,.8,.2,1)' });
   // písmena poskakují nahoru jedno po druhém
   [...letters, dot].forEach((l, i) => {
     A(l, [{ opacity: 0, transform: 'translateY(60%) scale(.8)' }, { opacity: 1, transform: 'translateY(-8%) scale(1.05)', offset: 0.65 }, { opacity: 1, transform: 'translateY(0) scale(1)' }],

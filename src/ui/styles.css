@@ -64,7 +64,9 @@ html, body {
     background: linear-gradient(180deg, var(--acc-soft), var(--c-sun) 55%, var(--acc-deep));
     box-shadow: 0 calc(var(--u) * .6) calc(var(--u) * 3) rgba(var(--acc-rgb), .28), inset 0 1px 0 rgba(255, 255, 255, .5);
   }
-  .icon { width: 1.15em; height: 1.15em; flex: none; }
+  .icon { width: 1.15em; height: 1.15em; flex: none; object-fit: contain; }
+  /* neonová ikona je zelená; na barevném tlačítku je z ní tmavá silueta, ať je vidět */
+  .btn-primary .icon, .on-acc .icon { filter: brightness(0) opacity(.8); }
 }
 
 /* Focus: zvětšení + bílý prstenec + žlutá záře. Platí pro vše s [data-focusable]. */

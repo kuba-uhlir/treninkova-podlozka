@@ -2,17 +2,19 @@ import { h, btn, u, jerseyEl, icon, KIT_STYLES } from '../ui/dom.js';
 import { createProfile, COLORS } from '../domain/profiles.js';
 import { applyTheme, getTeam, listTeams, teamLogo } from '../ui/theme.js';
 import { sfx } from '../core/audio.js';
+import { faceChooser } from '../ui/faces.js';
 
-// Průvodce vytvořením hráče: jméno → číslo dresu → silnější noha → klub nebo vlastní dres (vzor, barvy) → shrnutí.
+// Průvodce vytvořením hráče: jméno → postavička (dres nebo obličej) → číslo dresu → silnější noha → klub nebo vlastní dres (vzor, barvy) → shrnutí.
 // Vlevo je stále živý náhled dresu, vpravo vždy jen jeden krok a dole Zpět / Další.
 const LETTERS = 'AÁBCČDĎEÉĚFGHIÍJKLMNŇOÓPQRŘSŠTŤUÚŮVWXYÝZŽ'.split('');
 
 export default function newPlayer(_p, { go, back, onBack }) {
   applyTheme(null);
-  const state = { name: '', jersey: '', hand: 'right', team: null, mode: null, avatar: 0, color: COLORS[2], color2: '#FFFFFF' };
+  const state = { name: '', jersey: '', hand: 'right', team: null, mode: null, avatar: 0, face: 0, color: COLORS[2], color2: '#FFFFFF' };
   let step = 0;
-  const stepsFor = () => (state.team || state.mode === 'club' ? ['name', 'number', 'hand', 'club', 'done'] : ['name', 'number', 'hand', 'club', 'kit', 'colors', 'done']);
-  const TITLES = { name: 'Jak se jmenuješ?', number: 'Jaké máš číslo dresu?', hand: 'Kterou nohou kopeš lépe?', club: 'Máš oblíbený klub?', kit: 'Vyber si střih dresu', colors: 'Vyber barvy dresu', done: 'Hotovo, můžeme trénovat!' };
+  // střih a barvy dresu se řeší jen u hráče s dresem a bez klubu
+  const stepsFor = () => (state.face || state.team || state.mode === 'club' ? ['name', 'face', 'number', 'hand', 'club', 'done'] : ['name', 'face', 'number', 'hand', 'club', 'kit', 'colors', 'done']);
+  const TITLES = { name: 'Jak se jmenuješ?', face: 'Vyber si postavičku', number: 'Jaké máš číslo dresu?', hand: 'Kterou nohou kopeš lépe?', club: 'Máš oblíbený klub?', kit: 'Vyber si střih dresu', colors: 'Vyber barvy dresu', done: 'Hotovo, můžeme trénovat!' };
 
   const el = h('section', 'screen');
   el.style.cssText += `;justify-content:space-between;gap:${u(1.2)};padding:${u(2)} ${u(3)} ${u(1.8)}`;
@@ -61,7 +63,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
   function prevStep() { if (step === 0) { back(); return; } step -= 1; render(); }
   async function finish() {
     nextBtn.disabled = true;
-    const p = await createProfile({ name: state.name.trim() || 'Hráč', jersey: state.jersey, hand: state.hand, team: state.team, avatar: state.avatar, color: state.color, color2: state.color2 });
+    const p = await createProfile({ name: state.name.trim() || 'Hráč', jersey: state.jersey, hand: state.hand, team: state.team, avatar: state.avatar, face: state.face, color: state.color, color2: state.color2 });
     sfx('success');
     go('home', { profileId: p.id }, { replace: true });
   }
@@ -172,6 +174,11 @@ export default function newPlayer(_p, { go, back, onBack }) {
     nextBtn.style.opacity = state.mode ? 1 : 0.45;
   };
 
+  const stepFace = () => {
+    panel.append(faceChooser(state, () => render(), { autoFocus: true }));
+    const t = h('div', 'muted', 'Postavička, nebo dres jako dosud. Číslo dresu se ukáže v rohu.'); t.style.fontSize = u(1.6); panel.append(t);
+  };
+
   const stepKit = () => {
     const grid = h('div', ''); grid.style.cssText = `display:grid;grid-template-columns:repeat(6,${u(7.2)});gap:${u(0.9)};justify-content:center`;
     const bs = [];
@@ -204,7 +211,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
   };
 
   const stepDone = () => {
-    const rows = [['Jméno', state.name || 'Hráč'], ['Číslo', state.jersey || 'bez čísla'], ['Silnější noha', state.hand === 'left' ? 'Levá (levák)' : 'Pravá (pravák)'], ['Dres', getTeam(state.team) ? getTeam(state.team).name : 'Vlastní dres']];
+    const rows = [['Jméno', state.name || 'Hráč'], ['Číslo', state.jersey || 'bez čísla'], ['Silnější noha', state.hand === 'left' ? 'Levá (levák)' : 'Pravá (pravák)'], [state.face ? 'Postavička' : 'Dres', getTeam(state.team) ? getTeam(state.team).name : state.face ? 'Obličej č. ' + state.face : 'Vlastní dres']];
     const list = h('div', 'flex flex-col'); list.style.cssText = `gap:${u(0.8)};min-width:${u(34)}`;
     rows.forEach(([k, v]) => {
       const r = h('div', 'flex justify-between'); r.style.cssText = `gap:${u(3)};padding:${u(0.9)} ${u(2)};border-radius:var(--r-btn);border:1px solid var(--line);background:rgba(255,255,255,.03)`;
@@ -223,7 +230,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
     nextBtn.innerHTML = id === 'done' ? `${icon('check')}Vytvořit hráče` : 'Další';
     nextBtn.style.opacity = 1; nextBtn.disabled = false;
     drawPrev();
-    ({ name: stepName, number: stepNumber, hand: stepHand, club: stepClub, kit: stepKit, colors: stepColors, done: stepDone })[id]();
+    ({ name: stepName, face: stepFace, number: stepNumber, hand: stepHand, club: stepClub, kit: stepKit, colors: stepColors, done: stepDone })[id]();
     onBack(() => prevStep());
     const first = el.querySelector('[data-autofocus]') || (id === 'done' ? nextBtn : nextBtn);
     first.focus();

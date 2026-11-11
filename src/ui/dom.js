@@ -9,7 +9,13 @@ export function h(tag, cls = '', html = '', attrs = {}) {
 
 // Ikony: sada Lucide (ISC), generuje se do icons.js skriptem scripts/build-icons.mjs.
 import { ICONS } from './icons.js';
-export const icon = (name) => `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+// Nové neonové ikony jsou obrázky (assets/img/art/ic_*.webp, vyrábí scripts/build-art.mjs); co v sadě chybí, zůstává z Lucide.
+const ART_ICONS = new Set(['play', 'stop', 'pause', 'back', 'plus', 'check', 'lock', 'gear', 'home', 'info', 'warn', 'trash', 'edit', 'camera', 'list', 'grid', 'trophy', 'star', 'users', 'profile', 'cards', 'swords', 'levels', 'ball']);
+export const icon = (name) => {
+  const art = name === 'starO' ? 'star' : name;
+  if (ART_ICONS.has(art)) return `<img class="icon" src="img/art/ic_${art}.webp" alt="" draggable="false"${name === 'starO' ? ' style="opacity:.4"' : ''}>`;
+  return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true">${ICONS[name] || ''}</svg>`;
+};
 
 /** Fokusovatelné tlačítko (D-pad + dotyk). Label může obsahovat ikonu: btn(`${icon('play')}Trénink`, ...) */
 export function btn(label, cls, onClick, { auto = false } = {}) {
@@ -43,6 +49,7 @@ const BODY = 'M31 10 L13 21 L4 43 L20 51 L25 44 L25 91 Q50 97 75 91 L75 44 L80 5
 
 /** SVG dresu s číslem (nebo iniciálou). size v jednotkách --u. */
 export function jerseyEl(p, size = 12, { number = true } = {}) {
+  if (p.face) return faceEl(p, size, { number });
   const { primary, secondary } = kitColors(p);
   const team = getTeam(p.team);
   // tým určuje vzor dresu; bez týmu platí zvolený střih
@@ -85,6 +92,24 @@ export function jerseyEl(p, size = 12, { number = true } = {}) {
     ${team && team.logo && number && size >= 8 ? `<circle cx="68" cy="29" r="9.6" fill="#fff" opacity=".94"/><image href="${team.logo}" x="59.6" y="20.6" width="16.8" height="16.8" preserveAspectRatio="xMidYMid meet"/>` : ''}
     ${number ? `<text x="50" y="66" text-anchor="middle" font-family="Inter, sans-serif" font-weight="800" font-size="${label.length > 1 ? 30 : 36}" letter-spacing="-1.5" fill="${numFill}">${label}</text>` : ''}
   </svg>`;
+  return el;
+}
+
+/** Postavička hráče (obličej z assets/img/art/av_NN.webp) s číslem dresu v barvě klubu v rohu. */
+export const FACE_COUNT = 24;
+export const faceSrc = (n) => `img/art/av_${String(n).padStart(2, '0')}.webp`;
+export function faceEl(p, size = 12, { number = true } = {}) {
+  const { primary } = kitColors(p);
+  const label = (p.jersey || '').toString().slice(0, 2);
+  const el = h('div', 'shrink-0');
+  el.style.cssText = `position:relative;width:${u(size)};height:${u(size)};filter:drop-shadow(0 ${u(0.6)} ${u(1.6)} rgba(0,0,0,.55))`;
+  el.innerHTML = `<img src="${faceSrc(p.face)}" alt="" draggable="false" style="width:100%;height:100%;object-fit:contain">`;
+  if (number && label && size >= 5) {
+    const b = h('div', '', label);
+    b.style.cssText = `position:absolute;right:-2%;bottom:1%;min-width:${u(size * 0.3)};height:${u(size * 0.3)};padding:0 ${u(size * 0.04)};box-sizing:border-box;border-radius:99px;display:flex;align-items:center;justify-content:center;` +
+      `background:${primary};color:${lumOf(primary) > 0.58 ? '#101012' : '#FFFFFF'};border:${u(0.25)} solid #0A0A0C;font-weight:800;font-size:${u(size * 0.16)};letter-spacing:-0.04em`;
+    el.append(b);
+  }
   return el;
 }
 

@@ -21,6 +21,8 @@ import warmup from './screens/warmup.js';
 import myWorkouts from './screens/myWorkouts.js';
 import about from './screens/about.js';
 
+// pozadí celé aplikace: tmavé hřiště z linek (obrázek se hledá relativně k index.html)
+document.body.style.background = "#000 url('img/art/bg_menu.webp') center / cover no-repeat";
 Object.entries(cssVars()).forEach(([k, v]) => document.documentElement.style.setProperty(k, v));
 
 register('profiles', profiles);

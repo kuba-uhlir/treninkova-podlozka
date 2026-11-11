@@ -75,10 +75,13 @@ export default function drillsScreen({ profileId }, { go, back, onBack }) {
       levels.forEach((lv) => {
         const items = byLevel(lv);
         const t = btn('', 'card', () => showLevel(lv), { auto: lv === recommended });
-        t.style.cssText += `;text-align:left;display:flex;flex-direction:column;gap:${u(0.9)};padding:${u(1.8)};min-width:0;${lv === recommended ? 'border-color:var(--c-sun);' : ''}`;
+        t.style.cssText += `;text-align:left;display:flex;flex-direction:column;gap:${u(0.9)};position:relative;padding:${u(1.8)};min-width:0;${lv === recommended ? 'border-color:var(--c-sun);' : ''}`;
         const types = ['ball', 'jump', 'step'].map((k) => [k, items.filter((d) => drillType(d) === k).length]).filter(([, n]) => n).map(([k, n]) => `${TYPE_NAMES[k]} ${n}`).join(' · ');
         const n = selIn(lv);
-        t.innerHTML = `<div class="eyebrow">Úroveň ${lv}</div>
+        t.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:flex-start">
+            <div class="eyebrow">Úroveň ${lv}</div>
+            <img src="img/art/lv_${lv}.webp" alt="" draggable="false" style="width:${u(6.2)};height:${u(6.2)};object-fit:contain;margin:${u(-0.6)} ${u(-0.4)} ${u(-1.6)} 0;pointer-events:none">
+          </div>
           <div style="font-weight:800;font-size:${u(3)};letter-spacing:-0.035em;line-height:1.05">${LEVEL_NAMES[lv]}</div>
           <div style="font-size:${u(1.8)};color:var(--c-sun);letter-spacing:.2em">${'●'.repeat(lv)}<span style="opacity:.3">${'●'.repeat(4 - lv)}</span></div>
           <div style="font-size:${u(1.7)};font-weight:600">${items.length} cviků</div>

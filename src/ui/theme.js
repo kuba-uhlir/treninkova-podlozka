@@ -1,7 +1,9 @@
-// Téma podle oblíbeného týmu: akcentní barva, záře pozadí a logo jako vodoznak. Bez týmu = černá + žlutá.
+// Téma: akcent je vždy zelená (jednotný vzhled, nezávislý na dresu). Oblíbený tým se projeví jen logem jako vodoznak;
+// s logem v pozadí se obrázek hřiště vypne, aby bylo pozadí jen jedno.
 import teams from '../config/teams.json';
 
-const DEFAULT = { primary: '#16C45A', secondary: '#38BDF8' }; // výchozí akcent: zelená jako tráva
+const DEFAULT = { primary: '#16C45A', secondary: '#2FD576' }; // akcent: zelená jako tráva
+const BG_PITCH = "#000 url('img/art/bg_menu.webp') center / cover no-repeat";
 export const listTeams = () => teams;
 export const getTeam = (id) => teams.find((t) => t.id === id) || null;
 
@@ -37,12 +39,12 @@ function pickHue(cands) {
 export function applyTheme(team) {
   const root = document.documentElement;
   // akcent: sytá barva týmu na černém pozadí (sytost min. 78 %, světlost 44–56 %), světlá a tmavá varianta zůstávají sytě
-  const [h, s0, l0] = pickHue([team && team.primary, team && team.secondary, DEFAULT.primary]);
+  const [h, s0, l0] = pickHue([DEFAULT.primary]);
   const s = clamp(s0, 0.78, 1); const l = clamp(l0, 0.44, 0.56);
   const prim = fromHsl(h, s, l);
   const soft = fromHsl(h, clamp(s, 0.8, 1), Math.min(0.68, l + 0.14));
   const deep = fromHsl(h, s, Math.max(0.3, l - 0.12));
-  const hs = pickHue([team && team.secondary, team && team.primary, DEFAULT.secondary]);
+  const hs = pickHue([DEFAULT.secondary]);
   const sec = fromHsl(hs[0], clamp(hs[1], 0.7, 1), clamp(hs[2], 0.45, 0.58));
   const set = (k, v) => root.style.setProperty(k, v);
   set('--c-sun', toHex(prim));
@@ -51,6 +53,7 @@ export function applyTheme(team) {
   set('--acc-rgb', prim.map(Math.round).join(','));
   set('--sec-rgb', sec.map(Math.round).join(','));
   set('--on-acc', lum(prim) > 0.5 ? '#0A0A0C' : '#fff');
+  document.body.style.background = team && team.logo ? '#000' : BG_PITCH;
   const wm = document.getElementById('bgwm');
   if (wm) {
     wm.replaceChildren();
