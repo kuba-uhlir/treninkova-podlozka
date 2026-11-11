@@ -20,30 +20,30 @@ export default function newPlayer(_p, { go, back, onBack }) {
   // záhlaví s kroky
   const head = h('div', 'flex flex-col items-center w-full'); head.style.gap = u(0.7);
   const eyebrow = h('div', 'eyebrow');
-  const title = h('div', 'title'); title.style.fontSize = u(3.6);
+  const title = h('div', 'title'); title.style.fontSize = u(3);
   const dots = h('div', 'flex'); dots.style.gap = u(0.7);
   head.append(eyebrow, title, dots);
 
   // tělo: náhled dresu vlevo, krok vpravo
-  const body = h('div', 'flex flex-1 items-center justify-center w-full'); body.style.cssText += `;gap:${u(5)};min-height:0`;
-  const left = h('div', 'flex flex-col items-center'); left.style.cssText = `gap:${u(0.8)};width:${u(24)};flex:none`;
+  const body = h('div', 'flex flex-1 items-center justify-center w-full'); body.style.cssText += `;gap:${u(4)};min-height:0`;
+  const left = h('div', 'flex flex-col items-center'); left.style.cssText = `gap:${u(0.8)};width:${u(18)};flex:none`;
   const prev = h('div', '');
-  const prevName = h('div', ''); prevName.style.cssText = `font-weight:800;font-size:${u(2.6)};letter-spacing:-0.03em;min-height:${u(3.2)}`;
+  const prevName = h('div', ''); prevName.style.cssText = `font-weight:800;font-size:${u(2.2)};letter-spacing:-0.03em;min-height:${u(2.8)}`;
   const prevTeam = h('div', 'flex items-center'); prevTeam.style.cssText = `gap:${u(0.8)};min-height:${u(4)}`;
   left.append(prev, prevName, prevTeam);
-  const panel = h('div', 'flex flex-col items-center'); panel.style.cssText = `gap:${u(1)};width:${u(62)};min-width:0`;
+  const panel = h('div', 'flex flex-col items-center'); panel.style.cssText = `gap:${u(1)};width:${u(54)};min-width:0`;
   body.append(left, panel);
 
   // dolní lišta
   const nav = h('div', 'flex w-full justify-center'); nav.style.gap = u(3);
   const backBtn = btn(`${icon('back')}Zpět`, 'btn', () => prevStep());
   const nextBtn = btn('', 'btn-primary', () => nextStep());
-  [backBtn, nextBtn].forEach((b) => { b.style.minHeight = u(6); b.style.fontSize = u(2.2); });
+  [backBtn, nextBtn].forEach((b) => { b.style.minHeight = u(5.2); b.style.fontSize = u(1.9); });
   nav.append(backBtn, nextBtn);
   el.append(head, body, nav);
 
   const drawPrev = () => {
-    prev.replaceChildren(jerseyEl({ ...state, name: state.name || '' }, 17));
+    prev.replaceChildren(jerseyEl({ ...state, name: state.name || '' }, 12.5));
     prevName.textContent = state.name || '';
     prevTeam.replaceChildren();
     const t = getTeam(state.team);
@@ -68,19 +68,19 @@ export default function newPlayer(_p, { go, back, onBack }) {
 
   // ---- kroky ----
   const stepName = () => {
-    const field = h('div', ''); field.style.cssText = `min-width:${u(34)};text-align:center;font-weight:800;font-size:${u(4)};letter-spacing:-0.03em;border-bottom:3px solid var(--c-sun);padding:${u(0.2)} ${u(2)};min-height:${u(5.6)}`;
+    const field = h('div', ''); field.style.cssText = `min-width:${u(28)};text-align:center;font-weight:800;font-size:${u(3.2)};letter-spacing:-0.03em;border-bottom:3px solid var(--c-sun);padding:${u(0.2)} ${u(2)};min-height:${u(4.6)}`;
     const paint = () => { field.textContent = state.name || ' '; field.style.opacity = state.name ? 1 : 0.4; if (!state.name) field.textContent = 'jméno'; drawPrev(); nextBtn.style.opacity = canNext() ? 1 : 0.45; };
     const add = (c) => {
       if (state.name.length >= 14) return;
       const lower = !state.name || state.name.endsWith(' ') ? c : c.toLowerCase();
       state.name += lower; paint();
     };
-    const grid = h('div', ''); grid.style.cssText = `display:grid;grid-template-columns:repeat(11,${u(4.6)});gap:${u(0.6)};justify-content:center`;
-    LETTERS.forEach((c, i) => { const b = btn(c, 'btn', () => add(c), { auto: i === 0 }); b.style.cssText += `;min-width:0;min-height:${u(4.4)};padding:0;font-size:${u(2)};border-radius:var(--r-sm)`; grid.append(b); });
+    const grid = h('div', ''); grid.style.cssText = `display:grid;grid-template-columns:repeat(11,${u(4.2)});gap:${u(0.6)};justify-content:center`;
+    LETTERS.forEach((c, i) => { const b = btn(c, 'btn', () => add(c), { auto: i === 0 }); b.style.cssText += `;min-width:0;min-height:${u(4)};padding:0;font-size:${u(1.8)};border-radius:var(--r-sm)`; grid.append(b); });
     const row = h('div', 'flex'); row.style.gap = u(1);
     const sp = btn('mezera', 'btn', () => { if (state.name && !state.name.endsWith(' ') && state.name.length < 14) { state.name += ' '; paint(); } });
     const del = btn('⌫ smazat', 'btn', () => { state.name = state.name.slice(0, -1); paint(); });
-    [sp, del].forEach((b) => { b.style.cssText += `;min-height:${u(4.4)};min-width:${u(16)};font-size:${u(1.8)};border-radius:var(--r-sm)`; row.append(b); });
+    [sp, del].forEach((b) => { b.style.cssText += `;min-height:${u(4)};min-width:${u(14)};font-size:${u(1.7)};border-radius:var(--r-sm)`; row.append(b); });
     panel.append(field, grid, row);
     // fyzická klávesnice funguje také
     const onKey = (e) => {
@@ -94,9 +94,9 @@ export default function newPlayer(_p, { go, back, onBack }) {
   };
 
   const stepNumber = () => {
-    const big = h('div', ''); big.style.cssText = `font-weight:800;font-size:${u(9)};letter-spacing:-0.05em;line-height:1;min-height:${u(9.5)};color:var(--c-sun)`;
+    const big = h('div', ''); big.style.cssText = `font-weight:800;font-size:${u(7)};letter-spacing:-0.05em;line-height:1;min-height:${u(7.4)};color:var(--c-sun)`;
     const paint = () => { big.textContent = state.jersey || '—'; drawPrev(); };
-    const grid = h('div', ''); grid.style.cssText = `display:grid;grid-template-columns:repeat(3,${u(8)});gap:${u(1)}`;
+    const grid = h('div', ''); grid.style.cssText = `display:grid;grid-template-columns:repeat(3,${u(6.6)});gap:${u(0.9)}`;
     ['1', '2', '3', '4', '5', '6', '7', '8', '9', '⌫', '0', 'bez'].forEach((d, i) => {
       const label = d === 'bez' ? 'bez čísla' : d;
       const b = btn(label, 'btn', () => {
@@ -105,7 +105,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
         else if (state.jersey.length < 2) state.jersey = (state.jersey + d).replace(/^0+(?=\d)/, '');
         paint();
       }, { auto: i === 4 });
-      b.style.cssText += `;min-width:0;min-height:${u(5.4)};padding:0;font-size:${d === 'bez' ? u(1.5) : u(2.6)};border-radius:var(--r-btn)`;
+      b.style.cssText += `;min-width:0;min-height:${u(4.6)};padding:0;font-size:${d === 'bez' ? u(1.4) : u(2.2)};border-radius:var(--r-btn)`;
       grid.append(b);
     });
     panel.append(big, grid); paint();
@@ -117,8 +117,8 @@ export default function newPlayer(_p, { go, back, onBack }) {
     const mark = () => cards.forEach(([v, c]) => { c.style.borderColor = v === state.hand ? 'var(--c-sun)' : ''; c.style.background = v === state.hand ? 'linear-gradient(160deg,rgba(var(--acc-rgb),.28),rgba(var(--acc-rgb),.06))' : ''; });
     [['right', 'Pravá', 'Pravák'], ['left', 'Levá', 'Levák']].forEach(([v, big, small], i) => {
       const c = btn('', 'card', () => { state.hand = v; mark(); }, { auto: v === state.hand });
-      c.style.cssText += `;width:${u(21)};padding:${u(3)} ${u(2)};display:flex;flex-direction:column;gap:${u(0.8)};align-items:center`;
-      c.innerHTML = `<div style="font-weight:800;font-size:${u(4.4)};letter-spacing:-0.04em">${big}</div><div style="font-weight:600;font-size:${u(2)};color:var(--c-mute)">${small}</div>`;
+      c.style.cssText += `;width:${u(17)};padding:${u(2.2)} ${u(1.6)};display:flex;flex-direction:column;gap:${u(0.8)};align-items:center`;
+      c.innerHTML = `<div style="font-weight:800;font-size:${u(3.4)};letter-spacing:-0.04em">${big}</div><div style="font-weight:600;font-size:${u(1.7)};color:var(--c-mute)">${small}</div>`;
       cards.push([v, c]); row.append(c);
     });
     const note = h('div', 'muted', 'Podle toho se bude víc trénovat slabší noha.'); note.style.fontSize = u(1.8);
@@ -133,7 +133,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
     const setMode = (m) => { state.mode = m; if (m === 'custom') { state.team = null; applyTheme(null); } markMode(); nextBtn.style.opacity = 1; drawPrev(); renderLower(); };
     [['club', 'Klub nebo reprezentace'], ['custom', 'Vlastní dres']].forEach(([k, label], i) => {
       const b = btn(label, 'card', () => setMode(k), { auto: i === 0 });
-      b.style.cssText += `;width:${u(26)};padding:${u(1.6)} ${u(1)};font-weight:800;font-size:${u(2.2)}`;
+      b.style.cssText += `;width:${u(22)};padding:${u(1.2)} ${u(1)};font-weight:800;font-size:${u(1.9)}`;
       mbtn[k] = b; modes.append(b);
     });
     const renderLower = () => {
@@ -145,7 +145,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
       const cur = getTeam(state.team);
       let country = cur ? (cur.country || 'Ostatní') : countries[0];
       const crow = h('div', 'flex flex-wrap justify-center'); crow.style.gap = u(0.5);
-      const teams = h('div', ''); teams.style.cssText = `display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${u(0.7)};width:100%;max-height:${u(19)};overflow-y:auto;padding:${u(0.4)}`;
+      const teams = h('div', ''); teams.style.cssText = `display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:${u(0.7)};width:100%;max-height:${u(17)};overflow-y:auto;padding:${u(0.4)}`;
       const cb = [];
       const markC = () => cb.forEach(([c, b]) => { b.style.background = c === country ? 'rgba(255,255,255,.16)' : ''; b.style.borderColor = c === country ? 'rgba(255,255,255,.55)' : ''; });
       const tc = [];
@@ -173,7 +173,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
   };
 
   const stepKit = () => {
-    const grid = h('div', ''); grid.style.cssText = `display:grid;grid-template-columns:repeat(6,${u(8.6)});gap:${u(1)};justify-content:center`;
+    const grid = h('div', ''); grid.style.cssText = `display:grid;grid-template-columns:repeat(6,${u(7.2)});gap:${u(0.9)};justify-content:center`;
     const bs = [];
     const mark = () => bs.forEach((b, i) => { b.style.borderColor = i === state.avatar ? 'var(--c-sun)' : ''; });
     KIT_STYLES.forEach((_, i) => {
@@ -181,7 +181,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
       b.style.cssText += `;padding:${u(0.8)};border-radius:var(--r-btn);width:100%;min-width:0;display:flex;align-items:center;justify-content:center`;
       bs.push(b); grid.append(b);
     });
-    const drawKits = () => bs.forEach((b, i) => b.replaceChildren(jerseyEl({ ...state, avatar: i }, 6.4, { number: false })));
+    const drawKits = () => bs.forEach((b, i) => b.replaceChildren(jerseyEl({ ...state, avatar: i }, 5.4, { number: false })));
     drawKits(); mark();
     panel.append(grid);
   };
@@ -190,12 +190,12 @@ export default function newPlayer(_p, { go, back, onBack }) {
     const sw = (lab, key) => {
       const box = h('div', 'flex flex-col items-center'); box.style.gap = u(0.6);
       box.append(h('div', 'eyebrow', lab));
-      const g = h('div', ''); g.style.cssText = `display:grid;grid-template-columns:repeat(7,${u(5)});gap:${u(0.8)};justify-content:center`;
+      const g = h('div', ''); g.style.cssText = `display:grid;grid-template-columns:repeat(7,${u(4.4)});gap:${u(0.7)};justify-content:center`;
       const items = [];
       const mark = () => items.forEach(([c, b]) => { b.style.borderColor = c === state[key] ? '#fff' : ''; b.style.transform = ''; });
       COLORS.forEach((c, i) => {
         const b = btn('', 'card', () => { state[key] = c; mark(); drawPrev(); }, { auto: key === 'color' && i === 0 });
-        b.style.cssText += `;background:${c};width:100%;height:${u(4.4)};border-radius:var(--r-sm);padding:0;min-width:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)`;
+        b.style.cssText += `;background:${c};width:100%;height:${u(3.8)};border-radius:var(--r-sm);padding:0;min-width:0;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18)`;
         items.push([c, b]); g.append(b);
       });
       mark(); box.append(g); return box;
@@ -205,10 +205,10 @@ export default function newPlayer(_p, { go, back, onBack }) {
 
   const stepDone = () => {
     const rows = [['Jméno', state.name || 'Hráč'], ['Číslo', state.jersey || 'bez čísla'], ['Silnější noha', state.hand === 'left' ? 'Levá (levák)' : 'Pravá (pravák)'], ['Dres', getTeam(state.team) ? getTeam(state.team).name : 'Vlastní dres']];
-    const list = h('div', 'flex flex-col'); list.style.cssText = `gap:${u(0.8)};min-width:${u(40)}`;
+    const list = h('div', 'flex flex-col'); list.style.cssText = `gap:${u(0.8)};min-width:${u(34)}`;
     rows.forEach(([k, v]) => {
       const r = h('div', 'flex justify-between'); r.style.cssText = `gap:${u(3)};padding:${u(0.9)} ${u(2)};border-radius:var(--r-btn);border:1px solid var(--line);background:rgba(255,255,255,.03)`;
-      const a = h('span', 'muted', k); a.style.fontSize = u(1.8); const b = h('span', '', v); b.style.cssText = `font-weight:800;font-size:${u(2.2)}`;
+      const a = h('span', 'muted', k); a.style.fontSize = u(1.8); const b = h('span', '', v); b.style.cssText = `font-weight:800;font-size:${u(1.9)}`;
       r.append(a, b); list.append(r);
     });
     panel.append(list);

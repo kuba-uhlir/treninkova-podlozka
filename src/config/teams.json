@@ -155,7 +155,7 @@
   {
     "id": "karvina",
     "name": "Karviná",
-    "country": "Česko",
+    "country": "Česko 2. liga",
     "primary": "#00923F",
     "secondary": "#FFFFFF",
     "logo": "img/teams/karvina.png",
@@ -173,7 +173,7 @@
   {
     "id": "duklapraha",
     "name": "Dukla Praha",
-    "country": "Česko",
+    "country": "Česko 2. liga",
     "primary": "#B5121B",
     "secondary": "#FFD400",
     "logo": "img/teams/duklapraha.png",
@@ -243,39 +243,12 @@
     "kit": "plain"
   },
   {
-    "id": "chrudim",
-    "name": "Chrudim",
-    "country": "Česko 2. liga",
-    "primary": "#E31E24",
-    "secondary": "#FFFFFF",
-    "logo": "img/teams/chrudim.png",
-    "kit": "plain"
-  },
-  {
     "id": "trinec",
     "name": "Třinec",
     "country": "Česko 2. liga",
     "primary": "#BD0A23",
     "secondary": "#C4253C",
     "logo": "img/teams/trinec.png",
-    "kit": "plain"
-  },
-  {
-    "id": "vyskov",
-    "name": "Vyškov",
-    "country": "Česko 2. liga",
-    "primary": "#3D53A0",
-    "secondary": "#E31D36",
-    "logo": "img/teams/vyskov.png",
-    "kit": "plain"
-  },
-  {
-    "id": "varnsdorf",
-    "name": "Varnsdorf",
-    "country": "Česko 2. liga",
-    "primary": "#0062AC",
-    "secondary": "#FDE400",
-    "logo": "img/teams/varnsdorf.png",
     "kit": "plain"
   },
   {
@@ -295,6 +268,42 @@
     "secondary": "#DF0409",
     "logo": "img/teams/hanackaslaviakromeriz.png",
     "kit": "plain"
+  },
+  {
+    "id": "banikb",
+    "name": "Baník Ostrava B",
+    "country": "Česko 2. liga",
+    "primary": "#0057B8",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/banikb.png",
+    "kit": "plain"
+  },
+  {
+    "id": "jihlava",
+    "name": "Vysočina Jihlava",
+    "country": "Česko 2. liga",
+    "primary": "#1D2F8F",
+    "secondary": "#FFD400",
+    "logo": "img/teams/jihlava.png",
+    "kit": "plain"
+  },
+  {
+    "id": "usti",
+    "name": "Ústí nad Labem",
+    "country": "Česko 2. liga",
+    "primary": "#22B4E9",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/usti.png",
+    "kit": "plain"
+  },
+  {
+    "id": "slaviab",
+    "name": "Slavia Praha B",
+    "country": "Česko 2. liga",
+    "primary": "#D4002A",
+    "secondary": "#FFFFFF",
+    "logo": "img/teams/slaviab.png",
+    "kit": "halves"
   },
   {
     "id": "mancity",

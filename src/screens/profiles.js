@@ -3,7 +3,7 @@ import { listProfiles, createProfile, saveProfile, getProfile, COLORS, profileLe
 import { sfx } from '../core/audio.js';
 import { applyTheme, getTeam, listTeams, teamLogo } from '../ui/theme.js';
 
-const tile = (inner) => `<div style="width:${u(12)};height:${u(12)};border-radius:50%;border:2px dashed rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:${u(4.6)}">${inner}</div>`;
+const tile = (inner) => `<div style="width:${u(9.5)};height:${u(9.5)};border-radius:50%;border:2px dashed rgba(255,255,255,.28);display:flex;align-items:center;justify-content:center;font-size:${u(3.8)}">${inner}</div>`;
 
 // Výběr hráče: velké karty s dresem. Uvnitř nic zbytečného: hráči, nový hráč, host, a malé „Rodiče“.
 export default function profiles(_p, { go }) {
@@ -18,22 +18,22 @@ export default function profiles(_p, { go }) {
     list.forEach((p, i) => {
       const lv = profileLevel(p);
       const c = btn('', 'card flex flex-col items-center gap-3', () => { sfx('click'); go('home', { profileId: p.id }); }, { auto: i === 0 });
-      c.style.width = u(19);
-      c.append(jerseyEl(p, 12));
+      c.style.width = u(16);
+      c.append(jerseyEl(p, 10));
       const nm = h('div', '', p.name + (p.isGuest ? ' (host)' : ''));
-      nm.style.cssText = `font-weight:800;font-size:${u(2.5)};letter-spacing:-0.03em`;
+      nm.style.cssText = `font-weight:800;font-size:${u(2.2)};letter-spacing:-0.03em`;
       const rk = h('div', 'eyebrow', `${lv.rank}`);
       c.append(nm, rk);
       row.append(c);
     });
     const add = btn('', 'card flex flex-col items-center gap-3', () => go('newPlayer'), { auto: list.length === 0 });
-    add.style.width = u(19);
+    add.style.width = u(16);
     add.innerHTML = `${tile(icon('plus'))}<div style="font-weight:600;font-size:${u(2.2)}">Nový hráč</div>`;
     const guest = btn('', 'card flex flex-col items-center gap-3', async () => {
       const p = await createProfile({ isGuest: true, avatar: Math.floor(Math.random() * KIT_STYLES.length), color: COLORS[Math.floor(Math.random() * COLORS.length)] });
       go('home', { profileId: p.id });
     });
-    guest.style.width = u(19);
+    guest.style.width = u(16);
     guest.innerHTML = `${tile(icon('users'))}<div style="font-weight:600;font-size:${u(2.2)}">Host</div>`;
     row.append(add, guest);
     const parent = btn(`${icon('lock')}Rodiče`, 'btn', () => go('pin', { next: 'parent' }));
@@ -65,17 +65,17 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
 
   // náhled dresu
   const preview = h('div', 'flex justify-center');
-  const drawPrev = () => { preview.replaceChildren(jerseyEl(state, 20)); drawKits(); };
+  const drawPrev = () => { preview.replaceChildren(jerseyEl(state, 14)); drawKits(); };
 
   const name = h('input', 'card font-bold text-center', '', { type: 'text', placeholder: 'Jméno', maxlength: 14, 'data-focusable': '', tabindex: '0' });
-  name.style.cssText += `;font-size:${u(2.6)};width:${u(26)};border-radius:var(--r-btn)`;
+  name.style.cssText += `;font-size:${u(2.2)};width:${u(22)};border-radius:var(--r-btn)`;
   name.oninput = () => { state.name = name.value; drawPrev(); };
 
   // číslo dresu: − / + (pohodlné na D-pad), prázdné = bez čísla
   const jersey = h('div', 'flex flex-col items-center'); jersey.style.gap = u(0.8);
-  const jrow = h('div', ''); jrow.style.cssText = `display:grid;grid-template-columns:${u(7.5)} 1fr ${u(7.5)};align-items:center;gap:${u(1)};width:${u(26)}`;
+  const jrow = h('div', ''); jrow.style.cssText = `display:grid;grid-template-columns:${u(6)} 1fr ${u(6)};align-items:center;gap:${u(1)};width:${u(22)}`;
   const jval = h('div', 'font-extrabold text-center', '—');
-  jval.style.cssText = `font-size:${u(3.6)};text-align:center;line-height:1;letter-spacing:-0.04em`;
+  jval.style.cssText = `font-size:${u(3)};text-align:center;line-height:1;letter-spacing:-0.04em`;
   const bump = (d) => {
     const cur = state.jersey === '' ? 0 : Number(state.jersey);
     const nx = Math.max(0, Math.min(99, cur + d));
@@ -92,7 +92,7 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
   const markHand = () => handBtns.forEach(([v, b]) => { b.style.background = v === state.hand ? "var(--c-sun)" : ""; b.style.color = v === state.hand ? "var(--on-acc)" : ""; });
   [["right", "Pravák"], ["left", "Levák"]].forEach(([v, label]) => {
     const b = btn(label, "btn", () => { state.hand = v; markHand(); });
-    b.style.minHeight = u(5.2); b.style.minWidth = u(11); b.style.fontSize = u(2);
+    b.style.minHeight = u(4.6); b.style.minWidth = u(10); b.style.fontSize = u(1.8);
     handBtns.push([v, b]); handRow.append(b);
   });
   markHand();
@@ -100,7 +100,7 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
 
   // střih dresu
   const kitRow = h('div', '');
-  kitRow.style.cssText = `display:grid;grid-template-columns:repeat(6,${u(6.8)});gap:${u(1)};justify-content:center`;
+  kitRow.style.cssText = `display:grid;grid-template-columns:repeat(6,${u(6)});gap:${u(0.9)};justify-content:center`;
   const kitBtns = [];
   KIT_STYLES.forEach((_, i) => {
     const b = btn('', 'card', () => { state.avatar = i; drawPrev(); });

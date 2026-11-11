@@ -103,7 +103,8 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
   const hintRgb = (() => { const n = parseInt(HINT.slice(1), 16); return `${(n >> 16) & 255},${(n >> 8) & 255},${n & 255}`; })();
   const bs = sk.badge || {}; const BADGE = bs.fill || RED;
   const id = `m${uidN++}`;
-  const vb = room ? `-9 -5 ${W + 18} ${H + 5 + 36}` : `0 0 ${W} ${H}`; // room: okolo podložky je místo pro nohy (hlavně dole pod míčem)
+  const vbW = room ? W + 12 : W; const vbH = room ? H + 28 : H; // room: okolo podložky je místo pro nohy (hlavně dole pod míčem)
+  const vb = room ? `-6 -2 ${vbW} ${vbH}` : `0 0 ${W} ${H}`;
   const svg = s('svg', { viewBox: vb, class: 'w-full h-full', preserveAspectRatio: 'xMidYMid meet', style: 'overflow:visible' });
   const defs = s('defs', {}, svg);
   const clip = s('clipPath', { id: `${id}clip` }, defs);
@@ -302,6 +303,7 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
   let shown = false;
   const api = {
     el: svg,
+    aspect: vbW / vbH, // poměr stran celé kresby (podložka + místo pro nohy)
     /** Zvýrazní zónu: čtverec i živý míč plynule přejedou (glideMs). foot: 'left' | 'right' | undefined. */
     highlight(zoneId, foot, glideMs = 250) {
       const z = zoneEls[zoneId];

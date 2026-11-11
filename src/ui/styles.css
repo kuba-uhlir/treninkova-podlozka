@@ -43,7 +43,7 @@ html, body {
   .screen > *:nth-child(4) { animation-delay: .18s; } .screen > *:nth-child(5) { animation-delay: .24s; }
   .screen > *:nth-child(6) { animation-delay: .30s; } .screen > *:nth-child(7) { animation-delay: .36s; }
 
-  .title { font-weight: 800; font-size: calc(var(--u) * 4.4); line-height: 1.05; letter-spacing: -0.035em; color: #fff; }
+  .title { font-weight: 800; font-size: calc(var(--u) * 3.8); line-height: 1.05; letter-spacing: -0.035em; color: #fff; }
   .title .accent { color: var(--c-sun); }
   .eyebrow { font-weight: 600; font-size: calc(var(--u) * 1.5); letter-spacing: .22em; text-transform: uppercase; color: var(--c-mute); }
   .muted { color: var(--c-mute); }
@@ -51,13 +51,13 @@ html, body {
   .card {
     background: linear-gradient(160deg, rgba(255, 255, 255, .08), rgba(255, 255, 255, .025));
     border: 1px solid var(--line); text-align: center; cursor: pointer; outline: none;
-    border-radius: var(--r-card); padding: calc(var(--u) * 2);
+    border-radius: var(--r-card); padding: calc(var(--u) * 1.6);
     transition: transform .22s cubic-bezier(.2, .8, .2, 1), box-shadow .22s ease, border-color .22s ease, background .22s ease;
   }
   .btn {
     @apply card flex items-center justify-center gap-3;
-    font-weight: 600; font-size: calc(var(--u) * 2.2); min-height: calc(var(--u) * 7); min-width: calc(var(--u) * 14);
-    border-radius: var(--r-btn); padding: 0 calc(var(--u) * 3);
+    font-weight: 600; font-size: calc(var(--u) * 2); min-height: calc(var(--u) * 5.8); min-width: calc(var(--u) * 11);
+    border-radius: var(--r-btn); padding: 0 calc(var(--u) * 2.4);
   }
   .btn-primary {
     @apply btn; color: var(--on-acc); font-weight: 800; border: none;
@@ -78,9 +78,9 @@ input[data-focusable] { color: #fff; }
 input::placeholder { color: var(--c-mute); }
 
 @keyframes screen-in { from { opacity: 0; filter: blur(8px); transform: scale(1.015); } to { opacity: 1; filter: none; transform: none; } }
-/* pásy karet bez posuvníku (posouvá se šipkami / dotykem) */
-.rail { scrollbar-width: none; }
-.rail::-webkit-scrollbar { display: none; }
+/* nikde se nezobrazují posuvníky (posouvá se šipkami / dotykem / kolečkem) */
+* { scrollbar-width: none; }
+*::-webkit-scrollbar { display: none; width: 0; height: 0; }
 /* lesklý přejezd přes hlavní tlačítko, pulzující záře při výběru, poskočení ikony */
 .btn-primary { position: relative; overflow: hidden; }
 .btn-primary::after { content: ''; position: absolute; top: 0; bottom: 0; left: -60%; width: 38%; pointer-events: none; transform: skewX(-18deg); background: linear-gradient(100deg, transparent, rgba(255,255,255,.5), transparent); animation: shine 3.6s ease-in-out infinite; }

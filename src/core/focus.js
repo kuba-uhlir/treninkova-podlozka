@@ -6,7 +6,7 @@ let root = document;
 const memory = new WeakMap(); // root -> naposledy fokusovaný prvek
 
 const visible = (el) => { const r = el.getBoundingClientRect(); return r.width > 0 && r.height > 0; };
-export const candidates = () => [...root.querySelectorAll(SEL)].filter(visible);
+export const candidates = () => [...root.querySelectorAll(SEL)].filter((e) => visible(e) && !e.closest('[inert]'));
 const center = (r) => ({ x: r.left + r.width / 2, y: r.top + r.height / 2 });
 
 export function pickNext(from, dir, list) {

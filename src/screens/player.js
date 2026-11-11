@@ -10,29 +10,34 @@ const PREVIEW_SEC = 6;
 
 export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, { go, onBack }) {
   const el = h('section', 'screen');
-  el.style.cssText += `;justify-content:space-between;overflow:hidden;padding:${u(1.2)} ${u(3)} ${u(1.1)};gap:${u(0.7)}`;
+  // široká obrazovka (televize 16:9 a širší): informace po stranách, podložka uprostřed přes celou výšku
+  const wide = window.innerWidth / window.innerHeight > 1.55;
+  el.style.cssText += wide
+    ? `;flex-direction:row;align-items:stretch;justify-content:space-between;overflow:hidden;padding:${u(2)} ${u(3)};gap:${u(2)}`
+    : `;justify-content:space-between;overflow:hidden;padding:${u(1.2)} ${u(3)} ${u(1.1)};gap:${u(0.7)}`;
 
   // ---- horní lišta ----
   const head = h('div', 'w-full flex items-center justify-between');
   head.style.gap = u(3);
   const left = h('div', 'flex items-center');
   left.style.gap = u(1.8);
-  left.append(jerseyEl(profile, 5.6));
+  left.append(jerseyEl(profile, wide ? 5 : 4.4));
+  if (wide) left.style.cssText += ';flex-direction:column;align-items:flex-start';
   const ttlBox = h('div', 'flex flex-col');
   ttlBox.style.gap = u(0.3);
   const counter = h('div', 'eyebrow');
   const title = h('div', '');
-  title.style.cssText = `font-weight:800;font-size:${u(2.9)};letter-spacing:-0.03em;line-height:1.05`;
+  title.style.cssText = `font-weight:800;font-size:${u(2.4)};letter-spacing:-0.03em;line-height:1.05`;
   const chips = h('div', 'flex');
   chips.style.cssText = `gap:${u(0.8)};margin-top:${u(0.5)}`;
   const task = h('div', ''); // co má hráč dělat (text k hlasu Trenéra)
-  task.style.cssText = `font-size:${u(1.9)};font-weight:600;color:var(--c-chalk);opacity:.85;margin-top:${u(0.4)};max-width:${u(48)};line-height:1.25`;
+  task.style.cssText = `font-size:${u(1.55)};font-weight:600;color:var(--c-chalk);opacity:.85;margin-top:${u(0.4)};max-width:${u(wide ? 34 : 48)};line-height:1.3`;
   ttlBox.append(counter, title, chips, task);
   left.append(ttlBox);
 
   // segmenty postupu tréninku (jeden na cvik)
   const segs = h('div', 'flex flex-1');
-  segs.style.cssText = `gap:${u(0.7)};max-width:${u(34)};min-width:${u(10)}`;
+  segs.style.cssText = wide ? `gap:${u(0.6)};width:${u(20)}` : `gap:${u(0.7)};max-width:${u(28)};min-width:${u(10)}`;
   const segFill = workout.map(() => {
     const s = h('div', '');
     s.style.cssText = `flex:1;height:${u(0.9)};border-radius:99px;background:rgba(255,255,255,.12);overflow:hidden`;
@@ -44,19 +49,19 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
 
   // časovač (tenký kruh + číslo)
   const ring = h('div', 'relative');
-  ring.style.cssText = `width:${u(10.5)};height:${u(10.5)};flex:none`;
+  ring.style.cssText = `width:${u(8)};height:${u(8)};flex:none`;
   ring.innerHTML = `<svg viewBox="0 0 100 100" class="w-full h-full" style="transform:rotate(-90deg)"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--acc-soft)"/><stop offset="1" style="stop-color:var(--c-sun)"/></linearGradient></defs>
     <circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff14" stroke-width="6"/>
     <circle id="arc" cx="50" cy="50" r="44" fill="none" stroke="url(#rg)" stroke-width="6" stroke-linecap="round" style="filter:drop-shadow(0 0 3px rgba(var(--acc-rgb),.6))" stroke-dasharray="276.46" stroke-dashoffset="0"/></svg>
-    <div id="big" class="absolute inset-0 flex items-center justify-center font-extrabold" style="font-size:${u(4)};letter-spacing:-0.05em"></div>`;
+    <div id="big" class="absolute inset-0 flex items-center justify-center font-extrabold" style="font-size:${u(3.1)};letter-spacing:-0.05em"></div>`;
   const arc = ring.querySelector('#arc');
   const big = ring.querySelector('#big');
   head.append(left, segs, ring);
 
   // ---- podložka přes celou střední část + velký odpočet nad ní ----
-  const mid = h('div', 'w-full flex-1 flex items-center justify-center');
-  mid.style.cssText += ';min-height:0;position:relative';
+  const mid = h('div', wide ? 'flex items-center justify-center' : 'w-full flex-1 flex items-center justify-center');
   const mat = createMatView({ mat: matCfg, room: true });
+  mid.style.cssText += wide ? `;min-height:0;position:relative;flex:none;height:100%;aspect-ratio:${mat.aspect}` : ';min-height:0;position:relative';
   mat.el.style.cssText = 'width:100%;height:100%';
   mid.appendChild(mat.el);
   const cd = h('div', '');
@@ -67,7 +72,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
   // ---- spodní lišta ----
   const foot = h('div', 'w-full flex items-center justify-between');
   const pill = h('div', 'flex items-center');
-  pill.style.cssText = `gap:${u(1.2)};padding:${u(0.7)} ${u(2.2)};border-radius:var(--r-btn);font-weight:800;font-size:${u(2.1)};letter-spacing:-0.01em;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06)`;
+  pill.style.cssText = `gap:${u(1.2)};padding:${u(0.7)} ${u(2.2)};border-radius:var(--r-btn);font-weight:800;font-size:${u(1.7)};letter-spacing:-0.01em;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.06)`;
   const dot = h('span', '');
   dot.style.cssText = `width:${u(1.3)};height:${u(1.3)};border-radius:50%;background:var(--c-sun);flex:none`;
   const pillText = h('span', '');
@@ -75,7 +80,12 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
   const hint = h('div', 'eyebrow'); hint.textContent = 'OK = pauza · Zpět = konec';
   foot.append(pill, hint);
 
-  el.append(head, mid, foot);
+  if (wide) {
+    const col = (align) => { const c = h('div', 'flex flex-col'); c.style.cssText = `flex:1 1 0;min-width:0;justify-content:space-between;align-items:${align}`; return c; };
+    const lc = col('flex-start'); lc.append(left, pill);
+    const rc = col('flex-end'); const rt = h('div', 'flex flex-col'); rt.style.cssText = `align-items:flex-end;gap:${u(1.4)}`; rt.append(ring, segs); rc.append(rt, hint);
+    el.append(lc, mid, rc);
+  } else el.append(head, mid, foot);
 
   // ---- stav ----
   let idx = 0;
@@ -152,7 +162,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
   };
   const chipEl = (text) => {
     const c = h('div', '', text);
-    c.style.cssText = `padding:${u(0.3)} ${u(1.2)};border-radius:var(--r-sm);font-size:${u(1.4)};font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(255,255,255,.18);color:var(--c-mute)`;
+    c.style.cssText = `padding:${u(0.3)} ${u(1.2)};border-radius:var(--r-sm);font-size:${u(1.3)};font-weight:600;letter-spacing:.04em;text-transform:uppercase;border:1px solid rgba(255,255,255,.18);color:var(--c-mute)`;
     return c;
   };
 

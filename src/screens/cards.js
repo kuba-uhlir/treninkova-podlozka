@@ -9,7 +9,7 @@ const loadOwn = () => { try { return localStorage.getItem(KEY) === '1'; } catch 
 const saveOwn = (v) => { try { localStorage.setItem(KEY, v ? '1' : '0'); } catch (e) { /* bez úložiště */ } };
 
 // Album karet: po vzácnosti, získané barevné, ostatní tmavé s otazníkem (nebo jen moje). OK na kartě ji zvětší a jde otočit (zajímavost).
-export default function cards({ profileId }, { go, back }) {
+export default function cards({ profileId }, { go, back, onBack }) {
   const el = h('section', 'screen');
   el.style.cssText += `;justify-content:flex-start;overflow-y:auto;gap:${u(1.6)}`;
   (async () => {
@@ -38,8 +38,11 @@ export default function cards({ profileId }, { go, back }) {
     el.append(body);
 
     const open = (c) => {
+      // při otevřené kartě se pozadí nesmí posouvat (kolečko, dotyk, šipky) a nesmí z něj jít ovládat nic
+      const top = el.scrollTop;
+      el.style.overflowY = 'hidden'; head.inert = true; body.inert = true;
       const overlay = h('div', '');
-      overlay.style.cssText = `position:absolute;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;gap:${u(4)};padding:0 ${u(4)};background:rgba(0,0,0,.92);backdrop-filter:blur(8px);animation:screen-in .3s ease backwards`;
+      overlay.style.cssText = `position:absolute;left:0;right:0;top:${top}px;height:${el.clientHeight}px;z-index:30;display:flex;align-items:center;justify-content:center;gap:${u(4)};padding:0 ${u(4)};background:rgba(0,0,0,.92);backdrop-filter:blur(8px);animation:screen-in .3s ease backwards`;
       const side = h('div', 'flex flex-col'); side.style.cssText = `gap:${u(1.2)};max-width:${u(46)};text-align:left`;
       const r = RARITY[c.rarity];
       side.append(h('div', 'eyebrow', `${r.name} karta · ${own[c.id]}×`));
@@ -49,7 +52,9 @@ export default function cards({ profileId }, { go, back }) {
       side.append(bio);
       if (bioSource(c)) { const so = h('div', 'muted', bioSource(c)); so.style.fontSize = u(1.2); side.append(so); }
       const tip = h('div', 'eyebrow', 'Klepni na kartu a otoč ji'); tip.style.fontSize = u(1.3);
-      const close = btn(`${icon('back')}Zavřít`, 'btn', () => overlay.remove());
+      const closeCard = () => { overlay.remove(); el.style.overflowY = 'auto'; el.scrollTop = top; head.inert = false; body.inert = false; onBack(() => back()); };
+      const close = btn(`${icon('back')}Zavřít`, 'btn', closeCard);
+      onBack(closeCard); // Zpět na ovladači nejdřív zavře kartu
       close.style.minHeight = u(5.4); close.style.fontSize = u(1.9); close.style.alignSelf = 'flex-start';
       side.append(tip, close);
       overlay.append(card, side);
