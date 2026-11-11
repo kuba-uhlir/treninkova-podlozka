@@ -284,7 +284,8 @@
     "media": {
       "animation": true
     },
-    "call": "direction"
+    "call": "direction",
+    "travel": true
   },
   {
     "id": "dummy-jump",
@@ -344,7 +345,8 @@
     "info": "Míč objede všechna čísla dokola.",
     "media": {
       "animation": true
-    }
+    },
+    "travel": true
   },
   {
     "id": "w-drill",
@@ -363,7 +365,8 @@
     "info": "Míč kreslí na podložce písmeno W.",
     "media": {
       "animation": true
-    }
+    },
+    "travel": true
   },
   {
     "id": "zigzag",
@@ -383,7 +386,8 @@
     "info": "Cik-cak mezi čísly, vždy přes střed.",
     "media": {
       "animation": true
-    }
+    },
+    "travel": true
   },
   {
     "id": "cross",
@@ -401,7 +405,8 @@
     "info": "Míč jede křížem přes podložku.",
     "media": {
       "animation": true
-    }
+    },
+    "travel": true
   },
   {
     "id": "combo",
@@ -545,7 +550,8 @@
     "info": "Míč objede čísla ve velkém tempu.",
     "media": {
       "animation": true
-    }
+    },
+    "travel": true
   },
   {
     "id": "w-fast",
@@ -564,7 +570,8 @@
     "info": "Písmeno W ve vysokém tempu.",
     "media": {
       "animation": true
-    }
+    },
+    "travel": true
   },
   {
     "id": "combo-pro",
@@ -587,7 +594,8 @@
     "info": "Dlouhá kombinace přes střed a rohy.",
     "media": {
       "animation": true
-    }
+    },
+    "travel": true
   },
   {
     "id": "jump-master",

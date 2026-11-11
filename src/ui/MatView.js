@@ -103,7 +103,7 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
   const hintRgb = (() => { const n = parseInt(HINT.slice(1), 16); return `${(n >> 16) & 255},${(n >> 8) & 255},${n & 255}`; })();
   const bs = sk.badge || {}; const BADGE = bs.fill || RED;
   const id = `m${uidN++}`;
-  const vb = room ? `-9 -5 ${W + 18} ${H + 5 + 26}` : `0 0 ${W} ${H}`; // room: okolo podložky je místo pro nohy (hlavně dole pod míčem)
+  const vb = room ? `-9 -5 ${W + 18} ${H + 5 + 36}` : `0 0 ${W} ${H}`; // room: okolo podložky je místo pro nohy (hlavně dole pod míčem)
   const svg = s('svg', { viewBox: vb, class: 'w-full h-full', preserveAspectRatio: 'xMidYMid meet', style: 'overflow:visible' });
   const defs = s('defs', {}, svg);
   const clip = s('clipPath', { id: `${id}clip` }, defs);
@@ -198,7 +198,7 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
   // zóny + jediný pohyblivý zvýrazňovací čtverec (klouže mezi zónami)
   const zoneEls = {};
   mat.zones.forEach((z) => { zoneEls[z.id] = { zone: z, badge: null }; });
-  const SQ = mat.ball.r * 1.45; // pevná velikost čtverce kolem míče
+  const SQ = mat.ball.r * 2.73; // pevná velikost čtverce kolem míče
   const hl = s('rect', { rx: 2.4, fill: SUN, 'fill-opacity': 0, stroke: SUN, 'stroke-opacity': 0, 'stroke-width': 0.8, x: 0, y: 0, width: SQ, height: SQ }, svg);
   
   // červená čísla: tmavá číslice, všechny rohy stejně zaoblené
@@ -223,7 +223,7 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
   const printed = s('g', { transform: `translate(${mat.ball.x} ${mat.ball.y})` }, svg);
   if (sk.printBall !== false) drawBall(printed, R, id);
 
-  const liveR = R * 0.62;
+  const liveR = R * 1.17; // pohyblivý míč (nohy se zvětšují ve stejném poměru jako míč)
   const live = s('g', { opacity: 0 }, svg);
   const liveIn = s('g', {}, live);
   drawBall(liveIn, liveR, `${id}l`);
@@ -280,7 +280,7 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
   const TAPY = 11.5 * 0.55 * TAPK; // špička kopačky (y = -11.5) míří na střed míče, zbytek boty vede dolů k hráči
   // Míč putuje po podložce: pracovní noha je u míče, opěrná stojí vedle a s krátkým zpožděním ji "přisune" za míčem
   const ballFeetG = { left: mkFoot(false), right: mkFoot(true) };
-  const KB = TAPK * 0.85; const TOE = 11.5 * 0.55 * KB;
+  const KB = TAPK * 0.85 * (1.17 / 0.62) * 0.78; const TOE = 11.5 * 0.55 * KB; // nohy o ~22 % menší než dřív
   let bfShown = false;
   const bfPos = { left: null, right: null }; const bfDelay = { left: 0, right: 0 }; const bfWork = { left: false, right: false };
   const feetPos = { left: null, right: null };
@@ -428,8 +428,8 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
         ring.animate([{ opacity: 0.8, transform: 'scale(1)' }, { opacity: 0, transform: 'scale(2)' }], { duration: 320, easing: 'ease-out' });
       }
     },
-    /** Cvik s míčem: pracovní noha ("left" | "right") u míče v zóně, opěrná noha vedle ní dojde s mírným zpožděním. */
-    ballFeet(zoneId, foot, glideMs = 250) {
+    /** Cvik s míčem: pracovní noha ("left" | "right") u míče v zóně; opěrná stojí na výchozí pozici (travel = hráč obíhá podložku, pak ji dojde). */
+    ballFeet(zoneId, foot, glideMs = 250, travel = false) {
       const z = zoneEls[zoneId]; if (!z) return;
       const p = ballPos(z.zone); const sg = foot === 'left' ? -1 : 1; const other = foot === 'left' ? 'right' : 'left';
       const ms = bfShown ? glideMs : 0;
@@ -440,7 +440,7 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
         g.setAttribute('opacity', op);
         bfPos[f] = pos; bfDelay[f] = ms ? delay : 0;
       };
-      const workT = { x: p.x + sg * liveR * 0.5, y: p.y + liveR * 0.1 + TOE };
+      const workT = { x: p.x + sg * liveR * 0.12, y: p.y + TOE }; // špička kopačky přesně na středu míče
       // Opěrná noha se drží dole uprostřed (u základní pozice) a posune se jen tak málo, aby dosáhla na míč.
       // Dosah dítěte podle skutečné šířky podložky: do strany ~60 cm, dopředu ~60 cm.
       const cmU = (mat.widthCm || 90) / W;
@@ -449,7 +449,8 @@ export function createMatView({ labels = true, mat = getMat(), room = false } = 
       const homeSide = { x: home.x + (other === 'left' ? -1 : 1) * liveR * 1.3, y: home.y + liveR * 0.1 + TOE + liveR * 1.1 };
       const at = (t) => ({ x: homeSide.x + (beside.x - homeSide.x) * t, y: homeSide.y + (beside.y - homeSide.y) * t });
       let supT = homeSide;
-      if (ell(homeSide) > 1) { let lo = 0; let hi = 1; for (let i = 0; i < 14; i++) { const m = (lo + hi) / 2; if (ell(at(m)) <= 0.85) hi = m; else lo = m; } supT = at(hi); }
+      // opěrná noha zůstává na výchozí pozici; jinam jde jen u cviků, kde hráč obíhá podložku (travel) a míč je mimo dosah
+      if (travel && ell(homeSide) > 1) { let lo = 0; let hi = 1; for (let i = 0; i < 14; i++) { const m = (lo + hi) / 2; if (ell(at(m)) <= 0.85) hi = m; else lo = m; } supT = at(hi); }
       // nohy se nesmí křížit: opěrná noha musí zůstat na druhé straně než pracovní
       if (sg < 0 ? supT.x < workT.x + liveR * 0.8 : supT.x > workT.x - liveR * 0.8) supT = beside;
       // ani během pohybu: zpoždění opěrné nohy ("přísun") se použije, jen když se nohy při pohybu nepotkají; jinak jdou obě současně

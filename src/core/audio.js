@@ -81,7 +81,7 @@ let tokenN = 0;
 let queue = [];           // věty čekající na konec: { key, kind }
 let gapTimer = null;      // krátká pauza mezi větami (ať se slova nelepí)
 let lastEnd = 0;
-const GAP = 380;          // ms ticha mezi větami; odpočet/„hraj“ jen 120 ms
+const GAP = 120;          // ms ticha mezi větami (nahrávky mají na konci vlastní ticho ~0,6 s); odpočet/„hraj“ jen 60 ms
 
 function voiceEl(url) {
   let a = pool.get(url);
@@ -101,7 +101,7 @@ function pump(delay) {
 function release(token) {
   if (!cur || cur.token !== token) return;
   cur = null; lastEnd = performance.now();
-  if (queue.length) pump(queue[0].kind === 'urgent' ? 120 : GAP);
+  if (queue.length) pump(queue[0].kind === 'urgent' ? 60 : GAP);
 }
 
 function speak(text, token) {
@@ -152,7 +152,7 @@ export function say(key, opts = {}) {
     return; // call se přeskočí
   }
   const since = performance.now() - lastEnd;
-  if (kind !== 'call' && since < GAP && lastEnd) { queue.push({ key, kind }); pump(kind === 'urgent' ? 120 : GAP - since); return; }
+  if (kind !== 'call' && since < GAP && lastEnd) { queue.push({ key, kind }); pump(kind === 'urgent' ? 60 : GAP - since); return; }
   start(key, kind);
 }
 

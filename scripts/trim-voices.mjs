@@ -5,9 +5,12 @@ import fs from 'node:fs';
 
 const SRC = 'voice-src';
 const OUT = 'assets/audio/voice';
-const THRESH = 0.012;      // pod touto úrovní je ticho
+const THRESH = 0.006;      // pod touto úrovní je ticho
 const LEAD = 0.08;         // rezerva před začátkem řeči (s)
-const TAIL = 0.24;         // rezerva za koncem řeči (dozvuk, tiché souhlásky) (s)
+const TAIL = 0.6;          // věty
+const TAIL_SHORT = 0.24;   // krátké povely (zóny, strany, směry, odpočet): musí zůstat krátké, aby šly za sebou v rychlém tempu
+const SHORT = /^(zone_|side_|dir_|countdown_)/;
+// Za větou je delší ticho: zařízení (Bluetooth reproduktor, TV, WebView) si jinak občas useknou poslední slovo.
 
 function wav(samples, sr) {
   const n = samples.length; const buf = Buffer.alloc(44 + n * 2);
@@ -31,7 +34,7 @@ for (const style of fs.readdirSync(SRC)) {
     let first = -1; let last = -1;
     for (let i = 0; i < d.length; i++) if (Math.abs(d[i]) > THRESH) { if (first < 0) first = i; last = i; }
     if (first < 0) { first = 0; last = d.length - 1; }
-    const a = Math.max(0, first - Math.round(LEAD * sr)); const b = Math.min(d.length, last + Math.round(TAIL * sr));
+    const a = Math.max(0, first - Math.round(LEAD * sr)); const b = Math.min(d.length, last + Math.round((SHORT.test(f) ? TAIL_SHORT : TAIL) * sr));
     const out = Float32Array.from(d.subarray(a, b));
     const fi = Math.round(0.008 * sr); const fo = Math.round(0.05 * sr); // krátký náběh a doznění bez lupnutí
     for (let i = 0; i < Math.min(fi, out.length); i++) out[i] *= i / fi;

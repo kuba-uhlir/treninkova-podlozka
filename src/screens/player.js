@@ -120,7 +120,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
     }
     if (d.type === "step") mat.jump(z, glideMs); else mat.highlight(z, d.foot === "both" ? undefined : d.foot, glideMs);
     if (drillType(d) === 'ball') { // pracovní noha u míče: zadaná; u cviků na obě nohy jedna celou dobu, a až když míč přejde na druhou stranu podložky, přehodí se
-      mat.ballFeet(z, workFoot(d, z), glideMs);
+      mat.ballFeet(z, workFoot(d, z), glideMs, !!d.travel);
     }
     mat.hint(z, next);
     // u jednoduchých cviků se místo čísla hlásí směr (doleva, dopředu, šikmo…)
@@ -173,7 +173,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
       task.textContent = d.info || '';
       // Trenér řekne název cviku a co má hráč dělat; slabší noha se připomene jen nakrátko
       if (!again) { say(`drill_${d.id}`, { kind: 'phrase' }); say(`task_${d.id}`, { kind: 'phrase' }); if (d.foot === weakFootOf(profile.hand)) sayGroup('weak'); }
-      setPill(slow ? 'Ukázka pomalu' : 'Ukázka 1 ze 2', false); big.textContent = ''; setArc(1); setSeg(0);
+      setPill(slow ? 'Ukázka pomalu' : 'Ukázka', false); big.textContent = ''; setArc(1); setSeg(0);
     } else if (p === 'countdown') { setPill('Připrav se', false); task.textContent = ''; }
     else if (p === 'play') { setPill('Hraj!', true); }
     else if (p === 'rest') {
@@ -194,7 +194,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
       const passes = slow ? 1 : 2;
       const pvMs = passMs * passes;
       const pass = Math.min(passes - 1, Math.floor(t / passMs));
-      if (pass !== curPass) { curPass = pass; beat = -1; wf = null; mat.reset(); if (!slow) setPill(`Ukázka ${pass + 1} ze 2`, false); }
+      if (pass !== curPass) { curPass = pass; beat = -1; wf = null; mat.reset(); }
       const b = Math.floor((t - pass * passMs) / bm);
       if (b !== beat) { beat = b; hi(d, pat(d)[b % pat(d).length], b, glide(bm)); }
       setArc(1 - t / pvMs);
