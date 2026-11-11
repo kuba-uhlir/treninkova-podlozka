@@ -1,6 +1,6 @@
 // Pořídí snímky obrazovek pro README (docs/screenshots/*.png) přes Edge/Chrome bez okna a ladicí protokol.
 // Spuštění: npm run dev (v jiném okně) a pak node scripts/screenshots.mjs  — používá pomůcku src/dev/shots.js (?shot=...)
-import { spawn } from 'node:child_process';
+import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
 
 const BROWSER = [
@@ -9,13 +9,13 @@ const BROWSER = [
 ].find((p) => fs.existsSync(p));
 if (!BROWSER) throw new Error('Nenalezen Edge ani Chrome');
 const BASE = process.env.APP_URL || 'http://localhost:5173';
-const SHOTS = [['home', 4500], ['cards', 4500], ['cardopen', 6500], ['rewards', 4500], ['player', 4800], ['match', 4500], ['parent', 5000], ['profiles', 4500]];
+const SHOTS = [['intro', 2700], ['faces', 5200], ['drills', 4500], ['result', 5500], ['home', 4500], ['cards', 4500], ['cardopen', 8000], ['rewards', 4500], ['player', 4800], ['match', 4500], ['parent', 5000], ['profiles', 4500]];
+const only = process.argv.slice(2); // volitelně jen vybrané snímky: node scripts/screenshots.mjs cardopen intro
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 fs.mkdirSync('docs/screenshots', { recursive: true });
 
-for (const [name, wait] of SHOTS) {
-  const dir = `${process.env.TEMP || '/tmp'}/shot-${name}`;
-  fs.rmSync(dir, { recursive: true, force: true });
+for (const [name, wait] of SHOTS.filter(([n]) => !only.length || only.includes(n))) {
+  const dir = `${process.env.TEMP || '/tmp'}/shot-${name}-${Date.now()}`; // vždy nový profil, starý může ještě držet zavírající se prohlížeč
   const proc = spawn(BROWSER, ['--headless=new', '--disable-gpu', '--hide-scrollbars', `--user-data-dir=${dir}`, '--remote-debugging-port=9333', '--window-size=1920,1080', 'about:blank'], { stdio: 'ignore' });
   let tabs;
   for (let i = 0; i < 40; i++) { try { tabs = await (await fetch('http://127.0.0.1:9333/json')).json(); if (tabs.length) break; } catch { /* ještě neběží */ } await sleep(250); }
@@ -31,6 +31,8 @@ for (const [name, wait] of SHOTS) {
   const shot = await send('Page.captureScreenshot', { format: 'png' });
   fs.writeFileSync(`docs/screenshots/${name}.png`, Buffer.from(shot.data, 'base64'));
   console.log('snímek', name);
-  ws.close(); proc.kill();
+  ws.close();
+  spawnSync('taskkill', ['/PID', String(proc.pid), '/T', '/F']); // celý strom procesů, jinak další snímek ožívá starý prohlížeč na stejném portu
+  try { fs.rmSync(dir, { recursive: true, force: true }); } catch { /* smaže se příště */ }
   await sleep(600);
 }

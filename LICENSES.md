@@ -11,7 +11,8 @@ Aplikace Fotbal – Tréninková podložka je bezplatný nekomerční projekt, j
 | Hlas Trenér (`assets/audio/voice`) | Microsoft Edge TTS (neuronový hlas cs-CZ-Antonin) | předgenerované věty; před veřejným šířením ověřit podmínky služby |
 | Zvuky (`assets/audio/sfx`) | Vlastní syntéza (`scripts/make-sounds.mjs`) | – |
 | Písmo Inter | @fontsource/inter | SIL Open Font License 1.1 |
-| Ikony | Lucide (lucide.dev) | ISC |
+| Ikony (rezervní sada) | Lucide (lucide.dev) | ISC |
+| Grafika (úvodní míč, pozadí, ikony, odměny, úrovně, avatary, rámečky karet, efekty) | vytvořeno pomocí Gemini a upraveno skriptem `scripts/build-art.mjs` | vlastní dílo autora aplikace |
 | Software | Vite, Tailwind CSS, Capacitor | MIT |
 | Podložky | Vlastní vektorové kresby podle fotek produktů | jde o napodobení vzhledu, ne o kopii grafiky výrobců; názvy výrobců se v aplikaci nepoužívají jako značka |
 

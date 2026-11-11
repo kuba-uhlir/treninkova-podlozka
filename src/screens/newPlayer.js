@@ -2,9 +2,9 @@ import { h, btn, u, jerseyEl, icon, KIT_STYLES } from '../ui/dom.js';
 import { createProfile, COLORS } from '../domain/profiles.js';
 import { applyTheme, getTeam, listTeams, teamLogo } from '../ui/theme.js';
 import { sfx } from '../core/audio.js';
-import { faceChooser } from '../ui/faces.js';
+import { faceChooser, lookToggle } from '../ui/faces.js';
 
-// Průvodce vytvořením hráče: jméno → postavička (dres nebo obličej) → číslo dresu → silnější noha → klub nebo vlastní dres (vzor, barvy) → shrnutí.
+// Průvodce vytvořením hráče: jméno → číslo dresu → silnější noha → klub nebo vlastní dres (vzor, barvy) → shrnutí.
 // Vlevo je stále živý náhled dresu, vpravo vždy jen jeden krok a dole Zpět / Další.
 const LETTERS = 'AÁBCČDĎEÉĚFGHIÍJKLMNŇOÓPQRŘSŠTŤUÚŮVWXYÝZŽ'.split('');
 
@@ -12,9 +12,9 @@ export default function newPlayer(_p, { go, back, onBack }) {
   applyTheme(null);
   const state = { name: '', jersey: '', hand: 'right', team: null, mode: null, avatar: 0, face: 0, color: COLORS[2], color2: '#FFFFFF' };
   let step = 0;
-  // střih a barvy dresu se řeší jen u hráče s dresem a bez klubu
-  const stepsFor = () => (state.face || state.team || state.mode === 'club' ? ['name', 'face', 'number', 'hand', 'club', 'done'] : ['name', 'face', 'number', 'hand', 'club', 'kit', 'colors', 'done']);
-  const TITLES = { name: 'Jak se jmenuješ?', face: 'Vyber si postavičku', number: 'Jaké máš číslo dresu?', hand: 'Kterou nohou kopeš lépe?', club: 'Máš oblíbený klub?', kit: 'Vyber si střih dresu', colors: 'Vyber barvy dresu', done: 'Hotovo, můžeme trénovat!' };
+  // střih a barvy dresu se řeší jen u hráče bez klubu; vzhled (dres nebo avatar) se volí až nakonec, ať je vidět dres vybraného klubu
+  const stepsFor = () => (state.team || state.mode === 'club' ? ['name', 'number', 'hand', 'club', 'look', 'done'] : ['name', 'number', 'hand', 'club', 'kit', 'colors', 'look', 'done']);
+  const TITLES = { name: 'Jak se jmenuješ?', number: 'Jaké máš číslo dresu?', hand: 'Kterou nohou kopeš lépe?', club: 'Máš oblíbený klub?', kit: 'Vyber si střih dresu', colors: 'Vyber barvy dresu', look: 'Dres, nebo avatar?', done: 'Hotovo, můžeme trénovat!' };
 
   const el = h('section', 'screen');
   el.style.cssText += `;justify-content:space-between;gap:${u(1.2)};padding:${u(2)} ${u(3)} ${u(1.8)}`;
@@ -45,7 +45,8 @@ export default function newPlayer(_p, { go, back, onBack }) {
   el.append(head, body, nav);
 
   const drawPrev = () => {
-    prev.replaceChildren(jerseyEl({ ...state, name: state.name || '' }, 12.5));
+    // při volbě čísla je vidět dres s číslem (i když je později zvolen avatar)
+    prev.replaceChildren(jerseyEl({ ...state, name: state.name || '', face: steps()[step] === 'number' ? 0 : state.face }, 12.5));
     prevName.textContent = state.name || '';
     prevTeam.replaceChildren();
     const t = getTeam(state.team);
@@ -174,9 +175,15 @@ export default function newPlayer(_p, { go, back, onBack }) {
     nextBtn.style.opacity = state.mode ? 1 : 0.45;
   };
 
-  const stepFace = () => {
-    panel.append(faceChooser(state, () => render(), { autoFocus: true }));
-    const t = h('div', 'muted', 'Postavička, nebo dres jako dosud. Číslo dresu se ukáže v rohu.'); t.style.fontSize = u(1.6); panel.append(t);
+  const stepLook = () => {
+    const holder = h('div', 'flex flex-col items-center'); holder.style.gap = u(1);
+    const fill = () => {
+      holder.replaceChildren();
+      if (state.face) holder.append(faceChooser(state, () => drawPrev(), { autoFocus: true }));
+      else { const t = h('div', 'muted', getTeam(state.team) ? 'Hráč bude mít dres vybraného klubu s číslem.' : 'Hráč bude mít vlastní dres s číslem.'); t.style.fontSize = u(1.9); holder.append(t); }
+    };
+    panel.append(lookToggle(state, () => { drawPrev(); fill(); }), holder); fill();
+    const n = h('div', 'muted', 'Číslo dresu se u avatara ukáže v rohu.'); n.style.fontSize = u(1.5); panel.append(n);
   };
 
   const stepKit = () => {
@@ -211,7 +218,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
   };
 
   const stepDone = () => {
-    const rows = [['Jméno', state.name || 'Hráč'], ['Číslo', state.jersey || 'bez čísla'], ['Silnější noha', state.hand === 'left' ? 'Levá (levák)' : 'Pravá (pravák)'], [state.face ? 'Postavička' : 'Dres', getTeam(state.team) ? getTeam(state.team).name : state.face ? 'Obličej č. ' + state.face : 'Vlastní dres']];
+    const rows = [['Jméno', state.name || 'Hráč'], ['Číslo', state.jersey || 'bez čísla'], ['Silnější noha', state.hand === 'left' ? 'Levá (levák)' : 'Pravá (pravák)'], ['Dres', getTeam(state.team) ? getTeam(state.team).name : 'Vlastní dres'], ['Vzhled', state.face ? 'Avatar' : 'Dres']];
     const list = h('div', 'flex flex-col'); list.style.cssText = `gap:${u(0.8)};min-width:${u(34)}`;
     rows.forEach(([k, v]) => {
       const r = h('div', 'flex justify-between'); r.style.cssText = `gap:${u(3)};padding:${u(0.9)} ${u(2)};border-radius:var(--r-btn);border:1px solid var(--line);background:rgba(255,255,255,.03)`;
@@ -230,7 +237,7 @@ export default function newPlayer(_p, { go, back, onBack }) {
     nextBtn.innerHTML = id === 'done' ? `${icon('check')}Vytvořit hráče` : 'Další';
     nextBtn.style.opacity = 1; nextBtn.disabled = false;
     drawPrev();
-    ({ name: stepName, face: stepFace, number: stepNumber, hand: stepHand, club: stepClub, kit: stepKit, colors: stepColors, done: stepDone })[id]();
+    ({ name: stepName, number: stepNumber, hand: stepHand, club: stepClub, kit: stepKit, colors: stepColors, look: stepLook, done: stepDone })[id]();
     onBack(() => prevStep());
     const first = el.querySelector('[data-autofocus]') || (id === 'done' ? nextBtn : nextBtn);
     first.focus();

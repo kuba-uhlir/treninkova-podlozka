@@ -1,5 +1,5 @@
 import { h, btn, u, jerseyEl, icon, KIT_STYLES } from '../ui/dom.js';
-import { faceChooser } from '../ui/faces.js';
+import { faceChooser, lookToggle } from '../ui/faces.js';
 import { listProfiles, createProfile, saveProfile, getProfile, COLORS, profileLevel } from '../domain/profiles.js';
 import { sfx } from '../core/audio.js';
 import { applyTheme, getTeam, listTeams, teamLogo } from '../ui/theme.js';
@@ -137,7 +137,7 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
   });
   const colBox = h("div", "flex flex-col items-center gap-2");
   colBox.append(h("div", "eyebrow", "Barva dresu"), colRow, h("div", "eyebrow", "Druhá barva (vzor, lemy)"), col2Row);
-  const syncColBox = () => { const hide = state.team || state.face; colBox.style.display = hide ? 'none' : 'flex'; kitBox.style.display = hide ? 'none' : 'flex'; };
+  const syncColBox = () => { colBox.style.display = state.team ? 'none' : 'flex'; kitBox.style.display = state.team || state.face ? 'none' : 'flex'; faceBox.style.display = state.face ? 'flex' : 'none'; };
 
   // oblíbený tým (přebarví menu a dres, logo do pozadí) seskupený podle země
   const all = listTeams();
@@ -172,8 +172,10 @@ export function createProfileScreen({ guest = false, convertId = null, editId = 
   markCountry(); renderTeams();
 
   const faceBox = h('div', 'flex flex-col items-center gap-2');
-  faceBox.append(h('div', 'eyebrow', 'Postavička'), faceChooser(state, () => { syncColBox(); drawPrev(); }, { cell: 5.4 }));
-  right.append(h('div', 'eyebrow', 'Oblíbený tým'), countryRow, teamRow, faceBox, kitBox, colBox);
+  faceBox.append(faceChooser(state, () => drawPrev(), { cell: 5.4 }));
+  const lookBox = h('div', 'flex flex-col items-center gap-2');
+  lookBox.append(h('div', 'eyebrow', 'Vzhled hráče'), lookToggle(state, () => { syncColBox(); drawPrev(); }));
+  right.append(h('div', 'eyebrow', 'Oblíbený tým'), countryRow, teamRow, lookBox, faceBox, kitBox, colBox);
   cols.append(left, right);
 
   const actions = h('div', 'flex gap-5');

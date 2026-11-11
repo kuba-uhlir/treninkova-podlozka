@@ -10,8 +10,8 @@ const PREVIEW_SEC = 6;
 
 export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, { go, onBack }) {
   const el = h('section', 'screen');
-  // široká obrazovka (televize 16:9 a širší): informace po stranách, podložka uprostřed přes celou výšku
-  const wide = window.innerWidth / window.innerHeight > 1.55;
+  // široká obrazovka (poměr od cca 1,85, např. 1900×900): informace po stranách, podložka uprostřed přes celou výšku; na 16:9 zůstává podložka pod záhlavím
+  const wide = window.innerWidth / window.innerHeight > 1.85;
   el.style.cssText += wide
     ? `;flex-direction:row;align-items:stretch;justify-content:space-between;overflow:hidden;padding:${u(2)} ${u(3)};gap:${u(2)}`
     : `;justify-content:space-between;overflow:hidden;padding:${u(1.2)} ${u(3)} ${u(1.1)};gap:${u(0.7)}`;
@@ -61,7 +61,7 @@ export default function player({ profile, workout, mat: matCfg, tempoMul = 1 }, 
   // ---- podložka přes celou střední část + velký odpočet nad ní ----
   const mid = h('div', wide ? 'flex items-center justify-center' : 'w-full flex-1 flex items-center justify-center');
   const mat = createMatView({ mat: matCfg, room: true });
-  mid.style.cssText += wide ? `;min-height:0;position:relative;flex:none;height:100%;aspect-ratio:${mat.aspect}` : ';min-height:0;position:relative';
+  mid.style.cssText += wide ? `;min-height:0;position:relative;flex:none;height:100%;aspect-ratio:${mat.aspect};max-width:calc(100% - ${u(54)})` :  ';min-height:0;position:relative';
   mat.el.style.cssText = 'width:100%;height:100%';
   mid.appendChild(mat.el);
   const cd = h('div', '');

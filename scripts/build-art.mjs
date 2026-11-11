@@ -262,8 +262,9 @@ if (run('karta')) {
   const inWin = (x, y) => x >= wx0 && x <= wx1 && y >= wy0 && y <= wy1;
   const box = (test) => { let a = W; let b = H; let c = 0; let e = 0; for (let y = wy0; y <= wy1; y++) for (let x = wx0; x <= wx1; x++) { if (d[(y * W + x) * 4 + 3] > 128 && test(x, y)) { if (x < a) a = x; if (x > c) c = x; if (y < b) b = y; if (y > e) e = y; } } return { l: fx(a), t: fy(b), r: fx(c), b: fy(e) }; };
   const ww = wx1 - wx0; const wh = wy1 - wy0;
-  const shield = box((x, y) => x < wx0 + ww * 0.4 && y < wy0 + wh * 0.22 && (x - wx0) > ww * 0.012);
-  const plate = box((x, y) => y > wy1 - wh * 0.14 && x > wx0 + ww * 0.2 && x < wx1 - ww * 0.2);
+  // štítek (vlevo nahoře) a destička (dole) jsou naměřené přímo na obrázku rámečku, ve zlomcích šířky a výšky rámečku
+  const shield = { cx: 0.163, cy: 0.113, w: 0.165, h: 0.134 };
+  const plate = { l: 0.245, t: 0.857, r: 0.755, b: 0.916 };
   const geo = { window: { l: fx(wx0), t: fy(wy0), r: fx(wx1), b: fy(wy1) }, shield, plate, aspect: bb.w / bb.h };
   fs.writeFileSync('src/ui/cardFrame.json', JSON.stringify(geo, null, 1));
   const body = crop(p, bb.x0, bb.y0, bb.w, bb.h);

@@ -40,11 +40,12 @@ Odkaz vytvoří hotového ukázkového hráče **Jakuba** (číslo 24, česká r
 | 🦶 **37 cviků ve 4 úrovních** | Od jednoduchých přitažení míče po Twister s nohama a přeskoky. Tempo se samo přizpůsobí úrovni, hlavní noha dostává většinu cviků a slabší jen občas. |
 | 🧩 **Podložky podle vzhledu** | 8 podložek s detailní simulací včetně barevných variant. Míč a plánovaný směr se zvýrazňují přímo na podložce. |
 | ⚔️ **Zápas** | Kola podle hlasu, cvik na čas s rekordy nebo obojí. Hraje se sám, nebo se dva hráči střídají. |
-| 🃏 **Sběratelské karty** | 169 slavných fotbalistů ve čtyřech vzácnostech, s fotkami z Wikimedia Commons. Karta se otáčí a na rubu je zajímavost, vedle ní je popis hráče. |
-| 🏆 **75 odměn** | Medaile, poháry, koruny a další za XP, tréninky, pravidelnost, dovednosti, zápasy i karty. |
+| 🃏 **Sběratelské karty** | 169 slavných fotbalistů ve čtyřech vzácnostech (neonový rámeček v barvě vzácnosti), s fotkami z Wikimedia Commons. Karta se otáčí a na rubu je zajímavost, vedle ní je popis hráče. |
+| 🦁 **Dres nebo avatar** | Hráč má dres oblíbeného klubu s číslem, nebo si vybere jednoho z 24 avatarů (děti a zvířata). |
+| 🏆 **75 odměn** | Medaile, poháry, koruny a další v bronzu, stříbře, zlatě a diamantu za XP, tréninky, pravidelnost, dovednosti, zápasy i karty. |
 | 📅 **Týden a výzva dne** | Týdenní lišta s hvězdičkami, denní mini‑výzva a rozcvička jednou denně. |
 | 👨‍👩‍👦 **Rodiče** | Úroveň a tempo nastavuje rodič, vlastní tréninky, výběr podložky a barvy, hlas nebo jen pípnutí. Chráněno PINem. |
-| 📺 **10‑foot UI** | Ovládání dálkovým ovladačem (D‑pad), velké prvky, tmavý moderní vzhled. Funguje i dotykem a myší. |
+| 📺 **10‑foot UI** | Ovládání dálkovým ovladačem (D‑pad), velké prvky, tmavý moderní vzhled se zeleným neonovým akcentem. Funguje i dotykem a myší. |
 | 🔒 **Bez účtů a cloudu** | Všechna data jsou jen v zařízení. Žádné reklamy, žádné sledování. |
 
 ## Instalace (pro rodiče)
@@ -61,7 +62,15 @@ Podrobný postup krok za krokem je v **[docs/INSTALL.md](docs/INSTALL.md)**.
 
 <table>
   <tr>
+    <td><img src="docs/screenshots/intro.png" alt="Úvodní obrazovka"><br><sub>Úvod</sub></td>
+    <td><img src="docs/screenshots/faces.png" alt="Výběr avatara"><br><sub>Nový hráč: dres, nebo jeden z 24 avatarů</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/drills.png" alt="Výběr cviků po úrovních"><br><sub>Vlastní trénink: výběr cviků po úrovních</sub></td>
     <td><img src="docs/screenshots/player.png" alt="Přehrávač tréninku"><br><sub>Trénink: míč a směr přímo na podložce</sub></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/result.png" alt="Výsledek tréninku"><br><sub>Výsledek tréninku a nová karta</sub></td>
     <td><img src="docs/screenshots/cardopen.png" alt="Sběratelská karta"><br><sub>Sběratelská karta s popisem hráče</sub></td>
   </tr>
   <tr>
@@ -73,6 +82,10 @@ Podrobný postup krok za krokem je v **[docs/INSTALL.md](docs/INSTALL.md)**.
     <td><img src="docs/screenshots/parent.png" alt="Nastavení pro rodiče"><br><sub>Rodiče: výběr podložky, barvy a hlasu</sub></td>
   </tr>
 </table>
+
+### Grafika
+
+Grafiku aplikace (úvodní míč, pozadí, ikony, odměny, štíty úrovní, avatary, rámečky karet a efekty) jsme vytvořili pomocí **Gemini** a sjednotili ji do jednoho tmavého stylu se zeleným neonem. Skript [`scripts/build-art.mjs`](scripts/build-art.mjs) z obrázků vyřízne průhledné prvky do `assets/img/art/`, přehled je v [`assets/ASSETS.md`](assets/ASSETS.md). Podložka, nohy, míč na podložce a šipky se kreslí kódem.
 
 ## Rychlý start
 
@@ -109,7 +122,7 @@ cd android
 ```
 src/
 ├─ screens/     obrazovky (domů, přehrávač, zápas, karty, odměny, rodiče …)
-├─ ui/          komponenty: podložka (SVG), karty, ikony, dres, téma
+├─ ui/          komponenty: podložka (SVG), karty, ikony, dres a avatary, téma
 ├─ domain/      logika: trénink, XP, odměny, karty, týden
 ├─ config/      podložky (JSON) a týmy
 ├─ content/     cviky, hlášky Trenéra, karty hráčů, popisy
@@ -136,7 +149,7 @@ K **instalaci ani spuštění aplikace nepotřebujete nic stahovat**: fotky kare
 | `node scripts/gen-voices.mjs && node scripts/trim-voices.mjs` | znovu vygeneruje a ořízne hlasové hlášky Trenéra |
 | `node scripts/fetch-cards.mjs` | znovu stáhne fotky karet z Wikimedia Commons včetně autorů |
 | `node scripts/make-mats.mjs` | znovu vygeneruje JSON podložek |
-| `node scripts/build-icons.mjs` | složí ikony z balíčku Lucide |
+| `node scripts/build-art.mjs` | vyřízne grafiku z Gemini (složka `obrazky/`) do `assets/img/art/`; jen část např. `node scripts/build-art.mjs levels` |
 | `node scripts/screenshots.mjs` | pořídí snímky obrazovek do `docs/screenshots` |
 
 Popisy hráčů jsou v [`src/content/players.json`](src/content/players.json), zajímavosti na rubu karet v [`src/content/facts.json`](src/content/facts.json). Obojí lze přímo upravovat.

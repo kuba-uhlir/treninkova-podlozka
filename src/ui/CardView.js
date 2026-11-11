@@ -8,8 +8,8 @@ export const countryName = (c) => COUNTRY[c] || c;
 const P = (x) => `${(x * 100).toFixed(2)}%`;
 const WIN = `left:${P(G.window.l)};top:${P(G.window.t)};right:${P(1 - G.window.r)};bottom:${P(1 - G.window.b)}`;
 const frameImg = (rarity) => `<img src="img/art/card_frame_${rarity}.webp" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3">`;
-const plateText = (w, txt, color) => `<div style="position:absolute;left:${P(G.plate.l)};width:${P(G.plate.r - G.plate.l)};top:${P(G.plate.t)};height:${P(G.plate.b - G.plate.t)};display:flex;align-items:center;justify-content:center;z-index:4;` +
-  `font-weight:800;font-size:calc(${w} * .034);letter-spacing:.16em;text-transform:uppercase;color:${color};white-space:nowrap;pointer-events:none">${txt}</div>`;
+const plateText = (w, txt, color, size = .04) => `<div style="position:absolute;left:${P(G.plate.l)};width:${P(G.plate.r - G.plate.l)};top:${P(G.plate.t)};height:${P(G.plate.b - G.plate.t)};display:flex;align-items:center;justify-content:center;z-index:4;` +
+  `font-weight:800;font-size:calc(${w} * ${size});letter-spacing:.14em;text-transform:uppercase;color:${color};white-space:nowrap;pointer-events:none">${txt}</div>`;
 const winH = G.window.b - G.window.t;
 const nameSize = (n) => (n.length > 17 ? '.058' : n.length > 14 ? '.066' : n.length > 11 ? '.076' : n.length > 9 ? '.086' : '.092');
 
@@ -40,18 +40,14 @@ export function cardEl(c, w, { locked = false, count = 0 } = {}) {
   const info = document.createElement('div');
   info.style.cssText = `position:absolute;left:0;right:0;bottom:${P((G.window.b - G.plate.t) / winH + 0.012)};display:flex;flex-direction:column;align-items:center;gap:calc(${w} * .012);padding:0 calc(${w} * .03);text-align:center`;
   info.innerHTML = `<div style="font-weight:800;font-size:calc(${w} * ${nameSize(c.name)});color:#fff;letter-spacing:-0.03em;line-height:1.1;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis">${locked ? 'Neznámá karta' : c.name}</div>` +
-    `<div style="font-weight:700;font-size:calc(${w} * .05);color:${r.a};letter-spacing:.14em;text-transform:uppercase">${locked ? '' : countryName(c.country)}</div>`;
+    `<div style="font-weight:700;font-size:calc(${w} * .038);color:${r.a};letter-spacing:.06em;text-transform:uppercase;white-space:nowrap">${locked ? '' : `${countryName(c.country)} · ${r.name}`}</div>`;
   win.append(photoBox, fade, info);
-  // hodnocení ve štítku a post pod ním
-  const cx = (G.shield.l + G.shield.r) / 2; const cy = (G.shield.t + G.shield.b) / 2;
+  // hodnocení uprostřed štítku, typ karty (post) na destičce dole
   const rate = document.createElement('div');
-  rate.style.cssText = `position:absolute;left:${P(cx)};top:${P(cy)};transform:translate(-50%,-50%);z-index:4;font-weight:800;font-size:calc(${w} * .085);color:#fff;letter-spacing:-0.06em;line-height:1;pointer-events:none`;
+  rate.style.cssText = `position:absolute;left:${P(G.shield.cx)};top:${P(G.shield.cy)};transform:translate(-50%,-50%);z-index:4;font-weight:800;font-size:calc(${w} * .1);color:#fff;letter-spacing:-0.06em;line-height:1;pointer-events:none`;
   rate.textContent = locked ? '??' : c.rating;
-  const pos = document.createElement('div');
-  pos.style.cssText = `position:absolute;left:${P(G.window.l + 0.012)};top:${P(G.shield.b + 0.01)};z-index:4;font-weight:800;font-size:calc(${w} * .06);color:${r.a};letter-spacing:.08em;text-shadow:0 2px 8px rgba(0,0,0,.9);pointer-events:none`;
-  pos.textContent = locked ? '' : c.pos;
-  el.append(win, rate, pos);
-  el.insertAdjacentHTML('beforeend', frameImg(c.rarity) + plateText(w, locked ? '' : r.name, r.a));
+  el.append(win, rate);
+  el.insertAdjacentHTML('beforeend', frameImg(c.rarity) + plateText(w, locked ? '' : c.pos, r.a, .05));
   if (count > 1) {
     const n = document.createElement('div');
     n.textContent = `×${count}`;

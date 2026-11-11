@@ -1,4 +1,4 @@
-// Pomůcka pro snímky obrazovek do README: http://localhost:5173/?shot=home (home | cards | cardopen | rewards | player | match | parent | mats | profiles).
+// Pomůcka pro snímky obrazovek do README: http://localhost:5173/?shot=home (home | intro | drills | faces | result | cards | cardopen | rewards | player | match | parent | mats | profiles).
 // Vytvoří ukázkového hráče s trochou postupu a otevře zadanou obrazovku. Mění jen data prohlížeče, ve kterém se spustí.
 import { go } from '../core/router.js';
 import { storage } from '../storage/index.js';
@@ -29,6 +29,22 @@ export async function run(name) {
     match: () => go('match', { profileId: p.id }),
     parent: () => go('parent', {}),
     profiles: () => go('profiles', {}),
+    intro: () => go('intro', {}),
+    drills: () => go('drills', { profileId: p.id }),
+    result: () => go('result', { profile: fresh, workout: workoutFromSelection(['sole-taps', 'side-push-left', 'drag-back'], 3), done: 3, aborted: false }),
+    faces: async () => { // průvodce novým hráčem: krok „Dres, nebo avatar?“ s vybraným klubem a avatarem
+      const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+      const btns = () => [...document.querySelectorAll('button')];
+      const next = () => btns().find((b) => b.textContent.trim() === 'Další').click();
+      go('newPlayer', {}); await sleep(700);
+      for (const k of ['A', 'd', 'a', 'm']) document.dispatchEvent(new KeyboardEvent('keydown', { key: k, bubbles: true }));
+      next(); await sleep(400); next(); await sleep(400); next(); await sleep(400);
+      btns().find((b) => /Klub nebo/.test(b.textContent)).click(); await sleep(400);
+      const teams = btns().filter((b) => b.textContent.trim() === 'Česko'); teams[teams.length - 1].click(); await sleep(300);
+      next(); await sleep(500);
+      btns().find((b) => b.textContent.trim() === 'Avatar').click(); await sleep(400);
+      const f = [...document.querySelectorAll('button img')].find((i) => i.src.includes('av_17')); if (f) f.closest('button').click();
+    },
     player: () => go('player', { profile: fresh, mat, workout: wo, tempoMul: 0.8 }),
     cardopen: async () => {
       go('cards', { profileId: p.id });
